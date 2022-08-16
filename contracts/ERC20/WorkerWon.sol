@@ -2,7 +2,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 //Safe Math Interface
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "../data/thanksData.sol";
+import "../data/ThanksPayData.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "../data/readData.sol";
 import "../security/thanksSecurity.sol";

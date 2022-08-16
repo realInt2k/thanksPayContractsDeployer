@@ -12,6 +12,6 @@
       "@abis/*": ["../client/src/abis/*"],
     },
   },
-  "include": ["./scripts", "./test", "./typechain"],
+  "include": ["./scripts", "./test", "./typechain", "ignore"],
   "files": ["./hardhat.config.ts"]
 }

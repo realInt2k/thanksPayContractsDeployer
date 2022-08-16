@@ -2,24 +2,25 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "./ERC20/PartnerWon.sol";
 import "./ERC20/WorkerWon.sol";
-import "./data/thanksData.sol";
+import "./data/ThanksPayData.sol";
 
 import "./security/thanksSecurity.sol";
 
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
-
 contract ThanksPay {
     using SafeMath for uint256;
     ThanksPayData data;
     PartnerWon partnerWon;
     WorkerWon workerWon;
+    thanksSecurity security;
     
-    constructor(address dataAddress, address _partnerWon, address _workerWon) {
+    constructor(address dataAddress, address _partnerWon, address _workerWon, address _security) {
         data = ThanksPayData(dataAddress);
         partnerWon = PartnerWon(_partnerWon);
         workerWon = WorkerWon(_workerWon);
+        security = thanksSecurity(_security);
     }
 
     struct CompanyPool {

@@ -13,6 +13,14 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
+      name: "AccessControl",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AccessControl__factory>;
+    getContractFactory(
+      name: "IAccessControl",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IAccessControl__factory>;
+    getContractFactory(
       name: "Ownable",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Ownable__factory>;
@@ -21,6 +29,38 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20__factory>;
     getContractFactory(
+      name: "IERC721",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC721__factory>;
+    getContractFactory(
+      name: "ERC165",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC165__factory>;
+    getContractFactory(
+      name: "IERC165",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC165__factory>;
+    getContractFactory(
+      name: "ReadData",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ReadData__factory>;
+    getContractFactory(
+      name: "ThanksPayData",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ThanksPayData__factory>;
+    getContractFactory(
+      name: "ThanksPayRelay",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ThanksPayRelay__factory>;
+    getContractFactory(
+      name: "PartnerWon",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.PartnerWon__factory>;
+    getContractFactory(
+      name: "WorkerWon",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.WorkerWon__factory>;
+    getContractFactory(
       name: "LeagueMaker",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.LeagueMaker__factory>;
@@ -28,7 +68,25 @@ declare module "hardhat/types/runtime" {
       name: "LMRevertReasons",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.LMRevertReasons__factory>;
+    getContractFactory(
+      name: "ThanksSecurity",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ThanksSecurity__factory>;
+    getContractFactory(
+      name: "ThanksPay",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ThanksPay__factory>;
 
+    getContractAt(
+      name: "AccessControl",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AccessControl>;
+    getContractAt(
+      name: "IAccessControl",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IAccessControl>;
     getContractAt(
       name: "Ownable",
       address: string,
@@ -40,6 +98,46 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC20>;
     getContractAt(
+      name: "IERC721",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC721>;
+    getContractAt(
+      name: "ERC165",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC165>;
+    getContractAt(
+      name: "IERC165",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC165>;
+    getContractAt(
+      name: "ReadData",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ReadData>;
+    getContractAt(
+      name: "ThanksPayData",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ThanksPayData>;
+    getContractAt(
+      name: "ThanksPayRelay",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ThanksPayRelay>;
+    getContractAt(
+      name: "PartnerWon",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.PartnerWon>;
+    getContractAt(
+      name: "WorkerWon",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.WorkerWon>;
+    getContractAt(
       name: "LeagueMaker",
       address: string,
       signer?: ethers.Signer
@@ -49,6 +147,16 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.LMRevertReasons>;
+    getContractAt(
+      name: "ThanksSecurity",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ThanksSecurity>;
+    getContractAt(
+      name: "ThanksPay",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ThanksPay>;
 
     // default types
     getContractFactory(
