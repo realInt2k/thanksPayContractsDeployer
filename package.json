@@ -8,7 +8,7 @@
     "deployContract": "npx hardhat run ./scripts/deployGanache.ts",
     "deployContractGanache": "npx hardhat run ./scripts/deployGanache.ts --network ganache",
     "deployContractBnbTest": "npx hardhat run ./scripts/deployBnbTest.ts --network bnb_test",
-    "test": "mocha -r ts-node/register test/test2.ts",
+    "test": "mocha -r ts-node/register test/test.ts",
     "codegen": "graph codegen",
     "build": "graph build",
     "deploy": "graph deploy --product hosted-service realint2k/Lm1",

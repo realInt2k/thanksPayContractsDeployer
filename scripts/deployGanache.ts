@@ -4,31 +4,40 @@
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
 import { ethers } from "hardhat";
-import Web3 from 'web3';
+import Web3 from "web3";
 import * as dotenv from "dotenv";
-import * as fs from 'fs';
-import changeEnv, { changeSubgraphYaml } from "./changeEnvAddress";
+//import * as fs from "fs";
+//import changeEnv, { changeSubgraphYaml } from "./changeEnvAddress";
 
-const filepath = "./logs"
+//const filepath = "./logs";
 dotenv.config();
+
+async function deployContract(name: string) {
+  const Platoon = await ethers.getContractFactory(name);
+  const soldier = await Platoon.deploy();
+  await soldier.deployed();
+  console.log(`${name} deployed to: ${soldier.address}`);
+}
 
 async function main() {
   const uri = process.env.NEXT_PUBLIC_GANACHE_TEST_URL || "the fuck?";
   const web3 = new Web3(uri);
   const nearByBlock = await web3.eth.getBlockNumber();
-  const LMF = await ethers.getContractFactory("LeagueMaker");
-  const LM = await LMF.deploy();
-  await LM.deployed();
-  console.log("LM deployed to:", LM.address,
-    '\nNearbyBlock is ', nearByBlock);
-  const fileContent = LM.address + '\n';
+  await deployContract("thanksSecurity");
+  await deployContract("thanksData");
+  await deployContract("PartnerWon");
+  await deployContract("WorkerWon");
+  await deployContract("ThanksPay");
+  console.log("\nNearbyBlock is ", nearByBlock);
+
+  /*const fileContent = ThanksPay.address + '\n';
   if (fs.existsSync(filepath)) {
     fs.appendFileSync(filepath, fileContent);
   } else {
     fs.writeFile(filepath, fileContent, (err) => {
       if (err) throw err;
     });
-  }
+  }*/
   // console.log("written address to file logs");
   // changeEnv(
   //   ["NEXT_PUBLIC_BNB_TEST_LM_ADDRESS", "NEXT_PUBLIC_BNB_TEST_LM_ADDRESS", "NEXT_PUBLIC_BNB_TEST_LM_ADDRESS", "NEXT_PUBLIC_BNB_TEST_LM_ADDRESS"],
