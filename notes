@@ -1,0 +1,1 @@
+ganache -h 0.0.0.0 --wallet.mnemonic="polar velvet stereo oval sonic senior cause taylor tube hobby exact angry" --db="./ganacheDB"  --wallet.accountKeysPath="./ganacheAccounts.json" -p=8545 --chain.chainId=1337  -a=120 -e=10000

@@ -1,2 +1,3 @@
-# thanksPayContractsDeployer
-Hardhat ganache
+# deploy on ganache
+
+run ganache first

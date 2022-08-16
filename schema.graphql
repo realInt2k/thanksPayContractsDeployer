@@ -1,0 +1,112 @@
+type Game @entity{ 
+  id: ID!
+  name: String
+  leagues: [League!]@derivedFrom(field: "game")
+}
+
+type Contract @entity {
+  id: ID!
+  balance: Price
+}
+
+type _Schema_
+@fulltext(
+  name: "leagueSearch"
+  language: en
+  algorithm: rank
+  include: [{ entity: "League", fields: [{ name: "id" }, { name: "status" }] }]
+)
+
+type League @entity {  
+  id: ID!
+  game: Game
+
+  totalPrize: Price
+  minEntry: Price
+  initReward: Price
+
+  totalPlayers: BigInt
+  openTime: BigInt 
+  liveTime: BigInt 
+  closeTime: BigInt
+  adminMadeCreateAccount: User
+  adminMadeLiveAccount: User
+  adminMadeClosedAccount: User
+  maxPlayer: BigInt
+  winConds: [String!]
+  winCondOps: [String!]
+  status: String 
+  
+  players: [LeaguePlayer!]@derivedFrom(field: "league")
+  prizes: [Prize!]@derivedFrom(field: "league")
+}
+
+type Prize @entity{
+  id: ID! 
+  league: League
+  amount: Price
+  createdAt: BigInt
+  claimableBy: User
+  claimed: Boolean
+  claimedAt: BigInt
+}
+
+type NickNameToLeaguePlayer @entity {
+  id: ID! # leagueId + nickName
+  leaguePlayer: LeaguePlayer
+}
+
+type LeaguePlayer @entity {
+  id: ID! # leagueId + pAddress
+  nickName: String 
+  joinedAt: BigInt
+  user: User
+  league: League
+  isWinner: Boolean
+  isBlocked: Boolean
+  isKicked: Boolean
+  uniqueId: Int
+}
+
+type Price @entity {
+  id: ID!
+  WEI: BigInt 
+  BNB: BigDecimal
+  ETH: BigDecimal
+}
+
+type WithDrawLog @entity {
+  id: ID!
+  from: User
+  to: User
+  amount: Price
+  createdAt: BigInt
+  message: String
+}
+
+type User @entity {
+  id: ID! 
+  address: String
+  totalLeagues: BigInt 
+  totalLeaguesWinner: BigInt 
+  adminLevel: Int
+  name: String
+  isBlocked: Boolean
+  withDrawLogIndex: Int
+  die: Boolean # is deleted or nah
+  createdAt: BigInt
+
+  leaguePlayersByUser: [LeaguePlayer!]@derivedFrom(field: "user") 
+  prizes: [Prize!]@derivedFrom(field: "claimableBy")
+}
+
+type Log @entity {
+  id: ID!
+  log: String!
+}
+
+type AllLog @entity {
+  id: ID!
+  logs: [Log!]! @relation
+  nextId: Int!
+}
