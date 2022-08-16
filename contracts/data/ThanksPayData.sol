@@ -2,18 +2,21 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 import "@openzeppelin/contracts/access/AccessControl.sol";
-import "../security/thanksSecurity.sol";
+import "./../security/thanksSecurity.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "hardhat/console.sol";
 
 contract ThanksPayData {
 
     thanksSecurity security;
     constructor(address securityAddress)
     {
+        console.log("in ThanksPayData constructor, address for security is: ", securityAddress);
         security = thanksSecurity(securityAddress);
     }
 
     modifier isAuthorized() {
+        console.log("in isAuthorized modifier");
         require(security.isAuthorized(msg.sender));
         _;
     }

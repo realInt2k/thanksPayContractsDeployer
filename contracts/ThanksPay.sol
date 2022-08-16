@@ -6,6 +6,8 @@ import "./data/ThanksPayData.sol";
 
 import "./security/thanksSecurity.sol";
 
+import "hardhat/console.sol";
+
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
@@ -21,6 +23,8 @@ contract ThanksPay {
         partnerWon = PartnerWon(_partnerWon);
         workerWon = WorkerWon(_workerWon);
         security = thanksSecurity(_security);
+        uint256 shit = security.getShit();
+        console.log("security.shit is: ", shit);
     }
 
     struct CompanyPool {
@@ -33,6 +37,7 @@ contract ThanksPay {
         data.registerPartner(pId, relativePayday, latestPay);
         companyPools[pId] = CompanyPool(0);
     }
+
 
     function registerWorker(address wId, address pId, uint256 wage) public {
         data.registerWorker(wId, pId, wage);

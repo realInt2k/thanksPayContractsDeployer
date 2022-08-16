@@ -2,8 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 export * as erc20 from "./ERC20";
-export * as lmSol from "./LM.sol";
 export * as data from "./data";
 export * as security from "./security";
-export { LMRevertReasons__factory } from "./LMRevertReasons__factory";
 export { ThanksPay__factory } from "./ThanksPay__factory";

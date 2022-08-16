@@ -21,10 +21,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IAccessControl__factory>;
     getContractFactory(
-      name: "Ownable",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Ownable__factory>;
-    getContractFactory(
       name: "IERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20__factory>;
@@ -61,14 +57,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.WorkerWon__factory>;
     getContractFactory(
-      name: "LeagueMaker",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.LeagueMaker__factory>;
-    getContractFactory(
-      name: "LMRevertReasons",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.LMRevertReasons__factory>;
-    getContractFactory(
       name: "ThanksSecurity",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ThanksSecurity__factory>;
@@ -87,11 +75,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IAccessControl>;
-    getContractAt(
-      name: "Ownable",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Ownable>;
     getContractAt(
       name: "IERC20",
       address: string,
@@ -137,16 +120,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.WorkerWon>;
-    getContractAt(
-      name: "LeagueMaker",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.LeagueMaker>;
-    getContractAt(
-      name: "LMRevertReasons",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.LMRevertReasons>;
     getContractAt(
       name: "ThanksSecurity",
       address: string,

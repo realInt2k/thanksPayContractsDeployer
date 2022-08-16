@@ -14,7 +14,7 @@ describe("ThanksPay", function () {
   async function deployThanksPay() {
     // Contracts are deployed using the first signer/account by default
     const [owner, otherAccount] = await ethers.getSigners();
-    console.log(owner.address);
+    //console.log(owner.address);
     
     const _thanksSecurity = await ethers.getContractFactory("thanksSecurity");
     const _thanksPayData = await ethers.getContractFactory("ThanksPayData");
@@ -26,21 +26,21 @@ describe("ThanksPay", function () {
     const thanksSecurity = await _thanksSecurity.deploy([owner.address]);
     await thanksSecurity.deployed();
 
-    console.log(thanksSecurity.address);
+    //console.log(thanksSecurity.address);
 
     // deploy thanksPayData;
     const thanksPayData = await _thanksPayData.deploy(thanksSecurity.address);
     await thanksPayData.deployed();
 
     // deploy ERC20 tokens;
-    const partnerWon = await _PartnerWon.deploy(thanksSecurity.address, thanksPayData.address);
+    const partnerWon = await _PartnerWon.deploy(thanksPayData.address,  thanksSecurity.address);
     await partnerWon.deployed();
 
     const workerWon = await _WorkerWon.deploy(thanksSecurity.address, thanksPayData.address);
     await workerWon.deployed();
 
     // deploy thanksPay;
-    const thanksPay = await _ThanksPay.deploy(thanksSecurity.address, thanksPayData.address, partnerWon.address, workerWon.address);
+    const thanksPay = await _ThanksPay.deploy(thanksPayData.address, partnerWon.address, workerWon.address, thanksSecurity.address);
     await thanksPay.deployed();
 
 
@@ -65,7 +65,7 @@ describe("ThanksPay", function () {
 
       await thanksPay.functions.partnerTransaction(0, partner, partner, 100, "Receipt");
 
-      const balance = await thanksPay.functions.balanceOf(partner);
+      const balance = await partnerWon.functions.balanceOf(partner);
 
       console.log(balance);
       // thanksPay = contract;

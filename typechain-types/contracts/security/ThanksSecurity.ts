@@ -32,11 +32,13 @@ export interface ThanksSecurityInterface extends utils.Interface {
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
     "authorize(address[])": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
+    "getShit()": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
     "isAuthorized(address)": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
+    "shit()": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
   };
 
@@ -46,11 +48,13 @@ export interface ThanksSecurityInterface extends utils.Interface {
       | "DEFAULT_ADMIN_ROLE"
       | "authorize"
       | "getRoleAdmin"
+      | "getShit"
       | "grantRole"
       | "hasRole"
       | "isAuthorized"
       | "renounceRole"
       | "revokeRole"
+      | "shit"
       | "supportsInterface"
   ): FunctionFragment;
 
@@ -70,6 +74,7 @@ export interface ThanksSecurityInterface extends utils.Interface {
     functionFragment: "getRoleAdmin",
     values: [PromiseOrValue<BytesLike>]
   ): string;
+  encodeFunctionData(functionFragment: "getShit", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "grantRole",
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
@@ -90,6 +95,7 @@ export interface ThanksSecurityInterface extends utils.Interface {
     functionFragment: "revokeRole",
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
   ): string;
+  encodeFunctionData(functionFragment: "shit", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [PromiseOrValue<BytesLike>]
@@ -105,6 +111,7 @@ export interface ThanksSecurityInterface extends utils.Interface {
     functionFragment: "getRoleAdmin",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getShit", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "grantRole", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "hasRole", data: BytesLike): Result;
   decodeFunctionResult(
@@ -116,6 +123,7 @@ export interface ThanksSecurityInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "shit", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
@@ -210,6 +218,8 @@ export interface ThanksSecurity extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    getShit(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     grantRole(
       role: PromiseOrValue<BytesLike>,
       account: PromiseOrValue<string>,
@@ -239,6 +249,8 @@ export interface ThanksSecurity extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    shit(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -258,6 +270,8 @@ export interface ThanksSecurity extends BaseContract {
     role: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  getShit(overrides?: CallOverrides): Promise<BigNumber>;
 
   grantRole(
     role: PromiseOrValue<BytesLike>,
@@ -288,6 +302,8 @@ export interface ThanksSecurity extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  shit(overrides?: CallOverrides): Promise<BigNumber>;
+
   supportsInterface(
     interfaceId: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
@@ -307,6 +323,8 @@ export interface ThanksSecurity extends BaseContract {
       role: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    getShit(overrides?: CallOverrides): Promise<BigNumber>;
 
     grantRole(
       role: PromiseOrValue<BytesLike>,
@@ -336,6 +354,8 @@ export interface ThanksSecurity extends BaseContract {
       account: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    shit(overrides?: CallOverrides): Promise<BigNumber>;
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
@@ -393,6 +413,8 @@ export interface ThanksSecurity extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getShit(overrides?: CallOverrides): Promise<BigNumber>;
+
     grantRole(
       role: PromiseOrValue<BytesLike>,
       account: PromiseOrValue<string>,
@@ -421,6 +443,8 @@ export interface ThanksSecurity extends BaseContract {
       account: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
+
+    shit(overrides?: CallOverrides): Promise<BigNumber>;
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,
@@ -445,6 +469,8 @@ export interface ThanksSecurity extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getShit(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     grantRole(
       role: PromiseOrValue<BytesLike>,
       account: PromiseOrValue<string>,
@@ -473,6 +499,8 @@ export interface ThanksSecurity extends BaseContract {
       account: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
+
+    shit(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     supportsInterface(
       interfaceId: PromiseOrValue<BytesLike>,

@@ -1,7 +1,7 @@
 pragma solidity >=0.7.0 <0.9.0;
 
 import "./ThanksPayData.sol";
-import "../security/thanksSecurity.sol";
+import "./../security/thanksSecurity.sol";
 
 contract readData {
         ThanksPayData data;

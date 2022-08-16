@@ -2,10 +2,10 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 //Safe Math Interface
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "../data/ThanksPayData.sol";
-import "../data/readData.sol";
+import "./../data/ThanksPayData.sol";
+import "./../data/readData.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "../security/thanksSecurity.sol";
+import "./../security/thanksSecurity.sol";
 
 
 // SPDX-License-Identifier: MIT
@@ -28,7 +28,7 @@ contract PartnerWon is readData, IERC20 {
     thanksSecurity security;
 
     constructor(address dataAddress, address securityAddress) readData(dataAddress) {
-        security = thanksSecurity(security);
+        security = thanksSecurity(securityAddress);
     }
     
     modifier isAuthorized() {

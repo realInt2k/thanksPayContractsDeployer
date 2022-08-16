@@ -3,11 +3,8 @@
 /* eslint-disable */
 import type * as erc20 from "./ERC20";
 export type { erc20 };
-import type * as lmSol from "./LM.sol";
-export type { lmSol };
 import type * as data from "./data";
 export type { data };
 import type * as security from "./security";
 export type { security };
-export type { LMRevertReasons } from "./LMRevertReasons";
 export type { ThanksPay } from "./ThanksPay";

@@ -1,7 +1,13 @@
 import "@openzeppelin/contracts/access/AccessControl.sol";
+import "hardhat/console.sol";
 
 contract thanksSecurity is AccessControl {
     bytes32 public constant AUTHORIZED = keccak256("AUTHORIZED");
+    uint public constant shit = 100;
+
+    function getShit() pure public returns(uint256) {
+        return shit;
+    }
 
     modifier checkAuthorized() {
         require(hasRole(AUTHORIZED, msg.sender));
@@ -9,6 +15,7 @@ contract thanksSecurity is AccessControl {
     }
 
     constructor(address[] memory authorized) {
+        console.log("in security's constructor: ", msg.sender);
         _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
         grantRole(AUTHORIZED, msg.sender);
         for (uint i; i<authorized.length; i++){
