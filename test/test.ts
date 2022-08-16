@@ -34,12 +34,17 @@ describe("ThanksPay", function () {
 
     // deploy ERC20 tokens;
     const partnerWon = await _PartnerWon.deploy(thanksSecurity.address, thanksPayData.address);
+    await partnerWon.deployed();
+
     const workerWon = await _WorkerWon.deploy(thanksSecurity.address, thanksPayData.address);
+    await workerWon.deployed();
 
     // deploy thanksPay;
     const thanksPay = await _ThanksPay.deploy(thanksSecurity.address, thanksPayData.address, partnerWon.address, workerWon.address);
+    await thanksPay.deployed();
 
-    await thanksSecurity.authorize([partnerWon.address, workerWon.address, thanksPay.address]);
+
+    await thanksSecurity.functions.authorize([partnerWon.address, workerWon.address, thanksPay.address]);
 
     return { contracts: {thanksPay, partnerWon, workerWon, thanksPayData}, owner};
   }
@@ -50,8 +55,19 @@ describe("ThanksPay", function () {
       const {contracts, owner} = await loadFixture(deployThanksPay);
 
       const {thanksPay, partnerWon, workerWon, thanksPayData} = contracts;
-
       
+      const partner = "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
+      const worker = "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC";
+
+      await thanksPay.functions.registerPartner(partner, 0, 0);
+
+      await thanksPay.functions.registerWorker(worker, partner, 100);
+
+      await thanksPay.functions.partnerTransaction(0, partner, partner, 100, "Receipt");
+
+      const balance = await thanksPay.functions.balanceOf(partner);
+
+      console.log(balance);
       // thanksPay = contract;
       // console.log(thanksPay.address);
       // const partner = await thanksPay.registerPartner(
