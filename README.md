@@ -1,0 +1,2 @@
+# thanksPayContractsDeployer
+Hardhat ganache
