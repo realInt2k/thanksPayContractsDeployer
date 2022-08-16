@@ -6,13 +6,17 @@ import "./thanksData.sol";
 import "../security/thanksSecurity.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
-contract ThanksPayData is AccessControl, thanksSecurity {
+contract ThanksPayData {
 
-
-    constructor(address[] memory authorized)
-        thanksSecurity(authorized)
+    thanksSecurity security;
+    constructor(address securityAddress)
     {
-        
+        security = thanksSecurity(securityAddress);
+    }
+
+    modifier isAuthorized() {
+        require(security.isAuthorized(msg.sender));
+        _;
     }
     
     event workerRegistered(address wId, address pId, uint256 wage);
@@ -47,34 +51,34 @@ contract ThanksPayData is AccessControl, thanksSecurity {
     mapping(address => uint256) public types; // 1: "Partner", 2: "Worker"
     
 
-    function registerWorker(address wId, address pId, uint256 wage) public onlyRole(AUTHORIZED) {
+    function registerWorker(address wId, address pId, uint256 wage) isAuthorized() public {
             // the partner doesn't exist
         workers[wId] = Worker(0, wage, pId, 0);
         types[wId] = 2;
         emit workerRegistered(wId, pId, wage);
     }
 
-    function registerPartner(address pId, uint256 relativePayday, uint256 latestPay) public onlyRole(AUTHORIZED) {
+    function registerPartner(address pId, uint256 relativePayday, uint256 latestPay) isAuthorized() public {
         partners[pId] = Partner(0, relativePayday, latestPay);
         types[pId] = 1;
         emit partnerRegistered(pId, relativePayday);
     }
 
-    function setLatestRequest(address wId, uint256 latestRequest) public onlyRole(AUTHORIZED) {
+    function setLatestRequest(address wId, uint256 latestRequest) isAuthorized() public {
         workers[wId].latestRequest = latestRequest;
     }
 
-    function setWorkerBalance(address wId, uint256 newBalance) public onlyRole(AUTHORIZED) {
+    function setWorkerBalance(address wId, uint256 newBalance) isAuthorized() public {
         workers[wId].balance = newBalance;
         emit partnerBalanceChanged(wId, newBalance);
     }
 
-    function setPartnerBalance(address pId, uint256 newBalance) public onlyRole(AUTHORIZED) {
+    function setPartnerBalance(address pId, uint256 newBalance) isAuthorized() public {
         partners[pId].balance = newBalance;
         emit partnerBalanceChanged(pId, newBalance);
     }
 
-    function setRelativePayday(address pId, uint256 relativePayday) public onlyRole(AUTHORIZED) {
+    function setRelativePayday(address pId, uint256 relativePayday) isAuthorized() public {
         partners[pId].relativePayday = relativePayday;
     }
 }

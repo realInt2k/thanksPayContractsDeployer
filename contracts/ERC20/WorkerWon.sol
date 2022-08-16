@@ -3,18 +3,17 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 //Safe Math Interface
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "../data/thanksData.sol";
-import "../utils/readData.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "../data/readData.sol";
 import "../security/thanksSecurity.sol";
-
 
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
-contract PartnerWon is readData, IERC20 {
+
+contract WorkerWon is readData, IERC20 {
     
     using SafeMath for uint256;
-
 
     uint public override totalSupply;
     
@@ -22,25 +21,29 @@ contract PartnerWon is readData, IERC20 {
     mapping(address => mapping(address => uint)) public override allowance;
     mapping(address => uint) public balances;
     
-    string public name = "ThanksPay Partner Won";
-    string public symbol = "TPW";
+    string public name = "ThanksPay Worker Won";
+    string public symbol = "TWW";
     uint8 public decimals = 0;
 
-    thanksSecurity security; 
+    thanksSecurity security;
 
     constructor(address dataAddress, address securityAddress) readData(dataAddress) {
         security = thanksSecurity(securityAddress);
     }
 
-    function mintFor(address for_, uint amount) external {
+    modifier isAuthorized() {
         require(security.isAuthorized(msg.sender));
+        _;
+    }
+
+    function mintFor(address for_, uint amount) isAuthorized() external {
         balances[for_] += amount;
         allowance[for_][msg.sender] += amount;
             // automatically allow admin to access this money.
         emit Transfer(address(0), for_, amount);
     }
 
-    function burnFrom(address from, uint256 amount) external {
+    function burnFrom(address from, uint256 amount) isAuthorized() external {
         require(allowance[from][msg.sender] > amount, "Not enough allowance");
         require(balanceOf(from) > amount, "Not enough balance");
             // automatically allow admin to access this money. 
@@ -51,14 +54,14 @@ contract PartnerWon is readData, IERC20 {
     }
 
     function balanceOf(address account) public view override returns(uint256) {
-        return getPartnerBalance(account);
+        return getWorkerBalance(account);
     } 
     
     function transferFrom (
         address sender,
         address recipient,
         uint amount
-    ) external override returns (bool) {
+    ) external isAuthorized() override returns (bool) {
         allowance[sender][msg.sender] = allowance[sender][msg.sender].sub(amount);
             // take money from the guy
         allowance[recipient][msg.sender] = allowance[recipient][msg.sender].add(amount);
@@ -69,14 +72,14 @@ contract PartnerWon is readData, IERC20 {
         return true;
     }
 
-    function transfer(address recipient, uint amount) external override returns (bool) {
+    function transfer(address recipient, uint amount) external isAuthorized() override returns (bool) {
         balances[msg.sender] -= amount;
         balances[recipient] += amount;
         emit Transfer(msg.sender, recipient, amount);
         return true;
     }
 
-    function approve(address spender, uint amount) external override returns (bool) {
+    function approve(address spender, uint amount) external isAuthorized() override returns (bool) {
         allowance[msg.sender][spender] = amount;
         emit Approval(msg.sender, spender, amount);
         return true;

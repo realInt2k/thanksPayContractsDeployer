@@ -3,7 +3,6 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "./ERC20/PartnerWon.sol";
 import "./ERC20/WorkerWon.sol";
 import "./data/thanksData.sol";
-
 import "./security/thanksSecurity.sol";
 
 // SPDX-License-Identifier: MIT
@@ -15,11 +14,18 @@ contract ThanksPay {
     ThanksPayData data;
     PartnerWon partnerWon;
     WorkerWon workerWon;
+    thanksSecurity security;
     
-    constructor(address dataAddress, address _partnerWon, address _workerWon) {
+    constructor(address dataAddress, address _partnerWon, address _workerWon, address _security) {
         data = ThanksPayData(dataAddress);
         partnerWon = PartnerWon(_partnerWon);
         workerWon = WorkerWon(_workerWon);
+        security = thanksSecurity(_security);
+    }
+
+    modifier isAuthorized() {
+        require(security.isAuthorized(msg.sender));
+        _;
     }
 
     struct CompanyPool {
@@ -28,12 +34,12 @@ contract ThanksPay {
     
     mapping (address => CompanyPool) public companyPools;
 
-    function registerPartner(address pId, uint256 relativePayday, uint256 latestPay) public {
+    function registerPartner(address pId, uint256 relativePayday, uint256 latestPay) isAuthorized() public {
         data.registerPartner(pId, relativePayday, latestPay);
         companyPools[pId] = CompanyPool(0);
     }
 
-    function registerWorker(address wId, address pId, uint256 wage) public {
+    function registerWorker(address wId, address pId, uint256 wage) isAuthorized() public {
         data.registerWorker(wId, pId, wage);
     }
 
@@ -46,7 +52,7 @@ contract ThanksPay {
             // The entity putting the money: either ThanksPay or Parent company
         uint256 amount,
         string memory bankReceipt
-    ) public {
+    ) isAuthorized() public {
         if (addRemove == 0){
             // i.e. if you want to add money to the ThanksPay pool
             partnerWon.mintFor(pledger, amount);
@@ -67,7 +73,7 @@ contract ThanksPay {
         address company, // typically same as partner address
         uint256 amount,
         string memory bankReceipt
-    ) public {
+    ) isAuthorized() public {
         // i.e. if you want to withdraw money from the ThanksPay pool
             require(companyPools[company].balance > amount, "You cannot withdraw this much!");
             // partnerWon.transferFrom();

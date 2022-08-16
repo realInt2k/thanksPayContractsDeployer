@@ -2,11 +2,8 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "./thanksCommons.sol";
 
-
-
-contract ThanksPayRelay is thanksCommons{
+contract ThanksPayRelay {
     
     event propertyAdded(uint256 entityID, uint256 blockchainID, uint256[] propertyID, string[] propertyValue);
 
