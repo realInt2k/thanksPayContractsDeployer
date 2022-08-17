@@ -19,7 +19,7 @@ contract PartnerWon is readData, IERC20 {
     
     // mapping(address => uint) public override balanceOf;
     mapping(address => mapping(address => uint)) public override allowance;
-    mapping(address => uint) public balances;
+    // mapping(address => uint) public balances;
     
     string public name = "ThanksPay Partner Won";
     string public symbol = "TPW";
@@ -38,8 +38,11 @@ contract PartnerWon is readData, IERC20 {
 
     function mintFor(address for_, uint amount) isAuthorized() external {
         require(security.isAuthorized(msg.sender));
-        balances[for_] += amount;
-        allowance[for_][msg.sender] += amount;
+        uint256 balance = getPartnerBalance(for_);
+        balance = balance.add(amount);
+        data.setPartnerBalance(for_, balance);
+            // this is NOT a backup!
+        allowance[for_][msg.sender] = allowance[for_][msg.sender].add(amount);
             // automatically allow admin to access this money.
         emit Transfer(address(0), for_, amount);
     }
@@ -49,13 +52,16 @@ contract PartnerWon is readData, IERC20 {
         require(balanceOf(from) > amount, "Not enough balance");
             // automatically allow admin to access this money. 
         allowance[from][msg.sender] = allowance[from][msg.sender].sub(amount);
-        balances[from] = balances[from].sub(amount);
+        uint256 balance = getPartnerBalance(from);
+        balance = balance.sub(amount);
+        data.setPartnerBalance(from, balance);
+            // this is a backup! 
 
         emit Transfer(from, address(0), amount);
     }
 
     function balanceOf(address account) public view override returns(uint256) {
-        return getPartnerBalance(account);
+        return getPartnerBalance(account);//balances[account]; // getPartnerBalance(account);
     } 
     
     function transferFrom (
@@ -67,15 +73,15 @@ contract PartnerWon is readData, IERC20 {
             // take money from the guy
         allowance[recipient][msg.sender] = allowance[recipient][msg.sender].add(amount);
             // autamtically allow admin to access this money. 
-        balances[sender] = balances[sender].sub(amount);
-        balances[recipient] = balances[recipient].sub(amount);
+        // balances[sender] = balances[sender].sub(amount);
+        // balances[recipient] = balances[recipient].sub(amount);
         emit Transfer(sender, recipient, amount);
         return true;
     }
 
     function transfer(address recipient, uint amount) external isAuthorized() override returns (bool) {
-        balances[msg.sender] -= amount;
-        balances[recipient] += amount;
+        // balances[msg.sender] -= amount;
+        // balances[recipient] += amount;
         emit Transfer(msg.sender, recipient, amount);
         return true;
     }

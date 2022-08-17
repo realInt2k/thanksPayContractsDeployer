@@ -32,8 +32,7 @@ export interface WorkerWonInterface extends utils.Interface {
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "balances(address)": FunctionFragment;
-    "burnFrom(address,uint256)": FunctionFragment;
+    "burnFrom(address,uint256,uint256)": FunctionFragment;
     "decimals()": FunctionFragment;
     "getPartnerBalance(address)": FunctionFragment;
     "getWorkerBalance(address)": FunctionFragment;
@@ -52,7 +51,6 @@ export interface WorkerWonInterface extends utils.Interface {
       | "allowance"
       | "approve"
       | "balanceOf"
-      | "balances"
       | "burnFrom"
       | "decimals"
       | "getPartnerBalance"
@@ -80,12 +78,12 @@ export interface WorkerWonInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "balances",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "burnFrom",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>
+    ]
   ): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
@@ -130,7 +128,6 @@ export interface WorkerWonInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "balances", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burnFrom", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
@@ -236,14 +233,10 @@ export interface WorkerWon extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    balances(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
     burnFrom(
       from: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
+      timestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -271,11 +264,7 @@ export interface WorkerWon extends BaseContract {
       pId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
-        balance: BigNumber;
-        relativePayday: BigNumber;
-        latestPay: BigNumber;
-      }
+      [BigNumber, BigNumber] & { balance: BigNumber; latestPay: BigNumber }
     >;
 
     readWorker(
@@ -325,14 +314,10 @@ export interface WorkerWon extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  balances(
-    arg0: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
   burnFrom(
     from: PromiseOrValue<string>,
     amount: PromiseOrValue<BigNumberish>,
+    timestamp: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -360,11 +345,7 @@ export interface WorkerWon extends BaseContract {
     pId: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<
-    [BigNumber, BigNumber, BigNumber] & {
-      balance: BigNumber;
-      relativePayday: BigNumber;
-      latestPay: BigNumber;
-    }
+    [BigNumber, BigNumber] & { balance: BigNumber; latestPay: BigNumber }
   >;
 
   readWorker(
@@ -414,14 +395,10 @@ export interface WorkerWon extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    balances(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     burnFrom(
       from: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
+      timestamp: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -449,11 +426,7 @@ export interface WorkerWon extends BaseContract {
       pId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
-        balance: BigNumber;
-        relativePayday: BigNumber;
-        latestPay: BigNumber;
-      }
+      [BigNumber, BigNumber] & { balance: BigNumber; latestPay: BigNumber }
     >;
 
     readWorker(
@@ -528,14 +501,10 @@ export interface WorkerWon extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    balances(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     burnFrom(
       from: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
+      timestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -605,14 +574,10 @@ export interface WorkerWon extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    balances(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     burnFrom(
       from: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
+      timestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

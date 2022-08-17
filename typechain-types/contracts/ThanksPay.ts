@@ -27,9 +27,9 @@ export interface ThanksPayInterface extends utils.Interface {
   functions: {
     "companyPools(address)": FunctionFragment;
     "partnerTransaction(uint256,address,address,uint256,string)": FunctionFragment;
-    "registerPartner(address,uint256,uint256)": FunctionFragment;
+    "registerPartner(address,uint256)": FunctionFragment;
     "registerWorker(address,address,uint256)": FunctionFragment;
-    "workerTransaction(address,address,uint256,string)": FunctionFragment;
+    "workerTransaction(address,address,uint256,string,uint256)": FunctionFragment;
   };
 
   getFunction(
@@ -57,11 +57,7 @@ export interface ThanksPayInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "registerPartner",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>,
-      PromiseOrValue<BigNumberish>
-    ]
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "registerWorker",
@@ -77,7 +73,8 @@ export interface ThanksPayInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
-      PromiseOrValue<string>
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>
     ]
   ): string;
 
@@ -148,7 +145,6 @@ export interface ThanksPay extends BaseContract {
 
     registerPartner(
       pId: PromiseOrValue<string>,
-      relativePayday: PromiseOrValue<BigNumberish>,
       latestPay: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -165,6 +161,7 @@ export interface ThanksPay extends BaseContract {
       company: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
       bankReceipt: PromiseOrValue<string>,
+      timestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
@@ -185,7 +182,6 @@ export interface ThanksPay extends BaseContract {
 
   registerPartner(
     pId: PromiseOrValue<string>,
-    relativePayday: PromiseOrValue<BigNumberish>,
     latestPay: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -202,6 +198,7 @@ export interface ThanksPay extends BaseContract {
     company: PromiseOrValue<string>,
     amount: PromiseOrValue<BigNumberish>,
     bankReceipt: PromiseOrValue<string>,
+    timestamp: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -222,7 +219,6 @@ export interface ThanksPay extends BaseContract {
 
     registerPartner(
       pId: PromiseOrValue<string>,
-      relativePayday: PromiseOrValue<BigNumberish>,
       latestPay: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -239,6 +235,7 @@ export interface ThanksPay extends BaseContract {
       company: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
       bankReceipt: PromiseOrValue<string>,
+      timestamp: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -262,7 +259,6 @@ export interface ThanksPay extends BaseContract {
 
     registerPartner(
       pId: PromiseOrValue<string>,
-      relativePayday: PromiseOrValue<BigNumberish>,
       latestPay: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -279,6 +275,7 @@ export interface ThanksPay extends BaseContract {
       company: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
       bankReceipt: PromiseOrValue<string>,
+      timestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
@@ -300,7 +297,6 @@ export interface ThanksPay extends BaseContract {
 
     registerPartner(
       pId: PromiseOrValue<string>,
-      relativePayday: PromiseOrValue<BigNumberish>,
       latestPay: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
@@ -317,6 +313,7 @@ export interface ThanksPay extends BaseContract {
       company: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
       bankReceipt: PromiseOrValue<string>,
+      timestamp: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };

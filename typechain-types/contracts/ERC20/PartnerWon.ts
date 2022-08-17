@@ -32,7 +32,6 @@ export interface PartnerWonInterface extends utils.Interface {
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "balances(address)": FunctionFragment;
     "burnFrom(address,uint256)": FunctionFragment;
     "decimals()": FunctionFragment;
     "getPartnerBalance(address)": FunctionFragment;
@@ -52,7 +51,6 @@ export interface PartnerWonInterface extends utils.Interface {
       | "allowance"
       | "approve"
       | "balanceOf"
-      | "balances"
       | "burnFrom"
       | "decimals"
       | "getPartnerBalance"
@@ -77,10 +75,6 @@ export interface PartnerWonInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "balanceOf",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "balances",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -130,7 +124,6 @@ export interface PartnerWonInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "balances", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burnFrom", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
@@ -236,11 +229,6 @@ export interface PartnerWon extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    balances(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
     burnFrom(
       from: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
@@ -271,11 +259,7 @@ export interface PartnerWon extends BaseContract {
       pId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
-        balance: BigNumber;
-        relativePayday: BigNumber;
-        latestPay: BigNumber;
-      }
+      [BigNumber, BigNumber] & { balance: BigNumber; latestPay: BigNumber }
     >;
 
     readWorker(
@@ -325,11 +309,6 @@ export interface PartnerWon extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  balances(
-    arg0: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
   burnFrom(
     from: PromiseOrValue<string>,
     amount: PromiseOrValue<BigNumberish>,
@@ -360,11 +339,7 @@ export interface PartnerWon extends BaseContract {
     pId: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<
-    [BigNumber, BigNumber, BigNumber] & {
-      balance: BigNumber;
-      relativePayday: BigNumber;
-      latestPay: BigNumber;
-    }
+    [BigNumber, BigNumber] & { balance: BigNumber; latestPay: BigNumber }
   >;
 
   readWorker(
@@ -414,11 +389,6 @@ export interface PartnerWon extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    balances(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     burnFrom(
       from: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
@@ -449,11 +419,7 @@ export interface PartnerWon extends BaseContract {
       pId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
-        balance: BigNumber;
-        relativePayday: BigNumber;
-        latestPay: BigNumber;
-      }
+      [BigNumber, BigNumber] & { balance: BigNumber; latestPay: BigNumber }
     >;
 
     readWorker(
@@ -528,11 +494,6 @@ export interface PartnerWon extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    balances(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     burnFrom(
       from: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
@@ -602,11 +563,6 @@ export interface PartnerWon extends BaseContract {
 
     balanceOf(
       account: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    balances(
-      arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

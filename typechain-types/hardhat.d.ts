@@ -57,6 +57,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.WorkerWon__factory>;
     getContractFactory(
+      name: "RevertCheck",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.RevertCheck__factory>;
+    getContractFactory(
       name: "ThanksSecurity",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ThanksSecurity__factory>;
@@ -120,6 +124,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.WorkerWon>;
+    getContractAt(
+      name: "RevertCheck",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.RevertCheck>;
     getContractAt(
       name: "ThanksSecurity",
       address: string,

@@ -28,6 +28,8 @@ export type { PartnerWon } from "./contracts/ERC20/PartnerWon";
 export { PartnerWon__factory } from "./factories/contracts/ERC20/PartnerWon__factory";
 export type { WorkerWon } from "./contracts/ERC20/WorkerWon";
 export { WorkerWon__factory } from "./factories/contracts/ERC20/WorkerWon__factory";
+export type { RevertCheck } from "./contracts/security/RevertCheck";
+export { RevertCheck__factory } from "./factories/contracts/security/RevertCheck__factory";
 export type { ThanksSecurity } from "./contracts/security/ThanksSecurity";
 export { ThanksSecurity__factory } from "./factories/contracts/security/ThanksSecurity__factory";
 export type { ThanksPay } from "./contracts/ThanksPay";

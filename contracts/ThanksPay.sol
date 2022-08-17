@@ -33,11 +33,10 @@ contract ThanksPay {
     
     mapping (address => CompanyPool) public companyPools;
 
-    function registerPartner(address pId, uint256 relativePayday, uint256 latestPay) public {
-        data.registerPartner(pId, relativePayday, latestPay);
+    function registerPartner(address pId, uint256 latestPay) public {
+        data.registerPartner(pId, latestPay);
         companyPools[pId] = CompanyPool(0);
     }
-
 
     function registerWorker(address wId, address pId, uint256 wage) public {
         data.registerWorker(wId, pId, wage);
@@ -53,6 +52,7 @@ contract ThanksPay {
         uint256 amount,
         string memory bankReceipt
     ) public {
+
         if (addRemove == 0){
             // i.e. if you want to add money to the ThanksPay pool
             partnerWon.mintFor(pledger, amount);
@@ -65,19 +65,20 @@ contract ThanksPay {
             partnerWon.burnFrom(pledger, amount);
             companyPools[company].balance = companyPools[company].balance.sub(amount);
         }
-
     }
 
-    function workerTransaction(
+    function workerTransaction( // like getting money
         address worker, 
         address company, // typically same as partner address
         uint256 amount,
-        string memory bankReceipt
+        string memory bankReceipt,
+        uint256 timestamp
     ) public {
         // i.e. if you want to withdraw money from the ThanksPay pool
-            require(companyPools[company].balance > amount, "You cannot withdraw this much!");
+            require(companyPools[company].balance >= amount, "You cannot withdraw this much!");
             // partnerWon.transferFrom();
             partnerWon.burnFrom(company, amount);
-            workerWon.burnFrom(worker, amount);
+            workerWon.burnFrom(worker, amount, timestamp);
+                // this is handling the worker balance. 
     }
 }

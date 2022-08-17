@@ -10,7 +10,7 @@ contract readData {
             data = ThanksPayData(dataAddress);
         }
         
-        function readPartner(address pId) view public returns (uint256 balance, uint256 relativePayday, uint256 latestPay) {
+        function readPartner(address pId) view public returns (uint256 balance, uint256 latestPay) {
             return (data.partners(pId));
         }
 
@@ -20,7 +20,7 @@ contract readData {
         
         function getWorkerBalance(address account) public view returns (uint256) {
             (uint256 balance, uint256 wage, address pId, uint256 latestRequest) = readWorker(account);
-            (, uint256 relativePayday, uint256 latestPay) = readPartner(pId);
+            (, uint256 latestPay) = readPartner(pId);
             if (latestRequest < latestPay) {
                 return wage;
             } else {
@@ -29,7 +29,7 @@ contract readData {
         }
 
         function getPartnerBalance(address account) public view returns (uint256) {
-            (uint256 balance, uint256 relativePayday, uint256 latestPay) = readPartner(account);
+            (uint256 balance,) = readPartner(account);
             return balance;
         }
 }

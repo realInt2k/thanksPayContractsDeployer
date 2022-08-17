@@ -68,6 +68,8 @@ describe("ThanksPay", function () {
       const balance = await partnerWon.functions.balanceOf(partner);
 
       console.log(balance);
+
+
       // thanksPay = contract;
       // console.log(thanksPay.address);
       // const partner = await thanksPay.registerPartner(

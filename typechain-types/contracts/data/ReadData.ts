@@ -111,11 +111,7 @@ export interface ReadData extends BaseContract {
       pId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
-        balance: BigNumber;
-        relativePayday: BigNumber;
-        latestPay: BigNumber;
-      }
+      [BigNumber, BigNumber] & { balance: BigNumber; latestPay: BigNumber }
     >;
 
     readWorker(
@@ -145,11 +141,7 @@ export interface ReadData extends BaseContract {
     pId: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<
-    [BigNumber, BigNumber, BigNumber] & {
-      balance: BigNumber;
-      relativePayday: BigNumber;
-      latestPay: BigNumber;
-    }
+    [BigNumber, BigNumber] & { balance: BigNumber; latestPay: BigNumber }
   >;
 
   readWorker(
@@ -179,11 +171,7 @@ export interface ReadData extends BaseContract {
       pId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
-        balance: BigNumber;
-        relativePayday: BigNumber;
-        latestPay: BigNumber;
-      }
+      [BigNumber, BigNumber] & { balance: BigNumber; latestPay: BigNumber }
     >;
 
     readWorker(
