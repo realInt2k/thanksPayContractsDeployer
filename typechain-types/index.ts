@@ -18,16 +18,10 @@ export type { ERC165 } from "./@openzeppelin/contracts/utils/introspection/ERC16
 export { ERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/ERC165__factory";
 export type { IERC165 } from "./@openzeppelin/contracts/utils/introspection/IERC165";
 export { IERC165__factory } from "./factories/@openzeppelin/contracts/utils/introspection/IERC165__factory";
-export type { ReadData } from "./contracts/data/ReadData";
-export { ReadData__factory } from "./factories/contracts/data/ReadData__factory";
 export type { ThanksPayData } from "./contracts/data/ThanksPayData";
 export { ThanksPayData__factory } from "./factories/contracts/data/ThanksPayData__factory";
 export type { ThanksPayRelay } from "./contracts/data/thanksRelay.sol/ThanksPayRelay";
 export { ThanksPayRelay__factory } from "./factories/contracts/data/thanksRelay.sol/ThanksPayRelay__factory";
-export type { PartnerWon } from "./contracts/ERC20/PartnerWon";
-export { PartnerWon__factory } from "./factories/contracts/ERC20/PartnerWon__factory";
-export type { WorkerWon } from "./contracts/ERC20/WorkerWon";
-export { WorkerWon__factory } from "./factories/contracts/ERC20/WorkerWon__factory";
 export type { RevertCheck } from "./contracts/security/RevertCheck";
 export { RevertCheck__factory } from "./factories/contracts/security/RevertCheck__factory";
 export type { ThanksSecurity } from "./contracts/security/ThanksSecurity";

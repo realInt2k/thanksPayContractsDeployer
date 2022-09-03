@@ -25,26 +25,24 @@ import type {
 
 export interface ThanksPayInterface extends utils.Interface {
   functions: {
-    "companyPools(address)": FunctionFragment;
     "partnerTransaction(uint256,address,address,uint256,string)": FunctionFragment;
     "registerPartner(address,uint256)": FunctionFragment;
     "registerWorker(address,address,uint256)": FunctionFragment;
+    "setLatestWagePay(address,uint256)": FunctionFragment;
+    "viewCompanyPoolBalance(address)": FunctionFragment;
     "workerTransaction(address,address,uint256,string,uint256)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "companyPools"
       | "partnerTransaction"
       | "registerPartner"
       | "registerWorker"
+      | "setLatestWagePay"
+      | "viewCompanyPoolBalance"
       | "workerTransaction"
   ): FunctionFragment;
 
-  encodeFunctionData(
-    functionFragment: "companyPools",
-    values: [PromiseOrValue<string>]
-  ): string;
   encodeFunctionData(
     functionFragment: "partnerTransaction",
     values: [
@@ -68,6 +66,14 @@ export interface ThanksPayInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
+    functionFragment: "setLatestWagePay",
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "viewCompanyPoolBalance",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "workerTransaction",
     values: [
       PromiseOrValue<string>,
@@ -79,10 +85,6 @@ export interface ThanksPayInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "companyPools",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "partnerTransaction",
     data: BytesLike
   ): Result;
@@ -92,6 +94,14 @@ export interface ThanksPayInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "registerWorker",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setLatestWagePay",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "viewCompanyPoolBalance",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -129,11 +139,6 @@ export interface ThanksPay extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    companyPools(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber] & { balance: BigNumber }>;
-
     partnerTransaction(
       addRemove: PromiseOrValue<BigNumberish>,
       company: PromiseOrValue<string>,
@@ -156,8 +161,19 @@ export interface ThanksPay extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setLatestWagePay(
+      pId: PromiseOrValue<string>,
+      timestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    viewCompanyPoolBalance(
+      _company: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     workerTransaction(
-      worker: PromiseOrValue<string>,
+      workerAddress: PromiseOrValue<string>,
       company: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
       bankReceipt: PromiseOrValue<string>,
@@ -165,11 +181,6 @@ export interface ThanksPay extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
-
-  companyPools(
-    arg0: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
 
   partnerTransaction(
     addRemove: PromiseOrValue<BigNumberish>,
@@ -193,8 +204,19 @@ export interface ThanksPay extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setLatestWagePay(
+    pId: PromiseOrValue<string>,
+    timestamp: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  viewCompanyPoolBalance(
+    _company: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   workerTransaction(
-    worker: PromiseOrValue<string>,
+    workerAddress: PromiseOrValue<string>,
     company: PromiseOrValue<string>,
     amount: PromiseOrValue<BigNumberish>,
     bankReceipt: PromiseOrValue<string>,
@@ -203,11 +225,6 @@ export interface ThanksPay extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    companyPools(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     partnerTransaction(
       addRemove: PromiseOrValue<BigNumberish>,
       company: PromiseOrValue<string>,
@@ -230,8 +247,19 @@ export interface ThanksPay extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setLatestWagePay(
+      pId: PromiseOrValue<string>,
+      timestamp: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    viewCompanyPoolBalance(
+      _company: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     workerTransaction(
-      worker: PromiseOrValue<string>,
+      workerAddress: PromiseOrValue<string>,
       company: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
       bankReceipt: PromiseOrValue<string>,
@@ -243,11 +271,6 @@ export interface ThanksPay extends BaseContract {
   filters: {};
 
   estimateGas: {
-    companyPools(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     partnerTransaction(
       addRemove: PromiseOrValue<BigNumberish>,
       company: PromiseOrValue<string>,
@@ -270,8 +293,19 @@ export interface ThanksPay extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setLatestWagePay(
+      pId: PromiseOrValue<string>,
+      timestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    viewCompanyPoolBalance(
+      _company: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     workerTransaction(
-      worker: PromiseOrValue<string>,
+      workerAddress: PromiseOrValue<string>,
       company: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
       bankReceipt: PromiseOrValue<string>,
@@ -281,11 +315,6 @@ export interface ThanksPay extends BaseContract {
   };
 
   populateTransaction: {
-    companyPools(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     partnerTransaction(
       addRemove: PromiseOrValue<BigNumberish>,
       company: PromiseOrValue<string>,
@@ -308,8 +337,19 @@ export interface ThanksPay extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    setLatestWagePay(
+      pId: PromiseOrValue<string>,
+      timestamp: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    viewCompanyPoolBalance(
+      _company: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     workerTransaction(
-      worker: PromiseOrValue<string>,
+      workerAddress: PromiseOrValue<string>,
       company: PromiseOrValue<string>,
       amount: PromiseOrValue<BigNumberish>,
       bankReceipt: PromiseOrValue<string>,

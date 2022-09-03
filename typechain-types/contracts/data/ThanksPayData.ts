@@ -30,36 +30,46 @@ import type {
 export interface ThanksPayDataInterface extends utils.Interface {
   functions: {
     "companies(address)": FunctionFragment;
+    "getPartnerBalance(address)": FunctionFragment;
+    "getWorkerBalance(uint256,address)": FunctionFragment;
     "partners(address)": FunctionFragment;
+    "readCompany(address)": FunctionFragment;
+    "readPartner(address)": FunctionFragment;
+    "readWorker(address)": FunctionFragment;
     "registerPartner(address,uint256)": FunctionFragment;
     "registerWorker(address,address,uint256)": FunctionFragment;
-    "revertCheck(bool)": FunctionFragment;
-    "revertCheck(bool,string)": FunctionFragment;
-    "revertCheck(bool,uint16)": FunctionFragment;
     "setCompanyBalance(address,uint256)": FunctionFragment;
     "setLatestRequest(address,uint256)": FunctionFragment;
     "setLatestWagePay(address,uint256)": FunctionFragment;
     "setPartnerBalance(address,uint256)": FunctionFragment;
-    "setWorkerBalance(address,uint256)": FunctionFragment;
+    "setWorkerBalance(uint256,address,uint256)": FunctionFragment;
     "types(address)": FunctionFragment;
+    "viewCompanyBalance(address)": FunctionFragment;
+    "viewPartnerBalance(address)": FunctionFragment;
+    "viewWorkerBalance(uint256)": FunctionFragment;
     "workers(address)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
       | "companies"
+      | "getPartnerBalance"
+      | "getWorkerBalance"
       | "partners"
+      | "readCompany"
+      | "readPartner"
+      | "readWorker"
       | "registerPartner"
       | "registerWorker"
-      | "revertCheck(bool)"
-      | "revertCheck(bool,string)"
-      | "revertCheck(bool,uint16)"
       | "setCompanyBalance"
       | "setLatestRequest"
       | "setLatestWagePay"
       | "setPartnerBalance"
       | "setWorkerBalance"
       | "types"
+      | "viewCompanyBalance"
+      | "viewPartnerBalance"
+      | "viewWorkerBalance"
       | "workers"
   ): FunctionFragment;
 
@@ -68,7 +78,27 @@ export interface ThanksPayDataInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "getPartnerBalance",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getWorkerBalance",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "partners",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "readCompany",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "readPartner",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "readWorker",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -82,18 +112,6 @@ export interface ThanksPayDataInterface extends utils.Interface {
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>
     ]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "revertCheck(bool)",
-    values: [PromiseOrValue<boolean>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "revertCheck(bool,string)",
-    values: [PromiseOrValue<boolean>, PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "revertCheck(bool,uint16)",
-    values: [PromiseOrValue<boolean>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "setCompanyBalance",
@@ -113,11 +131,27 @@ export interface ThanksPayDataInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "setWorkerBalance",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+    values: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "types",
     values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "viewCompanyBalance",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "viewPartnerBalance",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "viewWorkerBalance",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "workers",
@@ -125,25 +159,30 @@ export interface ThanksPayDataInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "companies", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getPartnerBalance",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getWorkerBalance",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "partners", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "readCompany",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "readPartner",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "readWorker", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "registerPartner",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "registerWorker",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "revertCheck(bool)",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "revertCheck(bool,string)",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "revertCheck(bool,uint16)",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -167,13 +206,25 @@ export interface ThanksPayDataInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "types", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "viewCompanyBalance",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "viewPartnerBalance",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "viewWorkerBalance",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "workers", data: BytesLike): Result;
 
   events: {
     "companyRegistered(address,uint256)": EventFragment;
     "partnerBalanceChanged(address,uint256)": EventFragment;
     "partnerRegistered(address,uint256)": EventFragment;
-    "workerBalanceChanged(uint256,uint256)": EventFragment;
+    "workerBalanceChanged(uint256,address,uint256)": EventFragment;
     "workerRegistered(address,address,uint256)": EventFragment;
   };
 
@@ -221,11 +272,12 @@ export type partnerRegisteredEventFilter =
   TypedEventFilter<partnerRegisteredEvent>;
 
 export interface workerBalanceChangedEventObject {
-  wId: BigNumber;
+  kind: BigNumber;
+  wId: string;
   newBalance: BigNumber;
 }
 export type workerBalanceChangedEvent = TypedEvent<
-  [BigNumber, BigNumber],
+  [BigNumber, string, BigNumber],
   workerBalanceChangedEventObject
 >;
 
@@ -277,11 +329,48 @@ export interface ThanksPayData extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber] & { balance: BigNumber }>;
 
+    getPartnerBalance(
+      account: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    getWorkerBalance(
+      kind: PromiseOrValue<BigNumberish>,
+      account: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     partners(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber] & { balance: BigNumber; latestPay: BigNumber }
+    >;
+
+    readCompany(
+      pId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { balance: BigNumber }>;
+
+    readPartner(
+      pId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { balance: BigNumber; latestPay: BigNumber }
+    >;
+
+    readWorker(
+      wId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber, BigNumber, string, BigNumber] & {
+        balance: BigNumber;
+        saving: BigNumber;
+        borrow: BigNumber;
+        wage: BigNumber;
+        pId: string;
+        latestRequest: BigNumber;
+      }
     >;
 
     registerPartner(
@@ -296,23 +385,6 @@ export interface ThanksPayData extends BaseContract {
       wage: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
-
-    "revertCheck(bool)"(
-      condition: PromiseOrValue<boolean>,
-      overrides?: CallOverrides
-    ): Promise<[void]>;
-
-    "revertCheck(bool,string)"(
-      condition: PromiseOrValue<boolean>,
-      reason: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[void]>;
-
-    "revertCheck(bool,uint16)"(
-      condition: PromiseOrValue<boolean>,
-      exitCode: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[void]>;
 
     setCompanyBalance(
       pId: PromiseOrValue<string>,
@@ -339,6 +411,7 @@ export interface ThanksPayData extends BaseContract {
     ): Promise<ContractTransaction>;
 
     setWorkerBalance(
+      kind: PromiseOrValue<BigNumberish>,
       wId: PromiseOrValue<string>,
       newBalance: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -349,12 +422,29 @@ export interface ThanksPayData extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
+    viewCompanyBalance(
+      company: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    viewPartnerBalance(
+      partner: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    viewWorkerBalance(
+      worker: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     workers(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber, string, BigNumber] & {
+      [BigNumber, BigNumber, BigNumber, BigNumber, string, BigNumber] & {
         balance: BigNumber;
+        saving: BigNumber;
+        borrow: BigNumber;
         wage: BigNumber;
         pId: string;
         latestRequest: BigNumber;
@@ -367,11 +457,48 @@ export interface ThanksPayData extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  getPartnerBalance(
+    account: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  getWorkerBalance(
+    kind: PromiseOrValue<BigNumberish>,
+    account: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   partners(
     arg0: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<
     [BigNumber, BigNumber] & { balance: BigNumber; latestPay: BigNumber }
+  >;
+
+  readCompany(
+    pId: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  readPartner(
+    pId: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber] & { balance: BigNumber; latestPay: BigNumber }
+  >;
+
+  readWorker(
+    wId: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber, BigNumber, BigNumber, string, BigNumber] & {
+      balance: BigNumber;
+      saving: BigNumber;
+      borrow: BigNumber;
+      wage: BigNumber;
+      pId: string;
+      latestRequest: BigNumber;
+    }
   >;
 
   registerPartner(
@@ -386,23 +513,6 @@ export interface ThanksPayData extends BaseContract {
     wage: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
-
-  "revertCheck(bool)"(
-    condition: PromiseOrValue<boolean>,
-    overrides?: CallOverrides
-  ): Promise<void>;
-
-  "revertCheck(bool,string)"(
-    condition: PromiseOrValue<boolean>,
-    reason: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<void>;
-
-  "revertCheck(bool,uint16)"(
-    condition: PromiseOrValue<boolean>,
-    exitCode: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<void>;
 
   setCompanyBalance(
     pId: PromiseOrValue<string>,
@@ -429,6 +539,7 @@ export interface ThanksPayData extends BaseContract {
   ): Promise<ContractTransaction>;
 
   setWorkerBalance(
+    kind: PromiseOrValue<BigNumberish>,
     wId: PromiseOrValue<string>,
     newBalance: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -439,12 +550,29 @@ export interface ThanksPayData extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  viewCompanyBalance(
+    company: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  viewPartnerBalance(
+    partner: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  viewWorkerBalance(
+    worker: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   workers(
     arg0: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<
-    [BigNumber, BigNumber, string, BigNumber] & {
+    [BigNumber, BigNumber, BigNumber, BigNumber, string, BigNumber] & {
       balance: BigNumber;
+      saving: BigNumber;
+      borrow: BigNumber;
       wage: BigNumber;
       pId: string;
       latestRequest: BigNumber;
@@ -457,11 +585,48 @@ export interface ThanksPayData extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getPartnerBalance(
+      account: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getWorkerBalance(
+      kind: PromiseOrValue<BigNumberish>,
+      account: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     partners(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, BigNumber] & { balance: BigNumber; latestPay: BigNumber }
+    >;
+
+    readCompany(
+      pId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    readPartner(
+      pId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber] & { balance: BigNumber; latestPay: BigNumber }
+    >;
+
+    readWorker(
+      wId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber, BigNumber, string, BigNumber] & {
+        balance: BigNumber;
+        saving: BigNumber;
+        borrow: BigNumber;
+        wage: BigNumber;
+        pId: string;
+        latestRequest: BigNumber;
+      }
     >;
 
     registerPartner(
@@ -474,23 +639,6 @@ export interface ThanksPayData extends BaseContract {
       wId: PromiseOrValue<string>,
       pId: PromiseOrValue<string>,
       wage: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "revertCheck(bool)"(
-      condition: PromiseOrValue<boolean>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "revertCheck(bool,string)"(
-      condition: PromiseOrValue<boolean>,
-      reason: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "revertCheck(bool,uint16)"(
-      condition: PromiseOrValue<boolean>,
-      exitCode: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -519,6 +667,7 @@ export interface ThanksPayData extends BaseContract {
     ): Promise<void>;
 
     setWorkerBalance(
+      kind: PromiseOrValue<BigNumberish>,
       wId: PromiseOrValue<string>,
       newBalance: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -529,12 +678,29 @@ export interface ThanksPayData extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    viewCompanyBalance(
+      company: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    viewPartnerBalance(
+      partner: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    viewWorkerBalance(
+      worker: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     workers(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber, string, BigNumber] & {
+      [BigNumber, BigNumber, BigNumber, BigNumber, string, BigNumber] & {
         balance: BigNumber;
+        saving: BigNumber;
+        borrow: BigNumber;
         wage: BigNumber;
         pId: string;
         latestRequest: BigNumber;
@@ -570,11 +736,13 @@ export interface ThanksPayData extends BaseContract {
       latestPay?: null
     ): partnerRegisteredEventFilter;
 
-    "workerBalanceChanged(uint256,uint256)"(
+    "workerBalanceChanged(uint256,address,uint256)"(
+      kind?: null,
       wId?: null,
       newBalance?: null
     ): workerBalanceChangedEventFilter;
     workerBalanceChanged(
+      kind?: null,
       wId?: null,
       newBalance?: null
     ): workerBalanceChangedEventFilter;
@@ -597,8 +765,34 @@ export interface ThanksPayData extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getPartnerBalance(
+      account: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getWorkerBalance(
+      kind: PromiseOrValue<BigNumberish>,
+      account: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     partners(
       arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    readCompany(
+      pId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    readPartner(
+      pId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    readWorker(
+      wId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -613,23 +807,6 @@ export interface ThanksPayData extends BaseContract {
       pId: PromiseOrValue<string>,
       wage: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    "revertCheck(bool)"(
-      condition: PromiseOrValue<boolean>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "revertCheck(bool,string)"(
-      condition: PromiseOrValue<boolean>,
-      reason: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "revertCheck(bool,uint16)"(
-      condition: PromiseOrValue<boolean>,
-      exitCode: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     setCompanyBalance(
@@ -657,6 +834,7 @@ export interface ThanksPayData extends BaseContract {
     ): Promise<BigNumber>;
 
     setWorkerBalance(
+      kind: PromiseOrValue<BigNumberish>,
       wId: PromiseOrValue<string>,
       newBalance: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -664,6 +842,21 @@ export interface ThanksPayData extends BaseContract {
 
     types(
       arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    viewCompanyBalance(
+      company: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    viewPartnerBalance(
+      partner: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    viewWorkerBalance(
+      worker: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -679,8 +872,34 @@ export interface ThanksPayData extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getPartnerBalance(
+      account: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getWorkerBalance(
+      kind: PromiseOrValue<BigNumberish>,
+      account: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     partners(
       arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    readCompany(
+      pId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    readPartner(
+      pId: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    readWorker(
+      wId: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -695,23 +914,6 @@ export interface ThanksPayData extends BaseContract {
       pId: PromiseOrValue<string>,
       wage: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "revertCheck(bool)"(
-      condition: PromiseOrValue<boolean>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "revertCheck(bool,string)"(
-      condition: PromiseOrValue<boolean>,
-      reason: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "revertCheck(bool,uint16)"(
-      condition: PromiseOrValue<boolean>,
-      exitCode: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     setCompanyBalance(
@@ -739,6 +941,7 @@ export interface ThanksPayData extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setWorkerBalance(
+      kind: PromiseOrValue<BigNumberish>,
       wId: PromiseOrValue<string>,
       newBalance: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -746,6 +949,21 @@ export interface ThanksPayData extends BaseContract {
 
     types(
       arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    viewCompanyBalance(
+      company: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    viewPartnerBalance(
+      partner: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    viewWorkerBalance(
+      worker: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

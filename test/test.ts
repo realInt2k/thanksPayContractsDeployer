@@ -13,8 +13,9 @@ describe("ThanksPay", function () {
   // and reset Hardhat Network to that snapshopt in every test.
   async function deployThanksPay() {
     // Contracts are deployed using the first signer/account by default
-    const [owner, otherAccount] = await ethers.getSigners();
-    //console.log(owner.address);
+    const signers = await ethers.getSigners();
+      // get the signers, deploy from the first one 
+    console.log();
     
     const _thanksSecurity = await ethers.getContractFactory("thanksSecurity");
     const _thanksPayData = await ethers.getContractFactory("ThanksPayData");
@@ -23,7 +24,7 @@ describe("ThanksPay", function () {
     const _ThanksPay = await ethers.getContractFactory("ThanksPay");
     
     // deploy thanksSecurity;
-    const thanksSecurity = await _thanksSecurity.deploy([owner.address]);
+    const thanksSecurity = await _thanksSecurity.deploy([signers[0].address]);
     await thanksSecurity.deployed();
 
     //console.log(thanksSecurity.address);
@@ -36,7 +37,7 @@ describe("ThanksPay", function () {
     const partnerWon = await _PartnerWon.deploy(thanksPayData.address,  thanksSecurity.address);
     await partnerWon.deployed();
 
-    const workerWon = await _WorkerWon.deploy(thanksSecurity.address, thanksPayData.address);
+    const workerWon = await _WorkerWon.deploy(thanksPayData.address, thanksSecurity.address);
     await workerWon.deployed();
 
     // deploy thanksPay;
@@ -45,60 +46,67 @@ describe("ThanksPay", function () {
 
 
     await thanksSecurity.functions.authorize([partnerWon.address, workerWon.address, thanksPay.address]);
-
-    return { contracts: {thanksPay, partnerWon, workerWon, thanksPayData}, owner};
+    // console.log("So far it's fine!");
+    return { contracts: {thanksPay, partnerWon, workerWon, thanksPayData}, signers};
   }
 
   describe("Deployment", function () {
     it("Should create contract, the worker and the partner", async function () {
       this.timeout(50000);
-      const {contracts, owner} = await loadFixture(deployThanksPay);
+      const {contracts, signers} = await loadFixture(deployThanksPay);
 
       const {thanksPay, partnerWon, workerWon, thanksPayData} = contracts;
+      // console.log("There are "+signers +" signers");
+      const thanksPayInc = signers[0].address;
+      const partner = signers[1].address;
+
+      // register Eddy and a partner
+      await thanksPay.functions.registerPartner(thanksPayInc,  0);
+      await thanksPay.functions.registerPartner(partner,  0);
+
+      // send 500K each.
+      await thanksPay.functions.partnerTransaction(0, partner, partner, 500, "Receipt");
+      await thanksPay.functions.partnerTransaction(0, partner, thanksPayInc, 500, "Receipt");
+
+      // register 10 workers, each with 100 money 
+      for (let i = 0; i < 10; i++) {
+        var index = 2 + i;
+        var workerAddress = signers[index].address;
+        await thanksPay.functions.registerWorker(workerAddress, partner, 100);
+      }
+
+      // view balances
+      console.log("Partner balance: ", await partnerWon.functions.balanceOf(partner));
+      console.log("ThanksPayInc balance: ", await partnerWon.functions.balanceOf(thanksPayInc));
+      console.log("Worker address: " + signers[2].address);
+      console.log("Worker balance: ", await workerWon.functions.balanceOf(signers[2].address));
+
+      // new payment
+      // get current timestamp in seconds from Date()
+      var currentTime = Math.floor(Date.now() / 1000);
+      await thanksPay.setLatestWagePay(partner, currentTime);
+
+      currentTime = currentTime + 100;
+      // view balances
+      console.log("Worker balance: ", await workerWon.functions.balanceOf(signers[2].address));
       
-      const partner = "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
-      const worker = "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC";
-
-      await thanksPay.functions.registerPartner(partner, 0, 0);
-
-      await thanksPay.functions.registerWorker(worker, partner, 100);
-
-      await thanksPay.functions.partnerTransaction(0, partner, partner, 100, "Receipt");
+      
+      // all workers can withdraw their money
+      for (let i = 0; i < 10; i++) {
+        var index = 2 + i;
+        var workerAddress = signers[index].address;
+        await thanksPay.functions.workerTransaction(workerAddress, partner, 100, "Receipt", currentTime);
+        
+      }
+      console.log("Worker balance: ", await workerWon.functions.balanceOf(signers[2].address));
+      
+      // tries to withdraw 600, fails
+      await thanksPay.partnerTransaction(1, partner, partner, 600, "Receipt");
 
       const balance = await partnerWon.functions.balanceOf(partner);
-
       console.log(balance);
 
 
-      // thanksPay = contract;
-      // console.log(thanksPay.address);
-      // const partner = await thanksPay.registerPartner(
-      //   1, // pId
-      //   "p_license", // license,
-      //   15 // payday
-      //   );
-
-      // const partnerBalance = await thanksPay.changePartnerBalance(
-      //   1, // pId
-      //   50000, // change);
-      // );
-
-      // const worker = await thanksPay.registerWorker(
-      //   1, //wId
-      //   1, // pId
-      //   "ollie041114@gmail.com",
-      //   "w_license",
-      //   100,
-      //   90, // initialBalance
-      // );
-
-      // const p_balance = await thanksPay.getPartnerBalance(1);
-
-      // const w_balance = await thanksPay.getWorkerBalance(1, 0);
-
-      // console.log(p_balance, w_balance);
-      // expect(await p_balance.to.equal(50000));
-      // expect(await w_balance.to.equal(90));
     });
 
     it("Should change the balance correctly", async function () {

@@ -4,6 +4,7 @@
 import type {
   BaseContract,
   BigNumber,
+  BigNumberish,
   BytesLike,
   CallOverrides,
   ContractTransaction,
@@ -37,6 +38,9 @@ export interface ThanksSecurityInterface extends utils.Interface {
     "hasRole(bytes32,address)": FunctionFragment;
     "isAuthorized(address)": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
+    "revertCheck(bool)": FunctionFragment;
+    "revertCheck(bool,string)": FunctionFragment;
+    "revertCheck(bool,uint16)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
     "shit()": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -53,6 +57,9 @@ export interface ThanksSecurityInterface extends utils.Interface {
       | "hasRole"
       | "isAuthorized"
       | "renounceRole"
+      | "revertCheck(bool)"
+      | "revertCheck(bool,string)"
+      | "revertCheck(bool,uint16)"
       | "revokeRole"
       | "shit"
       | "supportsInterface"
@@ -92,6 +99,18 @@ export interface ThanksSecurityInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "revertCheck(bool)",
+    values: [PromiseOrValue<boolean>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "revertCheck(bool,string)",
+    values: [PromiseOrValue<boolean>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "revertCheck(bool,uint16)",
+    values: [PromiseOrValue<boolean>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "revokeRole",
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
   ): string;
@@ -120,6 +139,18 @@ export interface ThanksSecurityInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "renounceRole",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "revertCheck(bool)",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "revertCheck(bool,string)",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "revertCheck(bool,uint16)",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
@@ -243,6 +274,23 @@ export interface ThanksSecurity extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    "revertCheck(bool)"(
+      condition: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<[void]>;
+
+    "revertCheck(bool,string)"(
+      condition: PromiseOrValue<boolean>,
+      reason: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[void]>;
+
+    "revertCheck(bool,uint16)"(
+      condition: PromiseOrValue<boolean>,
+      exitCode: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[void]>;
+
     revokeRole(
       role: PromiseOrValue<BytesLike>,
       account: PromiseOrValue<string>,
@@ -296,6 +344,23 @@ export interface ThanksSecurity extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  "revertCheck(bool)"(
+    condition: PromiseOrValue<boolean>,
+    overrides?: CallOverrides
+  ): Promise<void>;
+
+  "revertCheck(bool,string)"(
+    condition: PromiseOrValue<boolean>,
+    reason: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<void>;
+
+  "revertCheck(bool,uint16)"(
+    condition: PromiseOrValue<boolean>,
+    exitCode: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<void>;
+
   revokeRole(
     role: PromiseOrValue<BytesLike>,
     account: PromiseOrValue<string>,
@@ -346,6 +411,23 @@ export interface ThanksSecurity extends BaseContract {
     renounceRole(
       role: PromiseOrValue<BytesLike>,
       account: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "revertCheck(bool)"(
+      condition: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "revertCheck(bool,string)"(
+      condition: PromiseOrValue<boolean>,
+      reason: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "revertCheck(bool,uint16)"(
+      condition: PromiseOrValue<boolean>,
+      exitCode: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -438,6 +520,23 @@ export interface ThanksSecurity extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    "revertCheck(bool)"(
+      condition: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "revertCheck(bool,string)"(
+      condition: PromiseOrValue<boolean>,
+      reason: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "revertCheck(bool,uint16)"(
+      condition: PromiseOrValue<boolean>,
+      exitCode: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     revokeRole(
       role: PromiseOrValue<BytesLike>,
       account: PromiseOrValue<string>,
@@ -492,6 +591,23 @@ export interface ThanksSecurity extends BaseContract {
       role: PromiseOrValue<BytesLike>,
       account: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "revertCheck(bool)"(
+      condition: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "revertCheck(bool,string)"(
+      condition: PromiseOrValue<boolean>,
+      reason: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "revertCheck(bool,uint16)"(
+      condition: PromiseOrValue<boolean>,
+      exitCode: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     revokeRole(

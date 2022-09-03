@@ -3,4 +3,3 @@
 /* eslint-disable */
 export * as thanksRelaySol from "./thanksRelay.sol";
 export { ThanksPayData__factory } from "./ThanksPayData__factory";
-export { ReadData__factory } from "./ReadData__factory";

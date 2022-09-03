@@ -30,6 +30,7 @@ import type {
 export interface WorkerWonInterface extends utils.Interface {
   functions: {
     "allowance(address,address)": FunctionFragment;
+    "allowances(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "burnFrom(address,uint256,uint256)": FunctionFragment;
@@ -49,6 +50,7 @@ export interface WorkerWonInterface extends utils.Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | "allowance"
+      | "allowances"
       | "approve"
       | "balanceOf"
       | "burnFrom"
@@ -67,6 +69,10 @@ export interface WorkerWonInterface extends utils.Interface {
 
   encodeFunctionData(
     functionFragment: "allowance",
+    values: [PromiseOrValue<string>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "allowances",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
@@ -126,6 +132,7 @@ export interface WorkerWonInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "allowances", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burnFrom", data: BytesLike): Result;
@@ -217,6 +224,12 @@ export interface WorkerWon extends BaseContract {
 
   functions: {
     allowance(
+      owner: PromiseOrValue<string>,
+      spender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    allowances(
       arg0: PromiseOrValue<string>,
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -298,6 +311,12 @@ export interface WorkerWon extends BaseContract {
   };
 
   allowance(
+    owner: PromiseOrValue<string>,
+    spender: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  allowances(
     arg0: PromiseOrValue<string>,
     arg1: PromiseOrValue<string>,
     overrides?: CallOverrides
@@ -379,6 +398,12 @@ export interface WorkerWon extends BaseContract {
 
   callStatic: {
     allowance(
+      owner: PromiseOrValue<string>,
+      spender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    allowances(
       arg0: PromiseOrValue<string>,
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -485,6 +510,12 @@ export interface WorkerWon extends BaseContract {
 
   estimateGas: {
     allowance(
+      owner: PromiseOrValue<string>,
+      spender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    allowances(
       arg0: PromiseOrValue<string>,
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -558,6 +589,12 @@ export interface WorkerWon extends BaseContract {
 
   populateTransaction: {
     allowance(
+      owner: PromiseOrValue<string>,
+      spender: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    allowances(
       arg0: PromiseOrValue<string>,
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides

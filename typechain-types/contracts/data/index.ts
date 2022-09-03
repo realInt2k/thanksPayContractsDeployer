@@ -4,4 +4,3 @@
 import type * as thanksRelaySol from "./thanksRelay.sol";
 export type { thanksRelaySol };
 export type { ThanksPayData } from "./ThanksPayData";
-export type { ReadData } from "./ReadData";

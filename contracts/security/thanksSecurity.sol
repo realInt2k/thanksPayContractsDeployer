@@ -1,7 +1,11 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.7;
+
 import "@openzeppelin/contracts/access/AccessControl.sol";
 import "hardhat/console.sol";
+import "./RevertCheck.sol";
 
-contract thanksSecurity is AccessControl {
+contract ThanksSecurity is AccessControl, RevertCheck {
     bytes32 public constant AUTHORIZED = keccak256("AUTHORIZED");
     uint public constant shit = 100;
 

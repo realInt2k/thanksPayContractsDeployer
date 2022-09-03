@@ -37,10 +37,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165__factory>;
     getContractFactory(
-      name: "ReadData",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ReadData__factory>;
-    getContractFactory(
       name: "ThanksPayData",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ThanksPayData__factory>;
@@ -48,14 +44,6 @@ declare module "hardhat/types/runtime" {
       name: "ThanksPayRelay",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ThanksPayRelay__factory>;
-    getContractFactory(
-      name: "PartnerWon",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.PartnerWon__factory>;
-    getContractFactory(
-      name: "WorkerWon",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.WorkerWon__factory>;
     getContractFactory(
       name: "RevertCheck",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -100,11 +88,6 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC165>;
     getContractAt(
-      name: "ReadData",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ReadData>;
-    getContractAt(
       name: "ThanksPayData",
       address: string,
       signer?: ethers.Signer
@@ -114,16 +97,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.ThanksPayRelay>;
-    getContractAt(
-      name: "PartnerWon",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.PartnerWon>;
-    getContractAt(
-      name: "WorkerWon",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.WorkerWon>;
     getContractAt(
       name: "RevertCheck",
       address: string,
