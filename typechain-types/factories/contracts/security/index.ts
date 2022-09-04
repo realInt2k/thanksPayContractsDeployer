@@ -3,3 +3,4 @@
 /* eslint-disable */
 export { RevertCheck__factory } from "./RevertCheck__factory";
 export { ThanksSecurity__factory } from "./ThanksSecurity__factory";
+export { ThanksSecurityWrapper__factory } from "./ThanksSecurityWrapper__factory";

@@ -3,17 +3,17 @@ pragma solidity >=0.7.0 <0.9.0;
 
 import "hardhat/console.sol";
 import "./../security/ThanksSecurity.sol";
-import "./../data/ThanksDataInteraction.sol";
+import "./../data/ThanksData.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 contract ThanksPayCheck {
     using SafeMath for uint256;
     ThanksSecurity private security;
-    ThanksDataInteraction private data;
+    ThanksData private data;
 
     constructor(address dataAddr, address securityAddr) {
         security = ThanksSecurity(securityAddr);
-        data = ThanksDataInteraction(dataAddr);
+        data = ThanksData(dataAddr);
     }
 
     modifier isAuthorized() {
@@ -21,15 +21,14 @@ contract ThanksPayCheck {
         _;
     }
 
-    function workerGetSalaryEarlyCheck (
-        address workerAddress,
-        uint256 amount
-    ) public view returns(bool)  {
-        uint256 moneyInquiry = data.getWorkerBalance(1, workerAddress);
-        // check if the withdrawable salary is sufficent 
-        if(moneyInquiry < amount) 
-            return false;
+    function workerGetSalaryEarlyCheck (uint256 wId, uint256 amount) public view returns(bool)  {
+        uint256 workerBalance = data.getWorkerBalance(wId);
+        (, , uint256 pId, ) = data.getWorker(wId);
+
+        (uint256 balance, uint256 bonus, ) = data.getPartner(pId);
         
+        // check if the Partner or worker doesn't have eough money is sufficent 
+        if(workerBalance < amount && (balance.add(bonus) < amount)) return false;
         return true;
     }
 

@@ -25,10 +25,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20__factory>;
     getContractFactory(
-      name: "IERC721",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC721__factory>;
-    getContractFactory(
       name: "ERC165",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC165__factory>;
@@ -37,9 +33,17 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165__factory>;
     getContractFactory(
-      name: "ThanksPayData",
+      name: "ThanksPayCheck",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ThanksPayData__factory>;
+    ): Promise<Contracts.ThanksPayCheck__factory>;
+    getContractFactory(
+      name: "ThanksData",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ThanksData__factory>;
+    getContractFactory(
+      name: "ThanksDataStatic",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ThanksDataStatic__factory>;
     getContractFactory(
       name: "ThanksPayRelay",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -53,9 +57,13 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ThanksSecurity__factory>;
     getContractFactory(
-      name: "ThanksPay",
+      name: "ThanksSecurityWrapper",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ThanksPay__factory>;
+    ): Promise<Contracts.ThanksSecurityWrapper__factory>;
+    getContractFactory(
+      name: "ThanksPayMain",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ThanksPayMain__factory>;
 
     getContractAt(
       name: "AccessControl",
@@ -73,11 +81,6 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC20>;
     getContractAt(
-      name: "IERC721",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IERC721>;
-    getContractAt(
       name: "ERC165",
       address: string,
       signer?: ethers.Signer
@@ -88,10 +91,20 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC165>;
     getContractAt(
-      name: "ThanksPayData",
+      name: "ThanksPayCheck",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.ThanksPayData>;
+    ): Promise<Contracts.ThanksPayCheck>;
+    getContractAt(
+      name: "ThanksData",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ThanksData>;
+    getContractAt(
+      name: "ThanksDataStatic",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ThanksDataStatic>;
     getContractAt(
       name: "ThanksPayRelay",
       address: string,
@@ -108,10 +121,15 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.ThanksSecurity>;
     getContractAt(
-      name: "ThanksPay",
+      name: "ThanksSecurityWrapper",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.ThanksPay>;
+    ): Promise<Contracts.ThanksSecurityWrapper>;
+    getContractAt(
+      name: "ThanksPayMain",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ThanksPayMain>;
 
     // default types
     getContractFactory(

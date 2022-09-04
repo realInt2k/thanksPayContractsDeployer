@@ -3,79 +3,69 @@ pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "./data/ThanksPayData.sol";
+import "./data/ThanksData.sol";
 import "hardhat/console.sol";
 import "./security/RevertCheck.sol";
+import "./check/ThanksPayCheck.sol";
+import "./security/ThanksSecurityWrapper.sol";
 
-contract ThanksPayMain{
+contract ThanksPayMain is ThanksSecurityWrapper{
     using SafeMath for uint256;
-    ThanksSecurity private security;
-    ThanksDataInteraction private data;
+    ThanksData private data;
+    ThanksPayCheck check;
+
+    event workerGotThanksPay(uint256 wId, uint256 pId, uint256 amount, string bankReceipt, uint256 timestamp);
+    // event partnerGotThanksPay(uint256 pId, uint256 amount, string bankReceipt, uint256 timestamp);
+    event partnerGotBonus(uint256 pId, uint256 amount);
     
-    constructor(address _security, address dataAddr) {
-        data = ThanksDataInteraction(dataAddr);
-        security = ThanksSecurity(_security);
-        uint256 shit = security.getShit();
-        console.log("security.shit is: ", shit);
+    constructor(address _security, address dataAddr) ThanksSecurityWrapper(_security) {
+        data = ThanksData(dataAddr);
     }
 
-    // function partnerTransaction(
-    //     uint256 addRemove,
-    //         // 0: add, 1: remove
-    //     address company,
-    //         // By default, same as partner address for this company
-    //     address pledger,
-    //         // The entity putting the money: either ThanksPay or Parent company
-    //     uint256 amount,
-    //     string memory bankReceipt
-    // ) public {
-    //     if (addRemove == 0){
-    //         // i.e. if you want to add money to the ThanksPay pool
-    //         //partnerWon.mintFor(pledger, amount);
-    //             // mint money for the pledger
-
-    //         uint256 newBalance = data.getCompanyBalance(company).add(amount);
-    //         data.setCompanyBalance(company, newBalance);
-    //             // company's money is virtual one
-    //             // add the amount to the company's pool
-    //     }
-
-    //     if (addRemove == 1){
-    //         // i.e. if you want to withdraw money from the ThanksPay pool
-    //         // uint256 withdrawable = companyPools[company].balance ;
-    //         //require(partnerWon.balanceOf(pledger)>=amount, "You cannot withdraw this much!");
-    //         //partnerWon.burnFrom(pledger, amount);
-    //         // burn from the pledger 
-    //         uint256 newBalance = data.getCompanyBalance(company).sub(amount);
-    //         data.setCompanyBalance(company, newBalance);
-    //     }
-    // }
-
-    function setLatestWagePay(
-        address pId, uint256 timestamp
-    ) public {
+    function setLatestWagePay(uint256 pId, uint256 timestamp) public isAuthorized(msg.sender){
         data.setLatestWagePay(pId, timestamp);
     }
 
+    // TS calls workerGetSalaryEarlyCheck first, so there is no checking 
+    // because we assume everything is fine
+    function subtractFromPartner(uint256 pId, uint256 amount) public isAuthorized(msg.sender){
+        (uint256 balance, uint256 bonus, ) = data.getPartner(pId);
 
-    // TS calls workerGetSalaryEarlyCheck first
-    function workerGetSalaryEarly( // like getting money
-        address workerAddress,
-        address company, // typically same as partner address
-        uint256 amount,
+        if (amount <= balance) {
+            data.setPartnerBalance(pId, balance.sub(amount));
+        } else {
+            data.setPartnerBalance(pId, 0);
+            data.setPartnerBonus(pId, bonus.sub(amount.sub(balance)));
+        }
+    }
+
+    // added by the GivingDays.Inc
+    function partnerAddBonus(uint256 pId, uint256 amount) public isAuthorized(msg.sender){
+        (uint256 balance, uint256 bonus, ) = data.getPartner(pId);
+        data.setPartnerBonus(pId, bonus.add(amount));
+        emit partnerGotBonus(pId, amount);
+    }
+
+    // added by partner himself
+    function partnerAddBalance(uint256 pId, uint256 amount) public isAuthorized(msg.sender){
+        (uint256 balance, uint256 bonus, ) = data.getPartner(pId);
+        data.setPartnerBalance(pId, balance.add(amount));
+    }
+
+    function workerGetsThanksPay( // like getting money
+        uint256 wId, 
+        uint256 pId, // typically same as partner address
+        uint256 amount, 
         string memory bankReceipt,
-        uint256 timestamp
-    ) public {
-        
-        // i.e. if you want to withdraw money from the ThanksPay pool
-        //require(companyPools[company].balance >= amount, "You cannot withdraw this much!");
-        // partnerWon.transferFrom();
-        // partnerWon.burnFrom(company, amount);
-        /**
-            check if their worker's balance is greater than amount
-            */
-        //uint256 balance = workerWon.balanc+eOf(workerAddress);
-        //revertCheck(balance >= amount);
-        //workerWon.burnFrom(workerAddress, amount, timestamp);
+        uint256 timestamp 
+    ) public isAuthorized(msg.sender) {
+        uint256 wBalance = data.getWorkerBalance(wId);
+        uint256 newWBalance = wBalance.sub(amount);
+
+        subtractFromPartner(pId, amount); // subtract from partner
+        data.setWorkerBalance(wId, newWBalance); 
+        data.setLatestRequest(wId, timestamp);
+
+        emit workerGotThanksPay(wId, pId, amount, bankReceipt, timestamp);
     }
 }

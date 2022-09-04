@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "./../data/ThanksPayData.sol";
 import "./../data/readData.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "./../security/thanksSecurity.sol";
+import "./../security/ThanksSecurity.sol";
 
 
 // SPDX-License-Identifier: MIT
@@ -25,7 +25,7 @@ contract PartnerWon is ThanksPayData, IERC20 {
     string public symbol = "TPW";
     uint8 public decimals = 0;
 
-    constructor(address dataAddress, address securityAddress) ThanksPayData(dataAddress) thanksSecurity(securityAddress) {
+    constructor(address dataAddress, address securityAddress) ThanksPayData(dataAddress) ThanksSecurity(securityAddress) {
     }
     
     modifier isAuthorizedMod() {

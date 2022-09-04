@@ -2,8 +2,12 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "../security/ThanksSecurityWrapper.sol";
+contract ThanksPayRelay is ThanksSecurityWrapper{
 
-contract ThanksPayRelay {
+    constructor (address securityAddr) ThanksSecurityWrapper(securityAddr) {
+        
+    }
     
     event propertyAdded(uint256 entityID, uint256 blockchainID, uint256[] propertyID, string[] propertyValue);
 
@@ -12,7 +16,7 @@ contract ThanksPayRelay {
         uint256 blockchainID, // e.g. "1": worker with ID number 1
         uint256[] memory propertyIDs,  // e.g. "1" (register it first with registerProperty)
         string[] memory  propertyValues // e.g. "10001-99-1009"
-    ) external {
+    ) external isAuthorized(msg.sender){
         emit propertyAdded(entityID, blockchainID, propertyIDs, propertyValues); 
     }
 
@@ -20,7 +24,7 @@ contract ThanksPayRelay {
     mapping(uint256 => mapping (uint256 => string)) propertyNames;
     
 
-    function addProperty(uint256 entityID, uint256[] memory propertyIDs, string[] memory _propertyNames) external {
+    function addProperty(uint256 entityID, uint256[] memory propertyIDs, string[] memory _propertyNames) external isAuthorized(msg.sender){
         for (uint i=0; i<_propertyNames.length; i++){
             uint256 propertyID = propertyIDs[i];
             string memory propertyName = _propertyNames[i];

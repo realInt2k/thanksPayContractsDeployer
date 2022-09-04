@@ -3,3 +3,4 @@
 /* eslint-disable */
 export type { RevertCheck } from "./RevertCheck";
 export type { ThanksSecurity } from "./ThanksSecurity";
+export type { ThanksSecurityWrapper } from "./ThanksSecurityWrapper";

@@ -6,7 +6,7 @@ import "./../data/ThanksPayData.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "./../data/readData.sol";
 import "hardhat/console.sol";
-import "./../security/thanksSecurity.sol";
+import "./../security/ThanksSecurity.sol";
 
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
@@ -39,7 +39,7 @@ contract WorkerWon is ThanksPayData, IERC20 {
     string public symbol = "TWW";
     uint8 public decimals = 0;
 
-    thanksSecurity security;
+    ThanksSecurity security;
 
     constructor(address dataAddress, address securityAddress) ThanksPayData(dataAddress) thanksSecurity(securityAddress) {
     }
