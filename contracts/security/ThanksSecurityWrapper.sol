@@ -9,7 +9,7 @@ contract ThanksSecurityWrapper {
     }
 
     modifier isAuthorized(address check) {
-        require(thanksSecurity.isAuthorized(check));
+        require(thanksSecurity.isAuthorized(check)==true, "FUCK");
         _;
     }
 }

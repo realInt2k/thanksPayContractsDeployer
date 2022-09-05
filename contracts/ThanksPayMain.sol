@@ -9,7 +9,7 @@ import "./security/RevertCheck.sol";
 import "./check/ThanksPayCheck.sol";
 import "./security/ThanksSecurityWrapper.sol";
 
-contract ThanksPayMain is ThanksSecurityWrapper{
+contract ThanksPayMain is ThanksSecurityWrapper {
     using SafeMath for uint256;
     ThanksData private data;
     ThanksPayCheck check;
@@ -51,6 +51,8 @@ contract ThanksPayMain is ThanksSecurityWrapper{
         (uint256 balance, uint256 bonus, ) = data.getPartner(pId);
         data.setPartnerBalance(pId, balance.add(amount));
     }
+
+    function partnerWithdraw(uint256 pId, uint256 amount) public isAuthorized(msg.sender) {
 
     function workerGetsThanksPay( // like getting money
         uint256 wId, 

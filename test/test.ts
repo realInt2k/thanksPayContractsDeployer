@@ -18,7 +18,7 @@ describe("ThanksPay", function () {
     console.log();
 
     const _thanksSecurity = await ethers.getContractFactory("ThanksSecurity");
-    const _thanksPayData = await ethers.getContractFactory("ThanksSecurityWrapper");
+    const _thanksPayData = await ethers.getContractFactory("ThanksData");
     const _ThanksPay = await ethers.getContractFactory("ThanksPayMain");
 
     // deploy thanksSecurity;
@@ -32,7 +32,7 @@ describe("ThanksPay", function () {
     await thanksPayData.deployed();
 
     // deploy thanksPay;
-    const thanksPay = await _ThanksPay.deploy(thanksPayData.address, thanksSecurity.address);
+    const thanksPay = await _ThanksPay.deploy(thanksSecurity.address, thanksPayData.address);
     await thanksPay.deployed();
 
 
@@ -51,6 +51,8 @@ describe("ThanksPay", function () {
       const thanksPayInc = 0;
       const partner = 1;
 
+      console.log(thanksPayData);
+
       // register Eddy and a partner
       await thanksPayData.functions.registerPartner(thanksPayInc, 0);
       await thanksPayData.functions.registerPartner(partner, 0);
@@ -67,41 +69,17 @@ describe("ThanksPay", function () {
       }
 
       // view balances
-      console.log("Partner balance: ", await thanksPayData.functions.getPartnerThanksPayableBalance(partner));
-      console.log("ThanksPayInc balance: ", await thanksPayData.functions.getPartnerWithdrawableBalance(partner));
+      console.log("Partner thankspayable balance: ", await thanksPayData.functions.getPartnerThanksPayableBalance(partner));
+      console.log("Partner withdrawable balance: ", await thanksPayData.functions.getPartnerWithdrawableBalance(partner));
       // console.log("Worker address: " + signers[2].address);
       console.log("Worker balance: ", await thanksPayData.functions.getWorkerBalance(3));
 
-      // // new payment
-      // // get current timestamp in seconds from Date()
-      // var currentTime = Math.floor(Date.now() / 1000);
-      // await thanksPay.setLatestWagePay(partner, currentTime);
 
-      // currentTime = currentTime + 100;
-      // // view balances
-      // console.log("Worker balance: ", await workerWon.functions.balanceOf(signers[2].address));
-
-
-      // // all workers can withdraw their money
-      // for (let i = 0; i < 10; i++) {
-      //   var index = 2 + i;
-      //   var workerAddress = signers[index].address;
-      //   await thanksPay.functions.workerTransaction(workerAddress, partner, 100, "Receipt", currentTime);
-
-      // }
-      // console.log("Worker balance: ", await workerWon.functions.balanceOf(signers[2].address));
-
-      // // tries to withdraw 600, fails
-      // await thanksPay.partnerTransaction(1, partner, partner, 600, "Receipt");
-
-      // const balance = await partnerWon.functions.balanceOf(partner);
-      // console.log(balance);
-
-
+      
     });
 
     it("Should change the balance correctly", async function () {
-
+      1
     });
   });
 });
