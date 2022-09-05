@@ -6,13 +6,13 @@ import "../security/ThanksSecurityWrapper.sol";
 
 
 contract ThanksPayRelay is ThanksSecurityWrapper{
-
     constructor (address securityAddr) ThanksSecurityWrapper(securityAddr) {
         
     }
     
     event propertySet(uint256 entityID, uint256 blockchainID, uint256[] propertyID, string[] propertyValue);
     event propertyAdded(uint256 entityID, uint256[] propertyIDs, string[] propertyNames);
+    event propertyEdited(uint256 entityID, uint256[] propertyIDs, string[] propertyNames);
 
     function setProperty (
         uint256 entityID, // 1: "Partner", 2: "Worker", 3: "Pay"
@@ -34,6 +34,15 @@ contract ThanksPayRelay is ThanksSecurityWrapper{
             propertyNames[entityID][propertyID] = propertyName;
         }
         emit propertyAdded(entityID, propertyIDs, _propertyNames);
+    }
+
+    function editProperty(uint256 entityID, uint256[] memory propertyIDs, string[] memory _propertyNames) external isAuthorized(msg.sender){
+        for (uint i=0; i<_propertyNames.length; i++){
+            uint256 propertyID = propertyIDs[i];
+            string memory propertyName = _propertyNames[i];
+            propertyNames[entityID][propertyID] = propertyName;
+        }
+        emit propertyEdited(entityID, propertyIDs, _propertyNames);
     }
 
     function getPropertyName(uint256 entityID, uint256 propertyID) external view returns (string memory) {
