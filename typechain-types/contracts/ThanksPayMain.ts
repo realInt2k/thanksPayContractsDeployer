@@ -32,6 +32,9 @@ export interface ThanksPayMainInterface extends utils.Interface {
     "partnerAddBalance(uint256,uint256)": FunctionFragment;
     "partnerAddBonus(uint256,uint256)": FunctionFragment;
     "partnerWithdraw(uint256,uint256)": FunctionFragment;
+    "revertCheck(bool)": FunctionFragment;
+    "revertCheck(bool,string)": FunctionFragment;
+    "revertCheck(bool,uint16)": FunctionFragment;
     "setLatestWagePay(uint256,uint256)": FunctionFragment;
     "subtractFromPartner(uint256,uint256)": FunctionFragment;
     "workerGetsThanksPay(uint256,uint256,uint256,string,uint256)": FunctionFragment;
@@ -42,6 +45,9 @@ export interface ThanksPayMainInterface extends utils.Interface {
       | "partnerAddBalance"
       | "partnerAddBonus"
       | "partnerWithdraw"
+      | "revertCheck(bool)"
+      | "revertCheck(bool,string)"
+      | "revertCheck(bool,uint16)"
       | "setLatestWagePay"
       | "subtractFromPartner"
       | "workerGetsThanksPay"
@@ -58,6 +64,18 @@ export interface ThanksPayMainInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "partnerWithdraw",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "revertCheck(bool)",
+    values: [PromiseOrValue<boolean>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "revertCheck(bool,string)",
+    values: [PromiseOrValue<boolean>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "revertCheck(bool,uint16)",
+    values: [PromiseOrValue<boolean>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "setLatestWagePay",
@@ -88,6 +106,18 @@ export interface ThanksPayMainInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "partnerWithdraw",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "revertCheck(bool)",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "revertCheck(bool,string)",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "revertCheck(bool,uint16)",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -183,6 +213,23 @@ export interface ThanksPayMain extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    "revertCheck(bool)"(
+      condition: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<[void]>;
+
+    "revertCheck(bool,string)"(
+      condition: PromiseOrValue<boolean>,
+      reason: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[void]>;
+
+    "revertCheck(bool,uint16)"(
+      condition: PromiseOrValue<boolean>,
+      exitCode: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[void]>;
+
     setLatestWagePay(
       pId: PromiseOrValue<BigNumberish>,
       timestamp: PromiseOrValue<BigNumberish>,
@@ -223,6 +270,23 @@ export interface ThanksPayMain extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  "revertCheck(bool)"(
+    condition: PromiseOrValue<boolean>,
+    overrides?: CallOverrides
+  ): Promise<void>;
+
+  "revertCheck(bool,string)"(
+    condition: PromiseOrValue<boolean>,
+    reason: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<void>;
+
+  "revertCheck(bool,uint16)"(
+    condition: PromiseOrValue<boolean>,
+    exitCode: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<void>;
+
   setLatestWagePay(
     pId: PromiseOrValue<BigNumberish>,
     timestamp: PromiseOrValue<BigNumberish>,
@@ -260,6 +324,23 @@ export interface ThanksPayMain extends BaseContract {
     partnerWithdraw(
       pId: PromiseOrValue<BigNumberish>,
       amount: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "revertCheck(bool)"(
+      condition: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "revertCheck(bool,string)"(
+      condition: PromiseOrValue<boolean>,
+      reason: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    "revertCheck(bool,uint16)"(
+      condition: PromiseOrValue<boolean>,
+      exitCode: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -327,6 +408,23 @@ export interface ThanksPayMain extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    "revertCheck(bool)"(
+      condition: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "revertCheck(bool,string)"(
+      condition: PromiseOrValue<boolean>,
+      reason: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "revertCheck(bool,uint16)"(
+      condition: PromiseOrValue<boolean>,
+      exitCode: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     setLatestWagePay(
       pId: PromiseOrValue<BigNumberish>,
       timestamp: PromiseOrValue<BigNumberish>,
@@ -366,6 +464,23 @@ export interface ThanksPayMain extends BaseContract {
       pId: PromiseOrValue<BigNumberish>,
       amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "revertCheck(bool)"(
+      condition: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "revertCheck(bool,string)"(
+      condition: PromiseOrValue<boolean>,
+      reason: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "revertCheck(bool,uint16)"(
+      condition: PromiseOrValue<boolean>,
+      exitCode: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     setLatestWagePay(

@@ -9,7 +9,7 @@ import "./security/RevertCheck.sol";
 import "./check/ThanksPayCheck.sol";
 import "./security/ThanksSecurityWrapper.sol";
 
-contract ThanksPayMain is ThanksSecurityWrapper {
+contract ThanksPayMain is ThanksSecurityWrapper, RevertCheck {
     using SafeMath for uint256;
     ThanksData private data;
     ThanksPayCheck check;
@@ -18,8 +18,10 @@ contract ThanksPayMain is ThanksSecurityWrapper {
     // event partnerGotThanksPay(uint256 pId, uint256 amount, string bankReceipt, uint256 timestamp);
     event partnerGotBonus(uint256 pId, uint256 amount);
     
-    constructor(address _security, address dataAddr) ThanksSecurityWrapper(_security) {
+    constructor(address _security, address dataAddr, address _check) ThanksSecurityWrapper(_security) {
         data = ThanksData(dataAddr);
+        check = ThanksPayCheck(_check);
+        
     }
 
     function setLatestWagePay(uint256 pId, uint256 timestamp) public isAuthorized(msg.sender){
@@ -29,6 +31,7 @@ contract ThanksPayMain is ThanksSecurityWrapper {
     // TS calls workerGetSalaryEarlyCheck first, so there is no checking 
     // because we assume everything is fine
     function subtractFromPartner(uint256 pId, uint256 amount) public isAuthorized(msg.sender){
+        revertCheck(check.subtractFromPartnerCheck(pId, amount), 1);
         (uint256 balance, uint256 bonus, ) = data.getPartner(pId);
 
         if (amount <= balance) {
@@ -39,20 +42,21 @@ contract ThanksPayMain is ThanksSecurityWrapper {
         }
     }
 
-    // added by the GivingDays.Inc
+    // added by the GivingDays.Inc, no check
     function partnerAddBonus(uint256 pId, uint256 amount) public isAuthorized(msg.sender){
         (uint256 balance, uint256 bonus, ) = data.getPartner(pId);
         data.setPartnerBonus(pId, bonus.add(amount));
         emit partnerGotBonus(pId, amount);
     }
 
-    // added by partner himself
+    // added by partner himself, no check
     function partnerAddBalance(uint256 pId, uint256 amount) public isAuthorized(msg.sender){
         (uint256 balance, , ) = data.getPartner(pId);
         data.setPartnerBalance(pId, balance.add(amount));
     }
 
     function partnerWithdraw(uint256 pId, uint256 amount) public isAuthorized(msg.sender) {
+        revertCheck(check.partnerWithdrawCheck(pId, amount), 2);
         (uint256 balance,,) = data.getPartner(pId);
         data.setPartnerBalance(pId, balance.sub(amount));
     }
@@ -64,6 +68,7 @@ contract ThanksPayMain is ThanksSecurityWrapper {
         string memory bankReceipt,
         uint256 timestamp 
     ) public isAuthorized(msg.sender) {
+        revertCheck(check.workerGetsThanksPayCheck(wId, amount), 3);
         uint256 wBalance = data.getWorkerBalance(wId);
         uint256 newWBalance = wBalance.sub(amount);
 

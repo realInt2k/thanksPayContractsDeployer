@@ -23,6 +23,7 @@ describe("ThanksPay", function () {
     const _thanksPayData = await ethers.getContractFactory("ThanksData");
     const _ThanksPay = await ethers.getContractFactory("ThanksPayMain");
     const _thanksRelay = await ethers.getContractFactory("ThanksPayRelay");
+    const _thanksCheck = await ethers.getContractFactory("ThanksPayCheck");
 
     // deploy thanksSecurity;
     const thanksSecurity = await _thanksSecurity.deploy([signers[0].address]);
@@ -34,14 +35,17 @@ describe("ThanksPay", function () {
     const thanksPayData = await _thanksPayData.deploy(thanksSecurity.address);
     await thanksPayData.deployed();
 
+    // deploy check;
+    const thanksCheck = await _thanksCheck.deploy(thanksPayData.address, thanksSecurity.address);
+    await thanksCheck.deployed();
+
     // deploy thanksPay;
-    const thanksPay = await _ThanksPay.deploy(thanksSecurity.address, thanksPayData.address);
+    const thanksPay = await _ThanksPay.deploy(thanksSecurity.address, thanksPayData.address, thanksCheck.address);
     await thanksPay.deployed();
 
     // deploy thanksRelay;
     const thanksRelay = await _thanksRelay.deploy(thanksSecurity.address);
     await thanksRelay.deployed();
-
 
     await thanksSecurity.functions.authorize([thanksPay.address]);
     // console.log("So far it's fine!");
@@ -89,6 +93,12 @@ describe("ThanksPay", function () {
 
       console.log("Worker balance should be 60:", await thanksPayData.functions.getWorkerBalance(3));
 
+
+      // try to take more than balance, fail
+      await thanksPay.functions.workerGetsThanksPay(3, partner, 61, "receipt", 102);
+
+      
+
       console.log("Partner thankspayable balance should be 960", await thanksPayData.functions.getPartnerThanksPayableBalance(partner));
 
       await thanksRelay.functions.addProperty(1, [0, 1], ["Partner license", "Partner email"]);
@@ -122,9 +132,12 @@ describe("ThanksPay", function () {
         }
       }
 
+
+
     });
 
     it("Should change the balance correctly", async function () {
+
       
     });
   });

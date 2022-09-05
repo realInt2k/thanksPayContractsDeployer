@@ -21,14 +21,28 @@ contract ThanksPayCheck {
         _;
     }
 
-    function workerGetSalaryEarlyCheck(uint256 wId, uint256 amount) public view returns(bool)  {
-        uint256 workerBalance = data.getWorkerBalance(wId);
-        (, , uint256 pId, ) = data.getWorker(wId);
+    function subtractFromPartnerCheck(uint256 pId, uint256 amount) public view returns(bool) {
+        (uint256 balance, uint256 bonus,) = data.getPartner(pId);
+        if (balance + bonus >= amount) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-        (uint256 balance, uint256 bonus, ) = data.getPartner(pId);
-        
+    function partnerWithdrawCheck(uint256 pId, uint256 amount) public view returns(bool) {
+        (uint256 balance, ,) = data.getPartner(pId);
+        if (balance >= amount) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function workerGetsThanksPayCheck(uint256 wId, uint256 amount) public view returns(bool)  {
+        uint256 workerBalance = data.getWorkerBalance(wId);
         // check if the Partner or worker doesn't have eough money is sufficent 
-        if(workerBalance < amount && (balance.add(bonus) < amount)) return false;
+        if(workerBalance < amount) return false;
         return true;
     }
 
