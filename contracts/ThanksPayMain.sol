@@ -48,11 +48,14 @@ contract ThanksPayMain is ThanksSecurityWrapper {
 
     // added by partner himself
     function partnerAddBalance(uint256 pId, uint256 amount) public isAuthorized(msg.sender){
-        (uint256 balance, uint256 bonus, ) = data.getPartner(pId);
+        (uint256 balance, , ) = data.getPartner(pId);
         data.setPartnerBalance(pId, balance.add(amount));
     }
 
     function partnerWithdraw(uint256 pId, uint256 amount) public isAuthorized(msg.sender) {
+        (uint256 balance,,) = data.getPartner(pId);
+        data.setPartnerBalance(pId, balance.sub(amount));
+    }
 
     function workerGetsThanksPay( // like getting money
         uint256 wId, 

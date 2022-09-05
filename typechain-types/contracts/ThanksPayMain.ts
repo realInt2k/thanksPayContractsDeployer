@@ -31,6 +31,7 @@ export interface ThanksPayMainInterface extends utils.Interface {
   functions: {
     "partnerAddBalance(uint256,uint256)": FunctionFragment;
     "partnerAddBonus(uint256,uint256)": FunctionFragment;
+    "partnerWithdraw(uint256,uint256)": FunctionFragment;
     "setLatestWagePay(uint256,uint256)": FunctionFragment;
     "subtractFromPartner(uint256,uint256)": FunctionFragment;
     "workerGetsThanksPay(uint256,uint256,uint256,string,uint256)": FunctionFragment;
@@ -40,6 +41,7 @@ export interface ThanksPayMainInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "partnerAddBalance"
       | "partnerAddBonus"
+      | "partnerWithdraw"
       | "setLatestWagePay"
       | "subtractFromPartner"
       | "workerGetsThanksPay"
@@ -51,6 +53,10 @@ export interface ThanksPayMainInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "partnerAddBonus",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "partnerWithdraw",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
@@ -78,6 +84,10 @@ export interface ThanksPayMainInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "partnerAddBonus",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "partnerWithdraw",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -167,6 +177,12 @@ export interface ThanksPayMain extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    partnerWithdraw(
+      pId: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setLatestWagePay(
       pId: PromiseOrValue<BigNumberish>,
       timestamp: PromiseOrValue<BigNumberish>,
@@ -201,6 +217,12 @@ export interface ThanksPayMain extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  partnerWithdraw(
+    pId: PromiseOrValue<BigNumberish>,
+    amount: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setLatestWagePay(
     pId: PromiseOrValue<BigNumberish>,
     timestamp: PromiseOrValue<BigNumberish>,
@@ -230,6 +252,12 @@ export interface ThanksPayMain extends BaseContract {
     ): Promise<void>;
 
     partnerAddBonus(
+      pId: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    partnerWithdraw(
       pId: PromiseOrValue<BigNumberish>,
       amount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -293,6 +321,12 @@ export interface ThanksPayMain extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    partnerWithdraw(
+      pId: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setLatestWagePay(
       pId: PromiseOrValue<BigNumberish>,
       timestamp: PromiseOrValue<BigNumberish>,
@@ -323,6 +357,12 @@ export interface ThanksPayMain extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     partnerAddBonus(
+      pId: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    partnerWithdraw(
       pId: PromiseOrValue<BigNumberish>,
       amount: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }

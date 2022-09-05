@@ -74,24 +74,38 @@ export interface ThanksPayRelayInterface extends utils.Interface {
   ): Result;
 
   events: {
-    "propertyAdded(uint256,uint256,uint256[],string[])": EventFragment;
+    "propertyAdded(uint256,uint256[],string[])": EventFragment;
+    "propertySet(uint256,uint256,uint256[],string[])": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "propertyAdded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "propertySet"): EventFragment;
 }
 
 export interface propertyAddedEventObject {
+  entityID: BigNumber;
+  propertyIDs: BigNumber[];
+  propertyNames: string[];
+}
+export type propertyAddedEvent = TypedEvent<
+  [BigNumber, BigNumber[], string[]],
+  propertyAddedEventObject
+>;
+
+export type propertyAddedEventFilter = TypedEventFilter<propertyAddedEvent>;
+
+export interface propertySetEventObject {
   entityID: BigNumber;
   blockchainID: BigNumber;
   propertyID: BigNumber[];
   propertyValue: string[];
 }
-export type propertyAddedEvent = TypedEvent<
+export type propertySetEvent = TypedEvent<
   [BigNumber, BigNumber, BigNumber[], string[]],
-  propertyAddedEventObject
+  propertySetEventObject
 >;
 
-export type propertyAddedEventFilter = TypedEventFilter<propertyAddedEvent>;
+export type propertySetEventFilter = TypedEventFilter<propertySetEvent>;
 
 export interface ThanksPayRelay extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -187,18 +201,29 @@ export interface ThanksPayRelay extends BaseContract {
   };
 
   filters: {
-    "propertyAdded(uint256,uint256,uint256[],string[])"(
+    "propertyAdded(uint256,uint256[],string[])"(
       entityID?: null,
-      blockchainID?: null,
-      propertyID?: null,
-      propertyValue?: null
+      propertyIDs?: null,
+      propertyNames?: null
     ): propertyAddedEventFilter;
     propertyAdded(
       entityID?: null,
+      propertyIDs?: null,
+      propertyNames?: null
+    ): propertyAddedEventFilter;
+
+    "propertySet(uint256,uint256,uint256[],string[])"(
+      entityID?: null,
       blockchainID?: null,
       propertyID?: null,
       propertyValue?: null
-    ): propertyAddedEventFilter;
+    ): propertySetEventFilter;
+    propertySet(
+      entityID?: null,
+      blockchainID?: null,
+      propertyID?: null,
+      propertyValue?: null
+    ): propertySetEventFilter;
   };
 
   estimateGas: {

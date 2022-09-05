@@ -1,0 +1,47 @@
+<diagram program="umletino" version="15.0.0"><zoom_level>10</zoom_level><element><id>Relation</id><coordinates><x>250</x><y>420</y><w>830</w><h>30</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>810;10;10;10</additional_attributes></element><element><id>Text</id><coordinates><x>350</x><y>350</y><w>100</w><h>70</h></coordinates><panel_attributes>July (7)
+style=wordwrap</panel_attributes><additional_attributes></additional_attributes></element><element><id>Text</id><coordinates><x>630</x><y>350</y><w>100</w><h>70</h></coordinates><panel_attributes>August (8)
+style=wordwrap</panel_attributes><additional_attributes></additional_attributes></element><element><id>Text</id><coordinates><x>940</x><y>350</y><w>100</w><h>70</h></coordinates><panel_attributes>September (9)
+style=wordwrap</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>360</x><y>390</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=-
+</panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>650</x><y>390</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=-
+</panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>980</x><y>390</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=-
+</panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>460</x><y>440</y><w>100</w><h>80</h></coordinates><panel_attributes>lt=&lt;-
+request 2
+withdraw 4$</panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>UMLActor</id><coordinates><x>150</x><y>510</y><w>60</w><h>110</h></coordinates><panel_attributes>Worker</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>800</x><y>440</y><w>80</w><h>80</h></coordinates><panel_attributes>lt=&lt;-
+request 3</panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>800</x><y>340</y><w>30</w><h>90</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;70;10;10</additional_attributes></element><element><id>Text</id><coordinates><x>790</x><y>320</y><w>50</w><h>30</h></coordinates><panel_attributes>NOW
+style=wordwrap</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>140</x><y>410</y><w>100</w><h>30</h></coordinates><panel_attributes>TimeLine</panel_attributes><additional_attributes></additional_attributes></element><element><id>Text</id><coordinates><x>150</x><y>620</y><w>100</w><h>70</h></coordinates><panel_attributes>Suppose he gets $10/month
+style=wordwrap</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>450</x><y>520</y><w>140</w><h>70</h></coordinates><panel_attributes>Note..
+--
+worker's balance = 
+previous balance - $4
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>730</x><y>520</y><w>140</w><h>70</h></coordinates><panel_attributes>Note..
+--
+worker's balance = 
+full salary - $4
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>400</x><y>330</y><w>100</w><h>100</h></coordinates><panel_attributes>lt=&lt;-
+request 1
+withdraw 1$</panel_attributes><additional_attributes>10;80;10;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>360</x><y>250</y><w>140</w><h>70</h></coordinates><panel_attributes>Note..
+--
+let's not care about this
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>470</x><y>620</y><w>110</w><h>130</h></coordinates><panel_attributes>Note..
+becos previous 
+pay request was 
+between July 
+and August
+(outside the 
+current month)
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>740</x><y>620</y><w>110</w><h>130</h></coordinates><panel_attributes>Note..
+becos previous 
+pay request was 
+outside August 
+and September
+(out side the
+current month)
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>270</x><y>620</y><w>140</w><h>130</h></coordinates><panel_attributes>Important Note !!!
+--
+For this reason,
+we always have 
+to query worker's
+balance separately
+from the worker's 
+struct
+bg=yellow</panel_attributes><additional_attributes></additional_attributes></element></diagram>

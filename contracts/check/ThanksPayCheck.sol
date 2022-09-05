@@ -21,7 +21,7 @@ contract ThanksPayCheck {
         _;
     }
 
-    function workerGetSalaryEarlyCheck (uint256 wId, uint256 amount) public view returns(bool)  {
+    function workerGetSalaryEarlyCheck(uint256 wId, uint256 amount) public view returns(bool)  {
         uint256 workerBalance = data.getWorkerBalance(wId);
         (, , uint256 pId, ) = data.getWorker(wId);
 
