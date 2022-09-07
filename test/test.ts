@@ -97,7 +97,7 @@ describe("ThanksPay", function () {
       // try to take more than balance, fail
       await thanksPay.functions.workerGetsThanksPay(3, partner, 61, "receipt", 102);
 
-      
+
 
       console.log("Partner thankspayable balance should be 960", await thanksPayData.functions.getPartnerThanksPayableBalance(partner));
 
@@ -109,14 +109,12 @@ describe("ThanksPay", function () {
       var email = CryptoJS.AES.encrypt("partner@email.com", secret);
       //U2FsdGVkX18ZUVvShFSES21qHsQEqZXMxQ9zgHy+bu0=
 
-//      var decrypted = CryptoJS.AES.decrypt(encrypted, "Secret Passphrase");
-
+      // var decrypted = CryptoJS.AES.decrypt(encrypted, "Secret Passphrase");
       const tx = await thanksRelay.functions.setProperty(1, partner, [0, 1], [license.toString(), email.toString()]);
       const receipt = await tx.wait();
-      // console.log( {
-      //   "receipt is ": receipt,
-      //   "tx is: ": tx
-      // });
+      console.log("Receipt: ", receipt);
+
+      
       for (const event of receipt.events) {
         console.log(`Event ${event.event} with args ${event.args}`);
         for(const i in event.args) {
