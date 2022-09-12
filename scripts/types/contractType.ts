@@ -11,6 +11,8 @@ import thanksPayCheckABI from "../../abis/ThanksPayCheck.json";
 
 import { ThanksPayRelayType } from "./ThanksPayRelayTypes";
 import { ThanksPayDataType } from "./ThanksPayDataTypes";
+import { ThanksPayCheckType } from "./ThanksPayCheckTypes";
+import { ThanksPayMainType } from "./ThanksPayMainTypes";
 
 export type ContractABIType =
   typeof thanksSecurityABI
@@ -30,51 +32,6 @@ export type ThanksPaySecurityType = {
   // not used
 } 
 
-
-type SubtractFromPartner = {
-    pId: number,
-    amount: number
-}
-
-type PartnerAddBonus = {
-    pId: number,
-    amount: number
-}
-
-type PartnerAddBalance = {
-    pId: number,
-    amount: number
-}
-
-type PartnerWithdraw = {
-    pId: number,
-    amount: number
-}
-
-type WorkerGetsThanksPay = {
-    wId: number,
-    pId: number,
-    amount: number,
-    bankReceipt: string,
-    timestamp: number
-}
-
-export type ThanksPayMainType = {
-    subtractFromPartner: SubtractFromPartner,
-    partnerAddBonus: PartnerAddBonus,
-    partnerAddBalance: PartnerAddBalance,
-    partnerWithdraw: PartnerWithdraw,
-    workerGetsThanksPay: WorkerGetsThanksPay
-}
-
-type WorkerGetsSalaryEarlyCheck = {
-  wId: number,
-  amount: number
-}
-
-export type ThanksPayCheckType = {
-  workerGetSalaryEarlyCheck: WorkerGetsSalaryEarlyCheck
-}
 
 export type ThanksPaySuperType = {
   thanksPaySecurity: ThanksPaySecurityType,
@@ -222,12 +179,36 @@ export class thanksPayRelay extends ThanksPayContracts {
       }
 }
 
+// up-to-date as of 2021-09-13
 export class thanksPayCheck extends ThanksPayContracts {
   constructor(signerOrProvider: SignerOrProvider) {
     super(signerOrProvider, THANKS_PAY_CHECK_ADDR, thanksPayCheckABI);
   }
+  public method = {
+    workerGetSalaryEarlyCheck: (
+      args: ThanksPayCheckType["workerGetSalaryEarlyCheck"]
+    ) => {
+      this.sendTx("workerGetSalaryEarlyCheck", args);
+    },
+    subtractFromPartnerCheck: (
+      args: ThanksPayCheckType["subtractFromPartnerCheck"]
+    ) => {
+      this.sendTx("subtractFromPartnerCheck", args);
+    },
+    partnerWithdrawCheck: (
+      args: ThanksPayCheckType["partnerWithdrawCheck"]
+    ) => {
+      this.sendTx("partnerWithdrawCheck", args);
+    },
+    workerGetsThanksPayCheck: (
+      args: ThanksPayCheckType["workerGetsThanksPayCheck"]
+    ) => {
+      this.sendTx("workerGetsThanksPayCheck", args);
+    }
+  }
 }
 
+// up-to-date as of 2021-09-13
 export class thanksPayData extends ThanksPayContracts {
   constructor(signerOrProvider: SignerOrProvider) {
     super(signerOrProvider, THANKS_PAY_DATA_ADDR, thanksPayDataABI);
