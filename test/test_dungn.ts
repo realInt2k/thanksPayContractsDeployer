@@ -11,79 +11,54 @@ import thanksSecurityABI from '../abis/ThanksSecurity.json';
 import thanksPayDataABI from '../abis/ThanksData.json';
 import thanksPayABI from '../abis/ThanksPayMain.json';
 import thanksRelayABI from '../abis/ThanksPayRelay.json';
+import contractAddresses from '@scripts/contractAddresses.json';
 
+// import thanksSecurityABI from "../../abis/ThanksSecurity.json";
+// import thanksPayDataABI from "../../abis/ThanksData.json";
+// import thanksPayMainABI from "../../abis/ThanksPayMain.json";
+// import thanksPayRelayABI from "../../abis/ThanksPayRelay.json";
+// import thanksPayCheckABI from "../../abis/ThanksPayCheck.json";
 
 var thanksPay;
 describe("ThanksPay", function () {
-  // We define a fixture to reuse the same setup in every test.
-  // We use loadFixture to run this setup once, snapshot that state,
-  // and reset Hardhat Network to that snapshopt in every test.
-  async function deployThanksPay() {
-    // Contracts are deployed using the first signer/account by default
-    const signers = await ethers.getSigners();
-    // get the signers, deploy from the first one 
-    console.log();
-
-    const _thanksSecurity = await ethers.getContractFactory("ThanksSecurity");
-    const _thanksPayData = await ethers.getContractFactory("ThanksData");
-    const _ThanksPay = await ethers.getContractFactory("ThanksPayMain");
-    const _thanksRelay = await ethers.getContractFactory("ThanksPayRelay");
-
-    // deploy thanksSecurity;
-    const thanksSecurity = await _thanksSecurity.deploy([signers[0].address]);
-    await thanksSecurity.deployed();
-
-    //console.log(thanksSecurity.address);
-
-    // deploy thanksPayData;
-    const thanksPayData = await _thanksPayData.deploy(thanksSecurity.address);
-    await thanksPayData.deployed();
-
-    // deploy thanksPay;
-    const thanksPay = await _ThanksPay.deploy(thanksSecurity.address, thanksPayData.address);
-    await thanksPay.deployed();
-
-    // deploy thanksRelay;
-    const thanksRelay = await _thanksRelay.deploy(thanksSecurity.address);
-    await thanksRelay.deployed();
-
-
-    await thanksSecurity.functions.authorize([thanksPay.address]);
-    // console.log("So far it's fine!");
-    return { contracts: { thanksPay, thanksPayData, thanksRelay }, signers };
-  }
-
+  
   describe("Deployment", function () {
     it("Should create contract, the worker and the partner", async function () {
       this.timeout(0);
-      //const { contracts, signers } = await loadFixture(deployThanksPay);
 
       const uri = "http://localhost:8545/";
       const provider = new ethers.providers.JsonRpcProvider(uri);
       const privateKey = "0x3fc1627209bee4dda790a4c02a2cd2af5ce28cbdf501023758b8dfbf662e8119";
       const signer = new ethers.Wallet(privateKey, provider);
-      const thanksSecurityAddr = "0x112ace3e6c9254d49acce1e7f64ab925eca96af0";
-      const thanksPayDataAddr = "0x7f683960a27603dab905b3b8a3225367144366d6";
-      const thanksPayAddr = "0xf300e534d71456bc5b27da205d089b7f495b4eea";
-      const thanksRelayAddr = "0x5ee9fabc145284fee78e93cfd449ecdeefebdb95";
 
-      const thanksSecurity = new ethers.Contract(
-        thanksSecurityAddr,
+      // const thanksSecurityAddr = "0x112ace3e6c9254d49acce1e7f64ab925eca96af0";
+      // const thanksPayDataAddr = "0x7f683960a27603dab905b3b8a3225367144366d6";
+      // const thanksPayAddr = "0xf300e534d71456bc5b27da205d089b7f495b4eea";
+      // const thanksRelayAddr = "0x5ee9fabc145284fee78e93cfd449ecdeefebdb95";
+
+      const THANKS_PAY_MAIN_ADDR = contractAddresses["THANKS_PAY_MAIN_ADDR"];
+      const THANKS_PAY_DATA_ADDR = contractAddresses["THANKS_PAY_DATA_ADDR"];
+      const THANKS_PAY_SECURITY_ADDR = contractAddresses["THANKS_PAY_SECURITY_ADDR"];
+      const THANKS_PAY_RELAY_ADDR = contractAddresses["THANKS_PAY_RELAY_ADDR"];
+      const THANKS_PAY_CHECK_ADDR = contractAddresses["THANKS_PAY_CHECK_ADDR"];
+
+      const thanksPaySecurity = new ethers.Contract(
+        THANKS_PAY_SECURITY_ADDR,
         thanksSecurityABI,
         signer
       );
-      const thanksPay = new ethers.Contract(
-        thanksPayAddr,
+      const thanksPayMain = new ethers.Contract(
+        THANKS_PAY_MAIN_ADDR,
         thanksPayABI,
         signer
       );
       const thanksPayData = new ethers.Contract(
-        thanksPayDataAddr,
+        THANKS_PAY_DATA_ADDR,
         thanksPayDataABI,
         signer
       );
-      const thanksRelay = new ethers.Contract(
-        thanksRelayAddr,
+      const thanksPayRelay = new ethers.Contract(
+        THANKS_PAY_RELAY_ADDR,
         thanksRelayABI,
         signer
       )
@@ -98,8 +73,8 @@ describe("ThanksPay", function () {
       await thanksPayData.functions.registerPartner(partner, 0);
 
       // send 500K each.
-      await thanksPay.functions.partnerAddBonus(partner, 500);
-      await thanksPay.functions.partnerAddBalance(partner, 500);
+      await thanksPayMain.functions.partnerAddBonus(partner, 500);
+      await thanksPayMain.functions.partnerAddBalance(partner, 500);
 
       // register 10 workers, each with 100 money 
       for (let i = 0; i < 10; i++) {
@@ -116,46 +91,46 @@ describe("ThanksPay", function () {
 
       // give them salary
 
-      await thanksPay.functions.setLatestWagePay(partner, 100);
+      await thanksPayMain.functions.setLatestWagePay(partner, 100);
 
       console.log("Worker balance should be 100:", await thanksPayData.functions.getWorkerBalance(3));
 
-      await thanksPay.functions.workerGetsThanksPay(3, partner, 40, "receipt", 101);
+      await thanksPayMain.functions.workerGetsThanksPay(3, partner, 40, "receipt", 101);
 
       console.log("Worker balance should be 60:", await thanksPayData.functions.getWorkerBalance(3));
 
       console.log("Partner thankspayable balance should be 960", await thanksPayData.functions.getPartnerThanksPayableBalance(partner));
 
-      await thanksRelay.functions.addProperty(1, [0, 1], ["Partner license", "Partner email"]);
+      // await thanksPayRelay.functions.addProperty(1, [0, 1], ["Partner license", "Partner email"]);
 
-      var secret = "ThanksPay";
+      // var secret = "ThanksPay";
 
-      var license = CryptoJS.AES.encrypt("09-10-1009", secret);
-      var email = CryptoJS.AES.encrypt("partner@email.com", secret);
+      // var license = CryptoJS.AES.encrypt("09-10-1009", secret);
+      // var email = CryptoJS.AES.encrypt("partner@email.com", secret);
       //U2FsdGVkX18ZUVvShFSES21qHsQEqZXMxQ9zgHy+bu0=
 
 //      var decrypted = CryptoJS.AES.decrypt(encrypted, "Secret Passphrase");
 
-      const tx = await thanksRelay.functions.setProperty(1, partner, [0, 1], [license.toString(), email.toString()]);
-      const receipt = await tx.wait();
-      // console.log( {
-      //   "receipt is ": receipt,
-      //   "tx is: ": tx
-      // });
-      for (const event of receipt.events) {
-        console.log(`Event ${event.event} with args ${event.args}`);
-        for(const i in event.args) {
-          if(event.args[i].length) {
-            console.log(event.args[i]);
-            for(const j in event.args[i]) {
-              const str = event.args[i][j];
-              const decriptionBytes = CryptoJS.AES.decrypt(str, secret);
-              const decription = decriptionBytes.toString(CryptoJS.enc.Utf8); 
-              console.log({"encripted:: ": str, "decripted:: " : decription});
-            }
-          }
-        }
-      }
+      // const tx = await thanksPayRelay.functions.setProperty(1, partner, [0, 1], [license.toString(), email.toString()]);
+      // const receipt = await tx.wait();
+      // // console.log( {
+      // //   "receipt is ": receipt,
+      // //   "tx is: ": tx
+      // // });
+      // for (const event of receipt.events) {
+      //   console.log(`Event ${event.event} with args ${event.args}`);
+      //   for(const i in event.args) {
+      //     if(event.args[i].length) {
+      //       console.log(event.args[i]);
+      //       for(const j in event.args[i]) {
+      //         const str = event.args[i][j];
+      //         const decriptionBytes = CryptoJS.AES.decrypt(str, secret);
+      //         const decription = decriptionBytes.toString(CryptoJS.enc.Utf8); 
+      //         console.log({"encripted:: ": str, "decripted:: " : decription});
+      //       }
+      //     }
+      //   }
+      // }
 
     });
 

@@ -14,6 +14,8 @@ import { ThanksPayDataType } from "./ThanksPayDataTypes";
 import { ThanksPayCheckType } from "./ThanksPayCheckTypes";
 import { ThanksPayMainType } from "./ThanksPayMainTypes";
 
+import contractAddresses from '@scripts/contractAddresses.json';
+
 export type ContractABIType =
   typeof thanksSecurityABI
   | typeof thanksPayDataABI 
@@ -22,11 +24,11 @@ export type ContractABIType =
   | typeof thanksPayRelayABI;
 
 // this will be changed with env variable
-export const THANKS_PAY_MAIN_ADDR = "0xf300e534d71456bc5b27da205d089b7f495b4eea";
-export const THANKS_PAY_DATA_ADDR = "0x7f683960a27603dab905b3b8a3225367144366d6";
-export const THANKS_PAY_SECURITY_ADDR = "0x112ace3e6c9254d49acce1e7f64ab925eca96af0";
-export const THANKS_PAY_RELAY_ADDR = "0x5ee9fabc145284fee78e93cfd449ecdeefebdb95";
-export const THANKS_PAY_CHECK_ADDR = "";
+const THANKS_PAY_MAIN_ADDR = contractAddresses["THANKS_PAY_MAIN_ADDR"];
+const THANKS_PAY_DATA_ADDR = contractAddresses["THANKS_PAY_DATA_ADDR"];
+const THANKS_PAY_SECURITY_ADDR = contractAddresses["THANKS_PAY_SECURITY_ADDR"];
+const THANKS_PAY_RELAY_ADDR = contractAddresses["THANKS_PAY_RELAY_ADDR"];
+const THANKS_PAY_CHECK_ADDR = contractAddresses["THANKS_PAY_CHECK_ADDR"];
 
 export type ThanksPaySecurityType = {
   // not used
@@ -113,6 +115,7 @@ export class ThanksPayContracts extends Contract {
   };
 }
 
+// up-to-date as of 2021-09-13
 export class thanksPayMain extends ThanksPayContracts {
     constructor(signerOrProvider: SignerOrProvider) {
         super(signerOrProvider, THANKS_PAY_MAIN_ADDR, thanksPayMainABI);

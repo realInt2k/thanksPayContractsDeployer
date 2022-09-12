@@ -25,7 +25,6 @@ contract ThanksPayMain is ThanksSecurityWrapper, RevertCheck {
     constructor(address _security, address dataAddr, address _check) ThanksSecurityWrapper(_security) {
         data = ThanksData(dataAddr);
         check = ThanksPayCheck(_check);
-        
     }
 
     function setLatestWagePay(uint256 pId, uint256 timestamp) public isAuthorized(msg.sender){

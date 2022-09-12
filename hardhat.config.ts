@@ -4,10 +4,11 @@ import "hardhat-abi-exporter";
 import { HardhatUserConfig, task } from "hardhat/config";
 import "hardhat-contract-sizer";
 import "@nomiclabs/hardhat-etherscan";
-import "@nomiclabs/hardhat-waffle";
+// import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
 import "hardhat-gas-reporter";
 import "solidity-coverage";
+import "@nomiclabs/hardhat-ethers";
 
 dotenv.config();
 // You need to export an object to set up your config

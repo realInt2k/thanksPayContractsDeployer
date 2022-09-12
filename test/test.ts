@@ -7,6 +7,9 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 var CryptoJS = require("crypto-js");
 
+import * as mf from "@scripts/types/contractType";
+import contractAddresses from '@scripts/contractAddresses.json';
+import * as fs from 'fs';
 
 var thanksPay;
 describe("ThanksPay", function () {

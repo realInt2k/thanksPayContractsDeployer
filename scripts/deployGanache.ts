@@ -11,25 +11,45 @@ import * as dotenv from "dotenv";
 
 //const filepath = "./logs";
 dotenv.config();
+console.log(__dirname + './contractAddresses.json');
+import contractAddresses from './contractAddresses.json';
+import * as fs from 'fs';
 
-async function deployContract(name: string) {
+async function deployContract(name: string, args: any[] | null) {
   const Platoon = await ethers.getContractFactory(name);
-  const soldier = await Platoon.deploy();
+  let soldier:any;
+  if(args !== null)
+    soldier = await Platoon.deploy(... args);
+  else
+    soldier = await Platoon.deploy();
   await soldier.deployed();
+  if(name === "ThanksSecurity") {
+    contractAddresses["THANKS_PAY_SECURITY_ADDR"] = soldier.address;
+  } else if(name === "ThanksData") {
+    contractAddresses["THANKS_PAY_DATA_ADDR"] = soldier.address;
+  } else if(name === "ThanksPayCheck") {
+    contractAddresses["THANKS_PAY_CHECK_ADDR"] = soldier.address;
+  } else if(name === "thanksPayMain") {
+    contractAddresses["THANKS_PAY_MAIN_ADDR"] = soldier.address;
+  } else if(name === "thanksPayRelay") {
+    contractAddresses["THANKS_PAY_RELAY_ADDR"] = soldier.address;
+  }
   console.log(`${name} deployed to: ${soldier.address}`);
+  return soldier.address;
 }
 
 async function main() {
-  const uri = process.env.NEXT_PUBLIC_GANACHE_TEST_URL || "the fuck?";
+  const uri = "http://localhost:8545/";
   const web3 = new Web3(uri);
   const nearByBlock = await web3.eth.getBlockNumber();
-  await deployContract("thanksSecurity");
-  await deployContract("thanksData");
-  await deployContract("PartnerWon");
-  await deployContract("WorkerWon");
-  await deployContract("ThanksPay");
+  const authorizedAddresses = ["0xed835a425fb8d5bea9c2c7fd202f637b3b95d3f8"];
+  const thanksPaySecurityAddr = await deployContract("ThanksSecurity", [authorizedAddresses]);
+  const thanksPayDataAddr = await deployContract("ThanksData", [thanksPaySecurityAddr]);
+  const thanksPayCheckAddr = await deployContract("ThanksPayCheck", [thanksPayDataAddr, thanksPaySecurityAddr]);
+  const thanksPayMainAddr = await deployContract("ThanksPayMain", [thanksPaySecurityAddr, thanksPayDataAddr, thanksPayCheckAddr]);
+  const thanksPayRelayAddr = await deployContract("ThanksPayRelay", null);
   console.log("\nNearbyBlock is ", nearByBlock);
-
+  fs.writeFileSync(__dirname + '/contractAddresses.json', JSON.stringify(contractAddresses, null, 2));
   /*const fileContent = ThanksPay.address + '\n';
   if (fs.existsSync(filepath)) {
     fs.appendFileSync(filepath, fileContent);
