@@ -1,0 +1,45 @@
+<diagram program="umletino" version="15.0.0"><zoom_level>9</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>0</x><y>18</y><w>207</w><h>90</h></coordinates><panel_attributes>_ThanksSecurity_
+--
+authorize()
+isAuthorized()
+[Holds the list of accounts authorized
+to make transaction]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>261</x><y>153</y><w>189</w><h>171</h></coordinates><panel_attributes>_ThanksData_
+Organizes structureless data into 
+convenient format
+--
+struct: Partner
+--balance
+--bonus
+--latestPay
+--
+struct: Worker
+--balance
+--wage
+--partnerId
+--latestRequest</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>9</x><y>162</y><w>189</w><h>171</h></coordinates><panel_attributes>_ThanksRelay_
+logic-agnostic
+data
+--
+-properties: [1, 2, 3, 4, 5]
+-propertyNames: ["Partner email",
+"Partner number",
+"Worker email", "balance", "latest pay day"]</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>270</x><y>18</y><w>189</w><h>90</h></coordinates><panel_attributes>_ThanksCheck_
+VIEW functions
+check conditions (balance etc.)
+--
+partnerWithdrawCheck()
+workerGetsThanksPayCheck()
+etc.</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>459</x><y>81</y><w>153</w><h>90</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;150;80</additional_attributes></element><element><id>UMLClass</id><coordinates><x>495</x><y>153</y><w>189</w><h>171</h></coordinates><panel_attributes>_ThanksMain_
+Current business logic
+--
+-id: Long
+_-ClassAttribute: Long_
+--
+#Operation(i: int): int
+/+AbstractOperation()/
+--
+Responsibilities
+-- Resp1
+*-- Resp2*</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>459</x><y>54</y><w>378</w><h>27</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;400;10</additional_attributes></element><element><id>Relation</id><coordinates><x>450</x><y>234</y><w>63</w><h>27</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;50;10</additional_attributes></element><element><id>Relation</id><coordinates><x>198</x><y>234</y><w>72</w><h>27</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;60;10</additional_attributes></element><element><id>Relation</id><coordinates><x>108</x><y>108</y><w>27</w><h>72</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>135</x><y>81</y><w>153</w><h>99</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;90;150;10</additional_attributes></element><element><id>UMLActor</id><coordinates><x>837</x><y>27</y><w>72</w><h>99</h></coordinates><panel_attributes>Frontend</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>468</x><y>72</y><w>369</w><h>27</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>390;10;10;10</additional_attributes></element><element><id>UMLInterface</id><coordinates><x>657</x><y>0</y><w>126</w><h>63</h></coordinates><panel_attributes>Request 1 (feedback)
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>693</x><y>126</y><w>198</w><h>126</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;120;200;10</additional_attributes></element><element><id>UMLInterface</id><coordinates><x>756</x><y>180</y><w>144</w><h>63</h></coordinates><panel_attributes>Request 2 (NO feedback)
+--</panel_attributes><additional_attributes></additional_attributes></element></diagram>

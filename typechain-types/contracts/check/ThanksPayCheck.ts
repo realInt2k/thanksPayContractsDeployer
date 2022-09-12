@@ -23,6 +23,7 @@ import type {
 
 export interface ThanksPayCheckInterface extends utils.Interface {
   functions: {
+    "partnerWithdrawCheck(uint256,uint256)": FunctionFragment;
     "registerPartnerCheck()": FunctionFragment;
     "registerWorkerCheck()": FunctionFragment;
     "setCompanyBalanceCheck()": FunctionFragment;
@@ -30,11 +31,13 @@ export interface ThanksPayCheckInterface extends utils.Interface {
     "setLatestWagePayCheck()": FunctionFragment;
     "setPartnerBalanceCheck()": FunctionFragment;
     "setWorkerBalanceCheck()": FunctionFragment;
-    "workerGetSalaryEarlyCheck(uint256,uint256)": FunctionFragment;
+    "subtractFromPartnerCheck(uint256,uint256)": FunctionFragment;
+    "workerGetsThanksPayCheck(uint256,uint256)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
+      | "partnerWithdrawCheck"
       | "registerPartnerCheck"
       | "registerWorkerCheck"
       | "setCompanyBalanceCheck"
@@ -42,9 +45,14 @@ export interface ThanksPayCheckInterface extends utils.Interface {
       | "setLatestWagePayCheck"
       | "setPartnerBalanceCheck"
       | "setWorkerBalanceCheck"
-      | "workerGetSalaryEarlyCheck"
+      | "subtractFromPartnerCheck"
+      | "workerGetsThanksPayCheck"
   ): FunctionFragment;
 
+  encodeFunctionData(
+    functionFragment: "partnerWithdrawCheck",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+  ): string;
   encodeFunctionData(
     functionFragment: "registerPartnerCheck",
     values?: undefined
@@ -74,11 +82,19 @@ export interface ThanksPayCheckInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "workerGetSalaryEarlyCheck",
+    functionFragment: "subtractFromPartnerCheck",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "workerGetsThanksPayCheck",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
 
   decodeFunctionResult(
+    functionFragment: "partnerWithdrawCheck",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "registerPartnerCheck",
     data: BytesLike
   ): Result;
@@ -107,7 +123,11 @@ export interface ThanksPayCheckInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "workerGetSalaryEarlyCheck",
+    functionFragment: "subtractFromPartnerCheck",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "workerGetsThanksPayCheck",
     data: BytesLike
   ): Result;
 
@@ -141,6 +161,12 @@ export interface ThanksPayCheck extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    partnerWithdrawCheck(
+      pId: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     registerPartnerCheck(overrides?: CallOverrides): Promise<[boolean]>;
 
     registerWorkerCheck(overrides?: CallOverrides): Promise<[boolean]>;
@@ -155,12 +181,24 @@ export interface ThanksPayCheck extends BaseContract {
 
     setWorkerBalanceCheck(overrides?: CallOverrides): Promise<[boolean]>;
 
-    workerGetSalaryEarlyCheck(
+    subtractFromPartnerCheck(
+      pId: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    workerGetsThanksPayCheck(
       wId: PromiseOrValue<BigNumberish>,
       amount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
   };
+
+  partnerWithdrawCheck(
+    pId: PromiseOrValue<BigNumberish>,
+    amount: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   registerPartnerCheck(overrides?: CallOverrides): Promise<boolean>;
 
@@ -176,13 +214,25 @@ export interface ThanksPayCheck extends BaseContract {
 
   setWorkerBalanceCheck(overrides?: CallOverrides): Promise<boolean>;
 
-  workerGetSalaryEarlyCheck(
+  subtractFromPartnerCheck(
+    pId: PromiseOrValue<BigNumberish>,
+    amount: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  workerGetsThanksPayCheck(
     wId: PromiseOrValue<BigNumberish>,
     amount: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<boolean>;
 
   callStatic: {
+    partnerWithdrawCheck(
+      pId: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
     registerPartnerCheck(overrides?: CallOverrides): Promise<boolean>;
 
     registerWorkerCheck(overrides?: CallOverrides): Promise<boolean>;
@@ -197,7 +247,13 @@ export interface ThanksPayCheck extends BaseContract {
 
     setWorkerBalanceCheck(overrides?: CallOverrides): Promise<boolean>;
 
-    workerGetSalaryEarlyCheck(
+    subtractFromPartnerCheck(
+      pId: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    workerGetsThanksPayCheck(
       wId: PromiseOrValue<BigNumberish>,
       amount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -207,6 +263,12 @@ export interface ThanksPayCheck extends BaseContract {
   filters: {};
 
   estimateGas: {
+    partnerWithdrawCheck(
+      pId: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     registerPartnerCheck(overrides?: CallOverrides): Promise<BigNumber>;
 
     registerWorkerCheck(overrides?: CallOverrides): Promise<BigNumber>;
@@ -221,7 +283,13 @@ export interface ThanksPayCheck extends BaseContract {
 
     setWorkerBalanceCheck(overrides?: CallOverrides): Promise<BigNumber>;
 
-    workerGetSalaryEarlyCheck(
+    subtractFromPartnerCheck(
+      pId: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    workerGetsThanksPayCheck(
       wId: PromiseOrValue<BigNumberish>,
       amount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -229,6 +297,12 @@ export interface ThanksPayCheck extends BaseContract {
   };
 
   populateTransaction: {
+    partnerWithdrawCheck(
+      pId: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     registerPartnerCheck(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -257,7 +331,13 @@ export interface ThanksPayCheck extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    workerGetSalaryEarlyCheck(
+    subtractFromPartnerCheck(
+      pId: PromiseOrValue<BigNumberish>,
+      amount: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    workerGetsThanksPayCheck(
       wId: PromiseOrValue<BigNumberish>,
       amount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
