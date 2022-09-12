@@ -135,37 +135,6 @@ export type ThanksPayMainType = {
     workerGetsThanksPay: WorkerGetsThanksPay
 }
 
-type SetPropertyType = {
-  entityID: number,
-  blockchainID: number,
-  propertyIDs: number[],
-  propertyValues: string[]
-}
-
-type AddPropertyType = {
-  entityID: number,
-  propertyIDs: number[],
-  propertyNames: string[]
-}
-
-type EditPropertyType = {
-  entityID: number,
-  propertyIDs: number[],
-  propertyNames: string[]
-}
-
-type GetPropertyNameType = {
-  entityID: number,
-  propertyID: number
-}
-
-export type ThanksPayRelayType = {
-  setProperty: SetPropertyType,
-  addProperty: AddPropertyType,
-  editProperty: EditPropertyType,
-  getPropertyName: GetPropertyNameType,
-}
-
 type WorkerGetsSalaryEarlyCheck = {
   wId: number,
   amount: number
