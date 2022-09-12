@@ -8,8 +8,12 @@
     "declaration": true,
     "resolveJsonModule": true,
     "baseUrl" : ".",
+    "rootDirs": ["./src", "./scripts", "./test"],
     "paths": {
-      "@abis/*": ["../client/src/abis/*"],
+      "@abis/*": ["abis/*"],
+      "@contracts/*": ["contracts/*"],
+      "@scripts/*": ["scripts/*"],
+      "@test/*": ["test/*"],
     },
   },
   "include": ["./scripts", "./test", "./typechain", "ignore"],
