@@ -14,13 +14,16 @@ import { ThanksPayDataType } from "./ThanksPayDataTypes";
 import { ThanksPayCheckType } from "./ThanksPayCheckTypes";
 import { ThanksPayMainType } from "./ThanksPayMainTypes";
 
-import contractAddresses from '@scripts/contractAddresses.json';
+import contractAddresses from '../contractAddresses.json';
+const Web3 = require('web3');
+const web3 = new Web3();
+import * as fs from 'fs';
 
-export type ContractABIType =
-  typeof thanksSecurityABI
+export type ContractABIType = any
+  | typeof thanksSecurityABI
   | typeof thanksPayDataABI 
   | typeof thanksPayCheckABI
-  | typeof thanksPayMainABI // ok
+  | typeof thanksPayMainABI 
   | typeof thanksPayRelayABI;
 
 // this will be changed with env variable
@@ -44,6 +47,7 @@ export type ThanksPaySuperType = {
 }
 
 const getSchema = (abi: ContractABIType) => {
+  
   // filter abi where "type" is "function"
   const functions = abi.filter((row: any) => row["type"] === "function");
 
@@ -60,6 +64,28 @@ const getSchema = (abi: ContractABIType) => {
   return arrayOfFunctions;
 };
 
+const getEvents = (abi: ContractABIType) => {
+  
+  // filter abi where "type" is "type"
+  const events = abi.filter((row: any) => row["type"] === "event");
+
+  const arrayOfEvents = events.map((event: any) => {
+    return {
+      name: event["name"],
+      typesArray: event["inputs"].map((input: any) => {
+        return {
+          type: input["type"],
+          name: input["name"]
+        }
+      }),
+      inputTypes: event["inputs"].map((input: any) => input["type"]),
+      inputNames: event["inputs"].map((input: any) => input["name"]),
+    };
+  });
+
+  return arrayOfEvents;
+}
+
 const getRequiredTypeOrder = (functionName: string, schema: any) => {
   const func = schema.find((row: any) => row.name === functionName);
   if (func) {
@@ -70,6 +96,15 @@ const getRequiredTypeOrder = (functionName: string, schema: any) => {
 
 export class ThanksPayContracts extends Contract {
   public schema: any;
+  public events: any;
+  public getEventTypesArray(eventName: string) {
+    const event = this.events.find((row: any) => row.name === eventName);
+    if (event) {
+      return event.typesArray;
+    }
+    return [];
+  }
+
   public getRequiredOrder = (functionName: string) => {
     const func = this.schema.find((row: any) => row.name === functionName);
     if (func) {
@@ -77,6 +112,22 @@ export class ThanksPayContracts extends Contract {
     }
     return [];
   };
+
+  public getEventObj = (receipt: any) => {
+    if(!receipt.events[0].event) {
+      return {};
+    }
+    const typesArray = this.getEventTypesArray(receipt.events[0].event);
+    const decodedParameters = web3.eth.abi.decodeParameters(typesArray, receipt.events[0].data);
+    let obj:any = {};
+    for (let i = 0; i < typesArray.length; i++) {
+      obj[typesArray[i].name] = decodedParameters[typesArray[i].name];
+    }
+    return {
+      decodedParameters, 
+      obj
+    }
+  }
   constructor(
     signerOrProvider: SignerOrProvider,
     contractAddr: string,
@@ -84,6 +135,7 @@ export class ThanksPayContracts extends Contract {
   ) {
     super(contractAddr, abi, signerOrProvider);
     this.schema = getSchema(abi);
+    this.events = getEvents(abi);
   }
   public sendTx = async (name: string, args: any): Promise<any> => {
     try {
@@ -102,8 +154,6 @@ export class ThanksPayContracts extends Contract {
       );
       const tx = await this[name](...orderedArgs);
       const txReceipt = await tx.wait();
-
-      console.log("txReceipt is: ", txReceipt);
       return txReceipt;
     } catch (e: any) {
       console.log("error is: ", e); // change to alert
@@ -116,7 +166,7 @@ export class ThanksPayContracts extends Contract {
 }
 
 // up-to-date as of 2021-09-13
-export class thanksPayMain extends ThanksPayContracts {
+export class ThanksPayMain extends ThanksPayContracts {
     constructor(signerOrProvider: SignerOrProvider) {
         super(signerOrProvider, THANKS_PAY_MAIN_ADDR, thanksPayMainABI);
     }
@@ -144,7 +194,7 @@ export class thanksPayMain extends ThanksPayContracts {
 }
 
 // up-to-date as of 2021-09-12
-export class thanksPayRelay extends ThanksPayContracts {
+export class ThanksPayRelay extends ThanksPayContracts {
     constructor(signerOrProvider: SignerOrProvider) {
         super(signerOrProvider, THANKS_PAY_RELAY_ADDR, thanksPayRelayABI);
     }
@@ -183,7 +233,7 @@ export class thanksPayRelay extends ThanksPayContracts {
 }
 
 // up-to-date as of 2021-09-13
-export class thanksPayCheck extends ThanksPayContracts {
+export class ThanksPayCheck extends ThanksPayContracts {
   constructor(signerOrProvider: SignerOrProvider) {
     super(signerOrProvider, THANKS_PAY_CHECK_ADDR, thanksPayCheckABI);
   }
@@ -212,14 +262,16 @@ export class thanksPayCheck extends ThanksPayContracts {
 }
 
 // up-to-date as of 2021-09-13
-export class thanksPayData extends ThanksPayContracts {
+export class ThanksPayData extends ThanksPayContracts {
   constructor(signerOrProvider: SignerOrProvider) {
     super(signerOrProvider, THANKS_PAY_DATA_ADDR, thanksPayDataABI);
   }
 
   public method = {
     registerPartner: (args: ThanksPayDataType["registerPartner"]) => {
-      const receipt = this.sendTx("registerPartner", args);
+      const receipt:any = this.sendTx("registerPartner", args);
+      const eventReturn = this.getEventObj(receipt);
+      // now save to db
     },
     registerWorker: (args: ThanksPayDataType["registerWorker"]) => {
       const receipt = this.sendTx("registerWorker", args);
@@ -229,12 +281,15 @@ export class thanksPayData extends ThanksPayContracts {
     },
     setPartnerBalance: (args: ThanksPayDataType["setPartnerBalance"]) => {
       const receipt = this.sendTx("setPartnerBalance", args);
+      const eventReturn = this.getEventObj(receipt);
+      // now save to db
     },
     setLatestRequest: (args: ThanksPayDataType["setLatestRequest"]) => {
       this.sendTx("setLatestRequest", args);
     },
     setWorkerBalance: (args: ThanksPayDataType["setWorkerBalance"]) => {
       const receipt = this.sendTx("setWorkerBalance", args);
+      const eventReturn = this.getEventObj(receipt);
     },
     setLatestWagePay: (args: ThanksPayDataType["setLatestWagePay"]) => {
       this.sendTx("setLatestWagePay", args);

@@ -9,6 +9,7 @@
     "deployContractGanache": "npx hardhat run ./scripts/deployGanache.ts --network ganache",
     "deployContractBnbTest": "npx hardhat run ./scripts/deployBnbTest.ts --network bnb_test",
     "test": "mocha -r ts-node/register test/test.ts",
+    "testDung": "mocha -r ts-node/register test/test_dungn.ts",
     "codegen": "graph codegen",
     "build": "graph build",
     "deploy": "graph deploy --product hosted-service realint2k/Lm1",
@@ -40,6 +41,7 @@
     "hardhat-gas-reporter": "^1.0.8",
     "module-alias": "^2.2.2",
     "solidity-coverage": "^0.7.21",
+    "tspath": "^1.3.7",
     "typechain": "^8.0.0"
   },
   "devDependencies": {

@@ -1,0 +1,78 @@
+[
+  {
+    "inputs": [],
+    "name": "revertEmpty",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint16",
+        "name": "exitCode",
+        "type": "uint16"
+      }
+    ],
+    "name": "revertExitCode",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "reason",
+        "type": "string"
+      }
+    ],
+    "name": "revertReason",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "condition",
+        "type": "bool"
+      }
+    ],
+    "name": "revertCheck",
+    "outputs": [],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "condition",
+        "type": "bool"
+      },
+      {
+        "internalType": "string",
+        "name": "reason",
+        "type": "string"
+      }
+    ],
+    "name": "revertCheck",
+    "outputs": [],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "condition",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint16",
+        "name": "exitCode",
+        "type": "uint16"
+      }
+    ],
+    "name": "revertCheck",
+    "outputs": [],
+    "stateMutability": "pure",
+    "type": "function"
+  }
+]
