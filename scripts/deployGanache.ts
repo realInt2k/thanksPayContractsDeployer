@@ -6,6 +6,7 @@
 import { ethers } from "hardhat";
 import Web3 from "web3";
 import * as dotenv from "dotenv";
+//import {ThanksPaySuperType, ThanksPaySecurity} from "./types/contractType";
 //import * as fs from "fs";
 //import changeEnv, { changeSubgraphYaml } from "./changeEnvAddress";
 
@@ -18,10 +19,13 @@ import * as fs from 'fs';
 async function deployContract(name: string, args: any[] | null) {
   const Platoon = await ethers.getContractFactory(name);
   let soldier:any;
-  if(args !== null)
-    soldier = await Platoon.deploy(... args);
-  else
+  if(args !== null){
+    console.log(...args)
+    soldier = await Platoon.deploy(...args);
+  }
+  else {
     soldier = await Platoon.deploy();
+  }
   await soldier.deployed();
   if(name === "ThanksSecurity") {
     contractAddresses["THANKS_PAY_SECURITY_ADDR"] = soldier.address;
@@ -39,17 +43,50 @@ async function deployContract(name: string, args: any[] | null) {
 }
 
 async function main() {
+  console.log("DEPLOYING TO GANACHE");
   const uri = "http://localhost:8545/";
   const web3 = new Web3(uri);
   const nearByBlock = await web3.eth.getBlockNumber();
   const authorizedAddresses = ["0xed835a425fb8d5bea9c2c7fd202f637b3b95d3f8"];
-  const thanksPaySecurityAddr = await deployContract("ThanksSecurity", [authorizedAddresses]);
-  const thanksPayDataAddr = await deployContract("ThanksData", [thanksPaySecurityAddr]);
-  const thanksPayCheckAddr = await deployContract("ThanksPayCheck", [thanksPayDataAddr, thanksPaySecurityAddr]);
-  const thanksPayMainAddr = await deployContract("ThanksPayMain", [thanksPaySecurityAddr, thanksPayDataAddr, thanksPayCheckAddr]);
-  const thanksPayRelayAddr = await deployContract("ThanksPayRelay", null);
+  let Platoon: any;
+  let soldier: any;
+  
+  Platoon = await ethers.getContractFactory("ThanksSecurity");
+  const thanksSecuritySoldier = await Platoon.deploy(authorizedAddresses);
+  const thanksPaySecurityAddr = thanksSecuritySoldier.address;
+  contractAddresses["THANKS_PAY_SECURITY_ADDR"] = thanksSecuritySoldier.address;
+  console.log("ThanksSecurity deployed to:", thanksSecuritySoldier.address);
+
+  Platoon = await ethers.getContractFactory("ThanksData");
+  soldier = await Platoon.deploy(thanksPaySecurityAddr);
+  const thanksPayDataAddr = soldier.address;
+  contractAddresses["THANKS_PAY_DATA_ADDR"] = soldier.address;
+  console.log("ThanksData deployed to:", soldier.address);
+
+  Platoon = await ethers.getContractFactory("ThanksPayCheck");
+  soldier = await Platoon.deploy(thanksPayDataAddr, thanksPaySecurityAddr);
+  const thanksPayCheckAddr = soldier.address;
+  contractAddresses["THANKS_PAY_CHECK_ADDR"] = soldier.address;
+  console.log("ThanksPayCheck deployed to:", soldier.address);
+
+  Platoon = await ethers.getContractFactory("ThanksPayMain");
+  soldier = await Platoon.deploy(thanksPaySecurityAddr, thanksPayDataAddr, thanksPayCheckAddr);
+  const thanksPayMainAddr = soldier.address;
+  contractAddresses["THANKS_PAY_MAIN_ADDR"] = soldier.address;
+  console.log("ThanksPayMain deployed to:", soldier.address);
+
+  Platoon = await ethers.getContractFactory("ThanksPayRelay");
+  soldier = await Platoon.deploy();
+  const thanksPayRelayAddr = soldier.address;
+  contractAddresses["THANKS_PAY_RELAY_ADDR"] = soldier.address;
+  console.log("ThanksPayRelay deployed to:", soldier.address);
+
   console.log("\nNearbyBlock is ", nearByBlock);
   fs.writeFileSync(__dirname + '/contractAddresses.json', JSON.stringify(contractAddresses, null, 2));
+
+  // authorize all the smart contract
+  
+  await thanksSecuritySoldier.authorize([thanksPaySecurityAddr, thanksPayDataAddr, thanksPayCheckAddr, thanksPayMainAddr, thanksPayRelayAddr]);
   /*const fileContent = ThanksPay.address + '\n';
   if (fs.existsSync(filepath)) {
     fs.appendFileSync(filepath, fileContent);

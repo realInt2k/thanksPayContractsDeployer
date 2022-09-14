@@ -1,0 +1,290 @@
+[
+  {
+    "tableName": "RoleAdminChanged",
+    "fields": [
+      {
+        "type": "bytes32",
+        "name": "role"
+      },
+      {
+        "type": "bytes32",
+        "name": "previousAdminRole"
+      },
+      {
+        "type": "bytes32",
+        "name": "newAdminRole"
+      }
+    ]
+  },
+  {
+    "tableName": "RoleGranted",
+    "fields": [
+      {
+        "type": "bytes32",
+        "name": "role"
+      },
+      {
+        "type": "address",
+        "name": "account"
+      },
+      {
+        "type": "address",
+        "name": "sender"
+      }
+    ]
+  },
+  {
+    "tableName": "RoleRevoked",
+    "fields": [
+      {
+        "type": "bytes32",
+        "name": "role"
+      },
+      {
+        "type": "address",
+        "name": "account"
+      },
+      {
+        "type": "address",
+        "name": "sender"
+      }
+    ]
+  }
+][
+  {
+    "tableName": "companyRegistered",
+    "fields": [
+      {
+        "type": "uint256",
+        "name": "pId"
+      },
+      {
+        "type": "uint256",
+        "name": "latestPay"
+      }
+    ]
+  },
+  {
+    "tableName": "partnerBalanceChanged",
+    "fields": [
+      {
+        "type": "uint256",
+        "name": "pId"
+      },
+      {
+        "type": "uint256",
+        "name": "newBalance"
+      }
+    ]
+  },
+  {
+    "tableName": "partnerRegistered",
+    "fields": [
+      {
+        "type": "uint256",
+        "name": "pId"
+      },
+      {
+        "type": "uint256",
+        "name": "latestPay"
+      }
+    ]
+  },
+  {
+    "tableName": "workerBalanceChanged",
+    "fields": [
+      {
+        "type": "uint256",
+        "name": "wId"
+      },
+      {
+        "type": "uint256",
+        "name": "newBalance"
+      }
+    ]
+  },
+  {
+    "tableName": "workerRegistered",
+    "fields": [
+      {
+        "type": "uint256",
+        "name": "wId"
+      },
+      {
+        "type": "uint256",
+        "name": "pId"
+      },
+      {
+        "type": "uint256",
+        "name": "wage"
+      }
+    ]
+  }
+][
+  {
+    "tableName": "partnerAddBalanceEvent",
+    "fields": [
+      {
+        "type": "uint256",
+        "name": "pId"
+      },
+      {
+        "type": "uint256",
+        "name": "amount"
+      },
+      {
+        "type": "uint256",
+        "name": "timestamp"
+      }
+    ]
+  },
+  {
+    "tableName": "partnerAddBonusEvent",
+    "fields": [
+      {
+        "type": "uint256",
+        "name": "pId"
+      },
+      {
+        "type": "uint256",
+        "name": "amount"
+      },
+      {
+        "type": "uint256",
+        "name": "timestamp"
+      }
+    ]
+  },
+  {
+    "tableName": "partnerWithdrawEvent",
+    "fields": [
+      {
+        "type": "uint256",
+        "name": "pId"
+      },
+      {
+        "type": "uint256",
+        "name": "amount"
+      },
+      {
+        "type": "uint256",
+        "name": "timestamp"
+      }
+    ]
+  },
+  {
+    "tableName": "setLatestWagePayEvent",
+    "fields": [
+      {
+        "type": "uint256",
+        "name": "pId"
+      },
+      {
+        "type": "uint256",
+        "name": "timestamp"
+      }
+    ]
+  },
+  {
+    "tableName": "workerGetsThanksPayEvent",
+    "fields": [
+      {
+        "type": "uint256",
+        "name": "wId"
+      },
+      {
+        "type": "uint256",
+        "name": "pId"
+      },
+      {
+        "type": "uint256",
+        "name": "amount"
+      },
+      {
+        "type": "string",
+        "name": "bankReceipt"
+      },
+      {
+        "type": "uint256",
+        "name": "timestamp"
+      }
+    ]
+  }
+][
+  {
+    "tableName": "dynamicPropertySet",
+    "fields": [
+      {
+        "type": "uint256",
+        "name": "entityID"
+      },
+      {
+        "type": "uint256",
+        "name": "blockchainID"
+      },
+      {
+        "type": "uint256[]",
+        "name": "propertyID"
+      },
+      {
+        "type": "uint256[]",
+        "name": "propertyValue"
+      }
+    ]
+  },
+  {
+    "tableName": "entityNamesAltered",
+    "fields": [
+      {
+        "type": "uint256[]",
+        "name": "_entityIDs"
+      },
+      {
+        "type": "string[]",
+        "name": "_entityNames"
+      }
+    ]
+  },
+  {
+    "tableName": "propertyNamesAltered",
+    "fields": [
+      {
+        "type": "uint256",
+        "name": "entityID"
+      },
+      {
+        "type": "uint256[]",
+        "name": "propertyIDs"
+      },
+      {
+        "type": "string[]",
+        "name": "propertyNames"
+      },
+      {
+        "type": "uint256[]",
+        "name": "propertyTypes"
+      }
+    ]
+  },
+  {
+    "tableName": "staticPropertySet",
+    "fields": [
+      {
+        "type": "uint256",
+        "name": "entityID"
+      },
+      {
+        "type": "uint256",
+        "name": "blockchainID"
+      },
+      {
+        "type": "uint256[]",
+        "name": "propertyID"
+      },
+      {
+        "type": "string[]",
+        "name": "propertyValue"
+      }
+    ]
+  }
+][]

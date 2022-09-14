@@ -33,7 +33,12 @@ const THANKS_PAY_SECURITY_ADDR = contractAddresses["THANKS_PAY_SECURITY_ADDR"];
 const THANKS_PAY_RELAY_ADDR = contractAddresses["THANKS_PAY_RELAY_ADDR"];
 const THANKS_PAY_CHECK_ADDR = contractAddresses["THANKS_PAY_CHECK_ADDR"];
 
+type AuthorizeType = {
+  addresses: string[];
+}
+
 export type ThanksPaySecurityType = {
+  authorize: AuthorizeType
   // not used
 } 
 
@@ -41,9 +46,9 @@ export type ThanksPaySecurityType = {
 export type ThanksPaySuperType = {
   thanksPaySecurity: ThanksPaySecurityType,
   thanksPayData: ThanksPayDataType,
-  thanksPayCheckType: ThanksPayCheckType,
-  thanksPayMainType: ThanksPayMainType,
-  thanksPayRelayType: ThanksPayRelayType,
+  thanksPayCheck: ThanksPayCheckType,
+  thanksPayMain: ThanksPayMainType,
+  thanksPayRelay: ThanksPayRelayType,
 }
 
 const getSchema = (abi: ContractABIType) => {
@@ -70,7 +75,7 @@ const getEvents = (abi: ContractABIType) => {
   const events = abi.filter((row: any) => row["type"] === "event");
 
   const arrayOfEvents = events.map((event: any) => {
-    return {
+    return { 
       name: event["name"],
       typesArray: event["inputs"].map((input: any) => {
         return {
@@ -146,20 +151,21 @@ export class ThanksPayContracts extends Contract {
       if ("payableAmt" in args) {
         orderedArgs.push(args.payableAmt);
       }
-      console.log(
-        "in contractType.ts sendTx: orderedArg is: ",
-        orderedArgs,
-        " method: ",
-        name
-      );
+      // console.log(
+      //   "in contractType.ts sendTx: orderedArg is: ",
+      //   orderedArgs,
+      //   " method: ",
+      //   name
+      // );
       const tx = await this[name](...orderedArgs);
       const txReceipt = await tx.wait();
       return txReceipt;
     } catch (e: any) {
-      console.log("error is: ", e); // change to alert
-      if (e.data && e.data.message) {
-        alert(e.data.message);
-      }
+      //console.log("error is: ", e); // change to alert
+      // if (e.data && e.data.message) {
+      //   alert(e.data.message);
+      // }
+      console.log(name, " failed to deliver")
       return -1;
     }
   };
@@ -172,23 +178,23 @@ export class ThanksPayMain extends ThanksPayContracts {
     }
 
     public method = {
-        setLatestWagePay: (args: ThanksPayMainType["setLatestWagePay"]) => {
-            this.sendTx("setLatestWagePay", args);
+        setLatestWagePay: async (args: ThanksPayMainType["setLatestWagePay"]) => {
+          await this.sendTx("setLatestWagePay", args);
         },
-        subtractFromPartner: (args: ThanksPayMainType["subtractFromPartner"]) => {
-            this.sendTx("subtractFromPartner", args);
+        subtractFromPartner: async (args: ThanksPayMainType["subtractFromPartner"]) => {
+          await  this.sendTx("subtractFromPartner", args);
         },
-        partnerAddBonus: (args: ThanksPayMainType["partnerAddBonus"]) => {
-            this.sendTx("partnerAddBonus", args);
+        partnerAddBonus: async (args: ThanksPayMainType["partnerAddBonus"]) => {
+          await  this.sendTx("partnerAddBonus", args);
         },
-        partnerAddBalance: (args: ThanksPayMainType["partnerAddBalance"]) => {
-            this.sendTx("partnerAddBalance", args);
+        partnerAddBalance: async (args: ThanksPayMainType["partnerAddBalance"]) => {
+          await  this.sendTx("partnerAddBalance", args);
         },
-        partnerWithdraw: (args: ThanksPayMainType["partnerWithdraw"]) => {
-            this.sendTx("partnerWithdraw", args);
+        partnerWithdraw: async (args: ThanksPayMainType["partnerWithdraw"]) => {
+          await this.sendTx("partnerWithdraw", args);
         },
-        workerGetsThanksPay: (args: ThanksPayMainType["workerGetsThanksPay"]) => {
-            this.sendTx("workerGetsThanksPay", args);
+        workerGetsThanksPay: async (args: ThanksPayMainType["workerGetsThanksPay"]) => {
+          await  this.sendTx("workerGetsThanksPay", args);
         }
     }
 }
@@ -199,35 +205,35 @@ export class ThanksPayRelay extends ThanksPayContracts {
         super(signerOrProvider, THANKS_PAY_RELAY_ADDR, thanksPayRelayABI);
     }
     public method = {
-        setProperty: (args: ThanksPayRelayType["setProperty"]) => {
-            this.sendTx("setProperty", args);
+        setProperty: async (args: ThanksPayRelayType["setProperty"]) => {
+            await this.sendTx("setProperty", args);
         },
-        addProperty: (args: ThanksPayRelayType["addProperty"]) => {
-            this.sendTx("addProperty", args);
+        addProperty: async (args: ThanksPayRelayType["addProperty"]) => {
+            await this.sendTx("addProperty", args);
         },
-        editProperty: (args: ThanksPayRelayType["editProperty"]) => {
-            this.sendTx("editProperty", args);
+        editProperty: async (args: ThanksPayRelayType["editProperty"]) => {
+            await this.sendTx("editProperty", args);
         },
-        getPropertyName: (args: ThanksPayRelayType["getPropertyName"]) => {
-            this.sendTx("getPropertyName", args);
+        getPropertyName: async (args: ThanksPayRelayType["getPropertyName"]) => {
+            await this.sendTx("getPropertyName", args);
         },
-        setDynamicProperties: (args: ThanksPayRelayType["setDynamicProperties"]) => { 
-            this.sendTx("setDynamicProperties", args);
+        setDynamicProperties: async (args: ThanksPayRelayType["setDynamicProperties"]) => { 
+            await this.sendTx("setDynamicProperties", args);
         },
-        setStaticProperties: (args: ThanksPayRelayType["setStaticProperties"]) => {
-            this.sendTx("setStaticProperties", args);
+        setStaticProperties: async (args: ThanksPayRelayType["setStaticProperties"]) => {
+            await this.sendTx("setStaticProperties", args);
         },
-        alterEntityNames: (args: ThanksPayRelayType["alterEntityNames"]) => { 
-            this.sendTx("alterEntityNames", args);
+        alterEntityNames: async (args: ThanksPayRelayType["alterEntityNames"]) => { 
+            await this.sendTx("alterEntityNames", args);
         },
-        alterPropertyNames: (args: ThanksPayRelayType["alterPropertyNames"]) => {
-            this.sendTx("alterPropertyNames", args);
+        alterPropertyNames: async (args: ThanksPayRelayType["alterPropertyNames"]) => {
+            await this.sendTx("alterPropertyNames", args);
         },
-        getAllEntities: (args: ThanksPayRelayType["getAllEntities"]) => {
-            this.sendTx("getAllEntities", args);
+        getAllEntities: async (args: ThanksPayRelayType["getAllEntities"]) => {
+            await this.sendTx("getAllEntities", args);
         },
-        getAllProperties: (args: ThanksPayRelayType["getAllProperties"]) => {
-            this.sendTx("getAllProperties", args);
+        getAllProperties: async (args: ThanksPayRelayType["getAllProperties"]) => {
+            await this.sendTx("getAllProperties", args);
         }
       }
 }
@@ -238,25 +244,25 @@ export class ThanksPayCheck extends ThanksPayContracts {
     super(signerOrProvider, THANKS_PAY_CHECK_ADDR, thanksPayCheckABI);
   }
   public method = {
-    workerGetSalaryEarlyCheck: (
+    workerGetSalaryEarlyCheck: async (
       args: ThanksPayCheckType["workerGetSalaryEarlyCheck"]
     ) => {
-      this.sendTx("workerGetSalaryEarlyCheck", args);
+      await this.sendTx("workerGetSalaryEarlyCheck", args);
     },
-    subtractFromPartnerCheck: (
+    subtractFromPartnerCheck: async (
       args: ThanksPayCheckType["subtractFromPartnerCheck"]
     ) => {
-      this.sendTx("subtractFromPartnerCheck", args);
+      await this.sendTx("subtractFromPartnerCheck", args);
     },
-    partnerWithdrawCheck: (
+    partnerWithdrawCheck: async (
       args: ThanksPayCheckType["partnerWithdrawCheck"]
     ) => {
-      this.sendTx("partnerWithdrawCheck", args);
+      await this.sendTx("partnerWithdrawCheck", args);
     },
-    workerGetsThanksPayCheck: (
+    workerGetsThanksPayCheck: async (
       args: ThanksPayCheckType["workerGetsThanksPayCheck"]
     ) => {
-      this.sendTx("workerGetsThanksPayCheck", args);
+      await this.sendTx("workerGetsThanksPayCheck", args);
     }
   }
 }
@@ -268,46 +274,58 @@ export class ThanksPayData extends ThanksPayContracts {
   }
 
   public method = {
-    registerPartner: (args: ThanksPayDataType["registerPartner"]) => {
-      const receipt:any = this.sendTx("registerPartner", args);
+    registerPartner: async (args: ThanksPayDataType["registerPartner"]) => {
+      const receipt:any =  await this.sendTx("registerPartner", args);
       const eventReturn = this.getEventObj(receipt);
       // now save to db
     },
-    registerWorker: (args: ThanksPayDataType["registerWorker"]) => {
-      const receipt = this.sendTx("registerWorker", args);
+    registerWorker: async (args: ThanksPayDataType["registerWorker"]) => {
+      const receipt = await this.sendTx("registerWorker", args);
     },
-    setPartnerBonus: (args: ThanksPayDataType["setPartnerBonus"]) => {
+    setPartnerBonus: async (args: ThanksPayDataType["setPartnerBonus"]) => {
       this.sendTx("setPartnerBonus", args);
     },
-    setPartnerBalance: (args: ThanksPayDataType["setPartnerBalance"]) => {
-      const receipt = this.sendTx("setPartnerBalance", args);
+    setPartnerBalance: async (args: ThanksPayDataType["setPartnerBalance"]) => {
+      const receipt = await this.sendTx("setPartnerBalance", args);
       const eventReturn = this.getEventObj(receipt);
       // now save to db
     },
-    setLatestRequest: (args: ThanksPayDataType["setLatestRequest"]) => {
+    setLatestRequest: async (args: ThanksPayDataType["setLatestRequest"]) => {
       this.sendTx("setLatestRequest", args);
     },
-    setWorkerBalance: (args: ThanksPayDataType["setWorkerBalance"]) => {
-      const receipt = this.sendTx("setWorkerBalance", args);
+    setWorkerBalance: async (args: ThanksPayDataType["setWorkerBalance"]) => {
+      const receipt = await this.sendTx("setWorkerBalance", args);
       const eventReturn = this.getEventObj(receipt);
     },
-    setLatestWagePay: (args: ThanksPayDataType["setLatestWagePay"]) => {
+    setLatestWagePay: async (args: ThanksPayDataType["setLatestWagePay"]) => {
       this.sendTx("setLatestWagePay", args);
     },
-    getWorker: (args: ThanksPayDataType["getWorker"]) => {
+    getWorker: async (args: ThanksPayDataType["getWorker"]) => {
       this.sendTx("getWorker", args);
     },
-    getWorkerBalance: (args: ThanksPayDataType["getWorkerBalance"]) => {
+    getWorkerBalance: async (args: ThanksPayDataType["getWorkerBalance"]) => {
       this.sendTx("getWorkerBalance", args);
     },
-    getPartnerThanksPayableBalance: (args: ThanksPayDataType["getPartnerThanksPayableBalance"]) => {
+    getPartnerThanksPayableBalance: async (args: ThanksPayDataType["getPartnerThanksPayableBalance"]) => {
       this.sendTx("getPartnerThanksPayableBalance", args);
     },
-    getPartnerWithdrawableBalance: (args: ThanksPayDataType["getPartnerWithdrawableBalance"]) => {
+    getPartnerWithdrawableBalance: async (args: ThanksPayDataType["getPartnerWithdrawableBalance"]) => {
       this.sendTx("getPartnerWithdrawableBalance", args);
     },
-    getPartner: (args: ThanksPayDataType["getPartner"]) => {
+    getPartner: async (args: ThanksPayDataType["getPartner"]) => {
       this.sendTx("getPartner", args);
+    }
+  }
+}
+
+export class ThanksPaySecurity extends ThanksPayContracts {
+  constructor(signerOrProvider: SignerOrProvider) {
+    super(signerOrProvider, THANKS_PAY_SECURITY_ADDR, thanksSecurityABI);
+  }
+
+  public method = {
+    authorize: async (args: ThanksPaySecurityType["authorize"]) => {
+      await this.sendTx("authorize", args);
     }
   }
 }

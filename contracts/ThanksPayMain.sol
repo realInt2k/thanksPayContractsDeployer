@@ -11,7 +11,7 @@ import "./security/ThanksSecurityWrapper.sol";
 
 contract ThanksPayMain is ThanksSecurityWrapper, RevertCheck {
     using SafeMath for uint256;
-    ThanksData private data;
+    ThanksData data;
     ThanksPayCheck check;
 
     event setLatestWagePayEvent(uint256 pId, uint256 timestamp);
@@ -20,14 +20,15 @@ contract ThanksPayMain is ThanksSecurityWrapper, RevertCheck {
     event partnerWithdrawEvent(uint256 pId, uint256 amount, uint256 timestamp);
     event workerGetsThanksPayEvent(uint256 wId, uint256 pId, uint256 amount, string bankReceipt, uint256 timestamp);
     // event partnerGotThanksPay(uint256 pId, uint256 amount, string bankReceipt, uint256 timestamp);
-    // event partnerAddBonusEvent(uint256 pId, uint256 amount);
     
     constructor(address _security, address dataAddr, address _check) ThanksSecurityWrapper(_security) {
+        //console.log("hardhatlog: ", _security, " ", dataAddr, "  ",_check);
         data = ThanksData(dataAddr);
         check = ThanksPayCheck(_check);
     }
 
     function setLatestWagePay(uint256 pId, uint256 timestamp) public isAuthorized(msg.sender){
+        console.log("hardhatlog: ", pId, " ", timestamp);
         data.setLatestWagePay(pId, timestamp);
         emit setLatestWagePayEvent(pId, timestamp);
     }
@@ -56,6 +57,7 @@ contract ThanksPayMain is ThanksSecurityWrapper, RevertCheck {
     // added by partner himself, no check
     function partnerAddBalance(uint256 pId, uint256 amount, uint256 timestamp) public isAuthorized(msg.sender){
         (uint256 balance, , ) = data.getPartner(pId);
+        console.log("hardhat log: ",balance);
         data.setPartnerBalance(pId, balance.add(amount));
         emit partnerAddBalanceEvent(pId, amount, timestamp);
     }

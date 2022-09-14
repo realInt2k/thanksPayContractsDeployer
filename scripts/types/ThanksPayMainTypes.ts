@@ -1,7 +1,7 @@
 
 type SetLatestWagePayType = {
     pId: number,
-    amount: number
+    timestamp: number
 }
 
 type SubtractFromPartnerType = {
@@ -11,12 +11,14 @@ type SubtractFromPartnerType = {
 
 type PartnerAddBonusType = {
     pId: number,
-    amount: number
+    amount: number,
+    timestamp: number
 }
 
 type PartnerAddBalanceType = {
     pId: number,
-    amount: number
+    amount: number,
+    timestamp: number
 }
 
 type PartnerWithdrawType = {
