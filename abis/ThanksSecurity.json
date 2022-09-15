@@ -3,7 +3,7 @@
     "inputs": [
       {
         "internalType": "address[]",
-        "name": "authorized",
+        "name": "_authorized",
         "type": "address[]"
       }
     ],
@@ -114,19 +114,6 @@
   },
   {
     "inputs": [],
-    "name": "AUTHORIZED",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "DEFAULT_ADMIN_ROLE",
     "outputs": [
       {
@@ -142,7 +129,7 @@
     "inputs": [
       {
         "internalType": "address[]",
-        "name": "authorized",
+        "name": "_authorized",
         "type": "address[]"
       }
     ],
@@ -168,19 +155,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "getShit",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "pure",
     "type": "function"
   },
   {
@@ -327,19 +301,6 @@
     "name": "revokeRole",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "shit",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {

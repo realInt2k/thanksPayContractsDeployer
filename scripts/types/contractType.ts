@@ -49,8 +49,13 @@ type AuthorizeType = {
   addresses: string[];
 };
 
+type IsAuthorizedType = {
+  account: string;
+}
+
 export type ThanksPaySecurityType = {
-  authorize: AuthorizeType;
+  authorize: AuthorizeType,
+  isAuthorized: IsAuthorizedType,
   // not used
 };
 
@@ -215,6 +220,7 @@ export class ThanksPayContracts extends Contract {
         return txDetails;
       }
     } catch (e: any) {
+      console.log(e);
       return {
         type: "error",
         values: {
@@ -515,6 +521,9 @@ export class ThanksPaySecurity extends ThanksPayContracts {
     authorize: async (args: ThanksPaySecurityType["authorize"]) => {
       await this.sendTx("authorize", args);
     },
+    isAuthorized: async (args: ThanksPaySecurityType["isAuthorized"]) => {
+      await this.sendTx("isAuthorized", args);
+    }
   };
 }
 
