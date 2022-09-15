@@ -32,35 +32,38 @@ describe("ThanksPay", function () {
     it("Should create contract, the worker and the partner", async function () {
       this.timeout(0);
 
-  var thanksPay;
-  const partnerId = 1744;
-  
-  describe("ThanksPay", function () {
-    describe("Deployment", function () {
-      it("Should create contract, the worker and the partner", async function () {
-        this.timeout(0);
-        const thanksPayMain = new ThanksPayMain(networkName);
-        const thanksPayData = new ThanksPayData(networkName);
-        const thanksPayRelay = new ThanksPayRelay(networkName);
-        const thanksPayCheck = new ThanksPayCheck(networkName);
-        const thanksPaySecurity = new ThanksPaySecurity(networkName);
-  
+      var thanksPay;
+      const partnerId = 1744;
 
-      let registerPartnerArgs: ThanksPaySuperType["thanksPayData"]["registerPartner"] =
-        {
-          pId: partnerId,
-          latestPay: 1663007942,
-        };
+      describe("ThanksPay", function () {
+        describe("Deployment", function () {
+          it("Should create contract, the worker and the partner", async function () {
+            this.timeout(0);
+            const thanksPayMain = new ThanksPayMain(networkName);
+            const thanksPayData = new ThanksPayData(networkName);
+            const thanksPayRelay = new ThanksPayRelay(networkName);
+            const thanksPayCheck = new ThanksPayCheck(networkName);
+            const thanksPaySecurity = new ThanksPaySecurity(networkName);
 
-        const result = await thanksPayData.methods.registerPartner(registerPartnerArgs);
-        console.log(result);
-        if (result.type=="success") {
-          console.log("Transaction gas is: ", (result as SuccessReturn).values.money);
-        }
 
+            let registerPartnerArgs: ThanksPaySuperType["thanksPayData"]["registerPartner"] = {
+              pId: partnerId,
+              latestPay: 1663007942,
+            };
+
+            const result = await thanksPayData.methods.registerPartner(registerPartnerArgs);
+            console.log(result);
+            if (result.type == "success") {
+              console.log("Transaction gas is: ", (result as SuccessReturn).values.money);
+            };
+
+            
+
+
+
+          });
+        });
       });
-    });
-  });
-})
+    })
   })
 })

@@ -16,7 +16,7 @@ contract ThanksData is ThanksDataStatic, ThanksSecurityWrapper {
     event workerBalanceChanged(uint256 wId, uint256 newBalance);
 
     constructor(address securityAddr) ThanksSecurityWrapper(securityAddr) {
-
+        
     }
 
     function registerPartner(uint256 pId, uint256 latestPay) public isAuthorized(msg.sender){
@@ -77,17 +77,18 @@ contract ThanksData is ThanksDataStatic, ThanksSecurityWrapper {
             return worker.balance;
         }
     }
-    function getPartnerThanksPayableBalance(uint256 partner) public view returns (uint256) {
+    
+    function getPartnerThanksPayableBalance(uint256 partner) external view returns (uint256) {
         // return both partner's balance and bonus
         return (partners[partner].balance.add(partners[partner].bonus));
     }
 
-    function getPartnerWithdrawableBalance(uint256 partner) public view returns (uint256) {
+    function getPartnerWithdrawableBalance(uint256 partner) external view returns (uint256) {
         // return both partner's balance and bonus
         return (partners[partner].balance);
     }
 
-    function getPartner(uint256 pId) view public returns (uint256 balance, uint256 bonus, uint256 latestPay) {
+    function getPartner(uint256 pId) view external returns (uint256 balance, uint256 bonus, uint256 latestPay) {
         Partner memory partner = partners[pId];
         return (partner.balance, partner.bonus, partner.latestPay);
     }

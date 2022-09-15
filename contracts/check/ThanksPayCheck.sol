@@ -22,8 +22,8 @@ contract ThanksPayCheck {
     }
 
     function subtractFromPartnerCheck(uint256 pId, uint256 amount) public view returns(bool) {
-        (uint256 balance, uint256 bonus,) = data.getPartner(pId);
-        if (balance + bonus >= amount) {
+        (uint256 balance, uint256 bonus, ) = data.getPartner(pId);
+        if (balance.add(bonus) >= amount) {
             return true;
         } else {
             return false;
@@ -41,7 +41,7 @@ contract ThanksPayCheck {
 
     function workerGetsThanksPayCheck(uint256 wId, uint256 amount) public view returns(bool)  {
         uint256 workerBalance = data.getWorkerBalance(wId);
-        // check if the Partner or worker doesn't have eough money is sufficent 
+        // check if the Partner or worker doesn't have eough money is sufficent
         if(workerBalance < amount) return false;
         return true;
     }

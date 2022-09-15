@@ -31,7 +31,7 @@ contract ThanksPayRelay{
     }
     
     function setStaticProperties (
-            // properties not needed for business logic, like name, address, etc
+        // properties not needed for business logic, like name, address, etc
         uint256 entityID, // 1: "Partner", 2: "Worker", 3: "Pay"
         uint256 blockchainID, // e.g. "1": worker with ID number 1
         uint256[] memory propertyIDs,  // e.g. "1" (register it first with registerProperty)
