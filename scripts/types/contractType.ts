@@ -187,6 +187,7 @@ export class ThanksPayContracts extends Contract {
         };
       }
       const tx = await this[name](...orderedArgs);
+      console.log(tx);
 
       if (getFunctionStateMutability(name, this.schema) === "view") {
         return {

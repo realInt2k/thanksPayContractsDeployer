@@ -11,9 +11,9 @@ const {
   import thanksPayDataABI from "../abis/ThanksData.json";
   import thanksPayABI from "../abis/ThanksPayMain.json";
   import thanksRelayABI from "../abis/ThanksPayRelay.json";
-  import contractAddresses from "../scripts/contractAddresses.json";
+  import contractAddresses from "./contractAddresses.json";
   import { getMoney } from "./utils/getMoney";
-  import { SuccessReturn, ErrorReturn, ViewReturn } from "../scripts/types/returnType";
+  import { SuccessReturn, ErrorReturn, ViewReturn } from "./types/returnType";
   import {
     ThanksPayMain,
     ThanksPayData,
@@ -21,7 +21,7 @@ const {
     ThanksPayCheck,
     ThanksPaySecurity,
     OldThanks
-  } from "../scripts/types/contractType";
+  } from "./types/contractType";
     import { ThanksPaySuperType} from "./generatedTypes/ThanksPaySuperType";
     import { oldThanksType } from './generatedTypes/oldThanksType';
   var thanksPay;

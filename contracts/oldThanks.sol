@@ -195,7 +195,8 @@ contract oldThanks{
 /**
  * 파트너사 함수 
  **/
-    function newPartner(
+    
+    function(
         string memory partnerLicenseId,
         address klaytnAcc,
         uint initialDeposit,

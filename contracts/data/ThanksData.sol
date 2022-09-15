@@ -7,7 +7,6 @@ import "../security/ThanksSecurityWrapper.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 
-
 contract ThanksData is ThanksDataStatic, ThanksSecurityWrapper {
     using SafeMath for uint256;
 
