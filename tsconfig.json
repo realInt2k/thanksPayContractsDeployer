@@ -16,6 +16,6 @@
       "@test/*": ["./test/*"]
     }
   },
-  "include": ["./scripts", "./test", "./typechain", "ignore"],
+  "include": ["./scripts", "./test", "./typechain", "ignore", "scripts/utils"],
   "files": ["./hardhat.config.ts"]
 }
