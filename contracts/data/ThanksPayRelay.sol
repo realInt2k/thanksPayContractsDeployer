@@ -11,7 +11,6 @@ contract ThanksPayRelay{
     event propertyNamesAltered(uint256 entityID, uint256[] propertyIDs, string[] propertyNames, uint256[] propertyTypes);
     event entityNamesAltered(uint256[] _entityIDs, string[] _entityNames);
 
-
     uint256[] public entityIDs; // the list of entities, i.e. 1, 2, 3, 4, 5
     mapping(uint256 => string) public entityNamesMap; // the names of entities, i.e. 1=> Partner, 2=> Worker, 3=> Pay
     // first pass entity ("Partner"), then propertyID ("1"), and it will give you the name ("email")
