@@ -27,7 +27,7 @@ const {
   console.log(networkName);
 
   var thanksPay;
-  const partnerId = 1735;
+  const partnerId = 1738;
   
   describe("ThanksPay", function () {
     describe("Deployment", function () {

@@ -2,23 +2,32 @@
   "name": "lm-graphql",
   "license": "UNLICENSED",
   "scripts": {
-    "ganache": "ganache --database.dbPath './ganache_DB' --wallet.accountKeysPath './ganacheAccounts.txt' --wallet.totalAccounts 120 --wallet.seed 'GivingDays'",
-    "ganacheDung": "npx ganache --wallet.mnemonic 'polar velvet stereo oval sonic senior cause taylor tube hobby exact angry' --db './ganacheDB'  --wallet.accountKeysPath  './ganacheAccounts.json' -p 8545 --chain.chainId 1337  -a 120 -e 10000",
-    "ganacheSh": "./start-ganache.sh",
-    "ganachePs1": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./start-ganache.ps1",
-    "codegen": "graph codegen",
-    "build": "graph build",
-    "deploy": "graph deploy --product hosted-service realint2k/Lm1",
-    "deployOlzhas": "graph deploy --product hosted-service ollie041114/lm-graphql",
-    "deployPolygon": "npx ts-node ./scripts/deploy.ts --networkName=polygonTest",
-    "deployGanache": "npx ts-node ./scripts/deploy.ts --networkName=ganache",
-    "deployKlaytn": "npx ts-node ./scripts/deploy.ts --networkName=klaytn",
+
+    "start:ganache": "npx ganache --wallet.seed='GivingDays' --db './ganacheDB'  --wallet.accountKeysPath  './ganacheAccounts.json' -p 8545 --chain.chainId 1337  -a 120 -e 10000",
+    "start:polygonPolling": "npx ts-node ./scripts/utils/polygonScriptUnderground.ts",
+    
+
+    "deploy:polygon:testnet": "npx ts-node ./scripts/deploy.ts --networkName=polygonTest",
+    "deploy:ganache:testnet": "npx ts-node ./scripts/deploy.ts --networkName=ganache && rm -rf ./transaction_log/unsynced/* && rm -rf ./transaction_log/synced/*",
+    "deploy:klaytn:testnet": "npx ts-node ./scripts/deploy.ts --networkName=klaytn",
+
+    "test:new:polygon:testnet": "mocha -r ts-node/register test/test_new.ts --networkName=polygonTest",
+    "test:new:ganache:testnet": "mocha -r ts-node/register test/test_new.ts --networkName=ganache",
+    "test:new:klaytn:testnet": "mocha -r ts-node/register test/test_new.ts --networkName=klaytn",
+    
+    
     "test": "mocha -r ts-node/register test/test.ts",
     "test_rawTx": "mocha -r ts-node/register test/test_rawTx.ts",
     "testDung": "mocha -r ts-node/register test/test_dungn.ts",
     "testPolygonNEW": "mocha -r ts-node/register test/test_new.ts --networkName=polygonTest",
     "testKlaytnNEW": "mocha -r ts-node/register test/test_new.ts --networkName=klaytn",
     "testGanacheNEW": "mocha -r ts-node/register test/test_new.ts --networkName=ganache",
+
+    "ganacheSh": "./start-ganache.sh",
+    "ganachePs1": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./start-ganache.ps1",
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --product hosted-service realint2k/Lm1",
     "create-local": "graph create --node http://localhost:8020/ realint2k/int2kLM",
     "remove-local": "graph remove --node http://localhost:8020/ realint2k/int2kLM",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 realint2k/int2kLM",
