@@ -129,6 +129,11 @@
         "internalType": "uint256",
         "name": "latestPay",
         "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "exist",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -182,6 +187,11 @@
         "internalType": "uint256",
         "name": "latestRequest",
         "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "exist",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",

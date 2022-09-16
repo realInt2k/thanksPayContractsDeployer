@@ -40,7 +40,18 @@
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "pId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "latestPay",
+        "type": "uint256"
+      }
+    ],
     "name": "registerPartnerCheck",
     "outputs": [
       {
@@ -53,7 +64,23 @@
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "wId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "pId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "wage",
+        "type": "uint256"
+      }
+    ],
     "name": "registerWorkerCheck",
     "outputs": [
       {
@@ -66,20 +93,18 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "setCompanyBalanceCheck",
-    "outputs": [
+    "inputs": [
       {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
+        "internalType": "uint256",
+        "name": "wId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "latestRequest",
+        "type": "uint256"
       }
     ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "setLatestRequestCheck",
     "outputs": [
       {
@@ -92,7 +117,18 @@
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "pId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      }
+    ],
     "name": "setLatestWagePayCheck",
     "outputs": [
       {
@@ -105,7 +141,18 @@
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "pId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "newBalance",
+        "type": "uint256"
+      }
+    ],
     "name": "setPartnerBalanceCheck",
     "outputs": [
       {
@@ -118,8 +165,43 @@
     "type": "function"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "wId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "newBalance",
+        "type": "uint256"
+      }
+    ],
     "name": "setWorkerBalanceCheck",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "wId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "pId",
+        "type": "uint256"
+      }
+    ],
+    "name": "setWorkerPartnerCheck",
     "outputs": [
       {
         "internalType": "bool",

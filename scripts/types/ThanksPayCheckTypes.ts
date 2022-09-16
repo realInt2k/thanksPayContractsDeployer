@@ -53,6 +53,11 @@ type SetPartnerBalanceCheckType = {
     pId: number,
     newBalance: number
 }
+
+type setPartnerBonusCheckType = {
+    pId: number,
+    bonus: number
+}
   
 export type ThanksPayCheckType = {
     workerGetSalaryEarlyCheck: WorkerGetsSalaryEarlyCheckType
@@ -62,6 +67,7 @@ export type ThanksPayCheckType = {
     registerWorkerCheck: RegisterWorkerCheckType,
     setWorkerPartnerCheck: SetWorkerPartnerCheckType,
     registerPartnerCheck: RegisterPartnerCheckType,
+    setPartnerBonusCheck: setPartnerBonusCheckType,
     setLatestWagePayCheck: SetLatestWagePayCheckType,
     setLatestRequestCheck: SetLatestRequestCheckType,
     setWorkerBalanceCheck: SetWorkerBalanceCheckType,

@@ -246,43 +246,115 @@ export class ThanksPayCheck extends ThanksPayContracts {
   public method = {
     workerGetSalaryEarlyCheck: async (
       args: ThanksPayCheckType["workerGetSalaryEarlyCheck"]
-    ) => {
-      await this.sendTx("workerGetSalaryEarlyCheck", args);
+    ): Promise<boolean> => {
+      const res = await this.sendTx("workerGetSalaryEarlyCheck", args);
+      return res;
     },
     subtractFromPartnerCheck: async (
       args: ThanksPayCheckType["subtractFromPartnerCheck"]
-    ) => {
-      await this.sendTx("subtractFromPartnerCheck", args);
+    ): Promise<boolean> => {
+      const res = await this.sendTx("subtractFromPartnerCheck", args);
+      return res;
     },
     partnerWithdrawCheck: async (
       args: ThanksPayCheckType["partnerWithdrawCheck"]
-    ) => {
-      await this.sendTx("partnerWithdrawCheck", args);
+    ):Promise<boolean> => {
+      const res = await this.sendTx("partnerWithdrawCheck", args);
+      return res;
     },
     workerGetsThanksPayCheck: async (
       args: ThanksPayCheckType["workerGetsThanksPayCheck"]
-    ) => {
-      await this.sendTx("workerGetsThanksPayCheck", args);
+    ):Promise<boolean> => {
+      const res = await this.sendTx("workerGetsThanksPayCheck", args);
+      return res;
+    },
+    registerWorkerCheck: async (
+      args: ThanksPayCheckType["registerWorkerCheck"]
+    ):Promise<boolean> => {
+      const res = await this.sendTx("registerWorkerCheck", args);
+      return res;
+    },
+    setWorkerPartnerCheck: async (
+      args: ThanksPayCheckType["setWorkerPartnerCheck"]
+    ):Promise<boolean> => {
+      const res = await this.sendTx("setWorkerPartnerCheck", args);
+      return res;
+    },
+    registerPartnerCheck: async (
+      args: ThanksPayCheckType["registerPartnerCheck"]
+    ):Promise<boolean> => {
+      const res = await this.sendTx("registerPartnerCheck", args);
+      return res;
+    },
+    setPartnerBonusCheck: async (
+      args: ThanksPayCheckType["setPartnerBonusCheck"]
+    ):Promise<boolean> => {
+      const res = await this.sendTx("setPartnerWorkerCheck", args);
+      return res;
+    },
+    setLatestWagePayCheck: async (
+      args: ThanksPayCheckType["setLatestWagePayCheck"]
+    ):Promise<boolean> => {
+      const res = await this.sendTx("setLatestWagePayCheck", args);
+      return res;
+    },
+    setLatestRequestCheck: async (
+      args: ThanksPayCheckType["setLatestRequestCheck"]
+    ):Promise<boolean> => {
+      const res = await this.sendTx("setLatestRequestCheck", args);
+      return res;
+    },
+    setWorkerBalanceCheck: async (
+      args: ThanksPayCheckType["setWorkerBalanceCheck"]
+    ):Promise<boolean> => {
+      const res = await this.sendTx("setWorkerBalanceCheck", args);
+      return res;
+    },
+    setPartnerBalanceCheck: async (
+      args: ThanksPayCheckType["setPartnerBalanceCheck"]
+    ):Promise<boolean> => {
+      const res = await this.sendTx("setPartnerBalanceCheck", args);
+      return res;
     }
   }
 }
 
 // up-to-date as of 2021-09-13
 export class ThanksPayData extends ThanksPayContracts {
+  private thanksPayCheck: ThanksPayCheck;
   constructor(signerOrProvider: SignerOrProvider) {
     super(signerOrProvider, THANKS_PAY_DATA_ADDR, thanksPayDataABI);
+    this.thanksPayCheck = new ThanksPayCheck(signerOrProvider);
   }
 
   public method = {
     registerPartner: async (args: ThanksPayDataType["registerPartner"]) => {
+      const check:boolean = await this.thanksPayCheck.method.registerPartnerCheck(args);
+      if(!check) {
+        return {
+          error: "registerPartnerCheck failed"
+        }
+      }
       const receipt:any =  await this.sendTx("registerPartner", args);
       const eventReturn = this.getEventObj(receipt);
       // now save to db
     },
     registerWorker: async (args: ThanksPayDataType["registerWorker"]) => {
+      const check:boolean = await this.thanksPayCheck.method.registerWorkerCheck(args);
+      if(!check) {
+        return {
+          error: "registerWorkerCheck failed"
+        }
+      }
       const receipt = await this.sendTx("registerWorker", args);
     },
     setPartnerBonus: async (args: ThanksPayDataType["setPartnerBonus"]) => {
+      const check = await this.thanksPayCheck.method.setPartnerBonusCheck(args);
+      if(!check) {
+        return {
+          error: "registerWorkerCheck failed"
+        }
+      }
       this.sendTx("setPartnerBonus", args);
     },
     setPartnerBalance: async (args: ThanksPayDataType["setPartnerBalance"]) => {

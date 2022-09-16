@@ -16,6 +16,7 @@ contract ThanksDataStatic {
         uint256 balance; // withdrawable balance
         uint256 bonus; // bonus provided by GivingDays
         uint256 latestPay;
+        bool exist;
     }
 
     uint256[] partnerPool;
@@ -28,6 +29,8 @@ contract ThanksDataStatic {
         uint256 pId;
             // partnerId.
         uint256 latestRequest;
+
+        bool exist;
     }
 
     mapping(uint256 => Partner) public partners;

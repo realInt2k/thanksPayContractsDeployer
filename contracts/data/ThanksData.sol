@@ -18,7 +18,7 @@ contract ThanksData is ThanksDataStatic, ThanksSecurityWrapper {
     }
 
     function registerPartner(uint256 pId, uint256 latestPay) public isAuthorized(msg.sender){
-        partners[pId] = Partner(0, 0, latestPay);
+        partners[pId] = Partner(0, 0, latestPay, true);
         types[pId] = 1;
         emit partnerRegistered(pId, latestPay);
     }
@@ -33,9 +33,13 @@ contract ThanksData is ThanksDataStatic, ThanksSecurityWrapper {
     }
 
     function registerWorker(uint256 wId, uint256 pId, uint256 wage) public isAuthorized(msg.sender) {
-        workers[wId] = Worker(0, wage, pId, 0);
+        workers[wId] = Worker(0, wage, pId, 0, true);
         types[wId] = 2;
         emit workerRegistered(wId, pId, wage);
+    }
+
+    function setWorkerPartner(uint256 wId, uint256 pId) public isAuthorized(msg.sender) {
+        workers[wId].pId = pId;
     }
 
     function setLatestRequest(uint256 wId, uint256 latestRequest) public isAuthorized(msg.sender) {
