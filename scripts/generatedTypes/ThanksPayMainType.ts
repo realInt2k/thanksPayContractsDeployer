@@ -34,7 +34,7 @@ type WorkerGetsThanksPayType = {
   timestamp: number,
 }
 
-export type ThanksPayMainTypes = {
+export type ThanksPayMainType = {
   partnerAddBalance: PartnerAddBalanceType,
   partnerAddBonus: PartnerAddBonusType,
   partnerWithdraw: PartnerWithdrawType,

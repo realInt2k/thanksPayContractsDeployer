@@ -40,7 +40,7 @@ type WorkerGetsThanksPayCheckType = {
   amount: number,
 }
 
-export type ThanksPayCheckTypes = {
+export type ThanksPayCheckType = {
   partnerWithdrawCheck: PartnerWithdrawCheckType,
   registerPartnerCheck: RegisterPartnerCheckType,
   registerWorkerCheck: RegisterWorkerCheckType,

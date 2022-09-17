@@ -1,14 +1,14 @@
 
-import { ThanksPaySecurityTypes } from "./ThanksPaySecurityTypes";
-import { ThanksPayDataTypes } from "./ThanksPayDataTypes";
-import { ThanksPayMainTypes } from "./ThanksPayMainTypes";
-import { ThanksPayRelayTypes } from "./ThanksPayRelayTypes";
-import { ThanksPayCheckTypes } from "./ThanksPayCheckTypes";
+import { ThanksPaySecurityType } from "./ThanksPaySecurityTypes";
+import { ThanksPayDataType } from "./ThanksPayDataTypes";
+import { ThanksPayMainType } from "./ThanksPayMainTypes";
+import { ThanksPayRelayType } from "./ThanksPayRelayTypes";
+import { ThanksPayCheckType } from "./ThanksPayCheckTypes";
 
 export type ThanksPaySuperType = {
-  thanksPaySecurity: ThanksPaySecurityTypes,
-  thanksPayData: ThanksPayDataTypes,
-  thanksPayMain: ThanksPayMainTypes,
-  thanksPayRelay: ThanksPayRelayTypes,
-  thanksPayCheck: ThanksPayCheckTypes,
+  thanksPaySecurity: ThanksPaySecurityType,
+  thanksPayData: ThanksPayDataType,
+  thanksPayMain: ThanksPayMainType,
+  thanksPayRelay: ThanksPayRelayType,
+  thanksPayCheck: ThanksPayCheckType,
 };

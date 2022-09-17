@@ -1,4 +1,4 @@
-import thanksSecurityABI from "../abis/ThanksSecurity.json";
+import thanksPaySecurityABI from "../abis/ThanksSecurity.json";
 import thanksPayDataABI from "../abis/ThanksData.json";
 import thanksPayMainABI from "../abis/ThanksPayMain.json";
 import thanksPayRelayABI from "../abis/ThanksPayRelay.json";
@@ -101,7 +101,7 @@ const getSchema = (abi: any) => {
   return arrayOfFunctions;
 };
 
-async function createFileIfNotThere(fileName: string) {
+async function createFileIfNotThere1(fileName: string) {
   fs.promises.readdir(__dirname + "/generatedTypes").catch(() => {
     fs.mkdirSync(__dirname + "/generatedTypes");
   });
@@ -109,6 +109,18 @@ async function createFileIfNotThere(fileName: string) {
     .readFile(__dirname + "/generatedTypes/" + fileName + ".ts")
     .catch(() => {
       fs.writeFileSync(__dirname + "/generatedTypes/" + fileName + ".ts", "");
+      console.log(`just made ${fileName}.ts`);
+    });
+}
+
+async function createFileIfNotThere2(dir: string, fileName: string) {
+  fs.promises.readdir(__dirname + dir).catch(() => {
+    fs.mkdirSync(__dirname + dir);
+  });
+  fs.promises
+    .readFile(__dirname + dir + fileName + ".ts")
+    .catch(() => {
+      fs.writeFileSync(__dirname + dir + fileName + ".ts", "");
       console.log(`just made ${fileName}.ts`);
     });
 }
@@ -145,37 +157,348 @@ export type ${fileName} = {`
   fs.writeFileSync(__dirname + "/generatedTypes/" + fileName + ".ts", typing);
 }
 
+async function generateSuperClass() {
+  let classStr = 
+`
+import { Contract } from "@ethersproject/contracts";
+import { Provider } from "@ethersproject/providers";
+import { Signer } from "@ethersproject/abstract-signer";
+export type SignerOrProvider = Provider | Signer | undefined;
+
+import thanksPaySecurityABI from "../../abis/ThanksSecurity.json";
+import thanksPayDataABI from "../../abis/ThanksData.json";
+import thanksPayMainABI from "../../abis/ThanksPayMain.json";
+import thanksPayRelayABI from "../../abis/ThanksPayRelay.json";
+import thanksPayCheckABI from "../../abis/ThanksPayCheck.json";
+
+import { ThanksPayRelayType } from "../generatedTypes/ThanksPayRelayType";
+import { ThanksPayDataType } from "../generatedTypes/ThanksPayDataType";
+import { ThanksPayCheckType } from "../generatedTypes/ThanksPayCheckType";
+import { ThanksPayMainType } from "../generatedTypes/ThanksPayMainType";
+import { ThanksPaySecurityType } from "../generatedTypes/ThanksPaySecurityType";
+import { ThanksPaySuperType } from "../generatedTypes/ThanksPaySuperType";
+
+import contractAddresses from '../contractAddresses.json';
+const Web3 = require('web3');
+const web3 = new Web3();
+import * as fs from 'fs';
+
+export type ContractABIType = any;
+
+// this will be changed with env variable
+const THANKS_PAY_MAIN_ADDR = contractAddresses["THANKS_PAY_MAIN_ADDR"];
+const THANKS_PAY_DATA_ADDR = contractAddresses["THANKS_PAY_DATA_ADDR"];
+const THANKS_PAY_SECURITY_ADDR = contractAddresses["THANKS_PAY_SECURITY_ADDR"];
+const THANKS_PAY_RELAY_ADDR = contractAddresses["THANKS_PAY_RELAY_ADDR"];
+const THANKS_PAY_CHECK_ADDR = contractAddresses["THANKS_PAY_CHECK_ADDR"];
+
+const getSchema = (abi: ContractABIType) => {
+  
+  // filter abi where "type" is "function"
+  const functions = abi.filter((row: any) => row["type"] === "function");
+
+  // make an array where key is functions['name']
+  const arrayOfFunctions = functions.map((func: any) => {
+    const funcName = func["name"];
+    return {
+      name: func["name"],
+      inputTypes: func["inputs"].map((input: any) => input["type"]),
+      inputNames: func["inputs"].map((input: any) => input["name"]),
+    };
+  });
+
+  return arrayOfFunctions;
+};
+
+const getEvents = (abi: ContractABIType) => {
+  
+  // filter abi where "type" is "type"
+  const events = abi.filter((row: any) => row["type"] === "event");
+
+  const arrayOfEvents = events.map((event: any) => {
+    return { 
+      name: event["name"],
+      typesArray: event["inputs"].map((input: any) => {
+        return {
+          type: input["type"],
+          name: input["name"]
+        }
+      }),
+      inputTypes: event["inputs"].map((input: any) => input["type"]),
+      inputNames: event["inputs"].map((input: any) => input["name"]),
+    };
+  });
+
+  return arrayOfEvents;
+}
+
+const getRequiredTypeOrder = (functionName: string, schema: any) => {
+  const func = schema.find((row: any) => row.name === functionName);
+  if (func) {
+    return func.inputTypes;
+  }
+  return [];
+};
+
+export class ThanksPayContracts extends Contract {
+  public schema: any;
+  public events: any;
+  public getEventTypesArray(eventName: string) {
+    const event = this.events.find((row: any) => row.name === eventName);
+    if (event) {
+      return event.typesArray;
+    }
+    return [];
+  }
+
+  public getRequiredOrder = (functionName: string) => {
+    const func = this.schema.find((row: any) => row.name === functionName);
+    if (func) {
+      return func.inputNames;
+    }
+    return [];
+  };
+
+  public getEventObj = (receipt: any) => {
+    if(!receipt.events[0].event) {
+      return {};
+    }
+    const typesArray = this.getEventTypesArray(receipt.events[0].event);
+    const decodedParameters = web3.eth.abi.decodeParameters(typesArray, receipt.events[0].data);
+    let obj:any = {};
+    for (let i = 0; i < typesArray.length; i++) {
+      obj[typesArray[i].name] = decodedParameters[typesArray[i].name];
+    }
+    return {
+      decodedParameters, 
+      obj
+    }
+  }
+  constructor(
+    signerOrProvider: SignerOrProvider,
+    contractAddr: string,
+    abi: ContractABIType
+  ) {
+    super(contractAddr, abi, signerOrProvider);
+    this.schema = getSchema(abi);
+    this.events = getEvents(abi);
+  }
+  public sendTx = async (name: string, args: any): Promise<any> => {
+    try {
+      const order = this.getRequiredOrder(name);
+      const orderedArgs = order.map((item: string) => {
+        return (args as any)[item];
+      });
+      if ("payableAmt" in args) {
+        orderedArgs.push(args.payableAmt);
+      }
+      // console.log(
+      //   "in contractType.ts sendTx: orderedArg is: ",
+      //   orderedArgs,
+      //   " method: ",
+      //   name
+      // );
+      const tx = await this[name](...orderedArgs);
+      const txReceipt = await tx.wait();
+      return txReceipt;
+    } catch (e: any) {
+      //console.log("error is: ", e); // change to alert
+      // if (e.data && e.data.message) {
+      //   alert(e.data.message);
+      // }
+      console.log(name, " failed to deliver")
+      return -1;
+    }
+  };
+}
+`;
+// for thanksPayMain:
+classStr += 
+`
+export class ThanksPayMain extends ThanksPayContracts {
+  constructor(signerOrProvider: SignerOrProvider) {
+    super(signerOrProvider, THANKS_PAY_MAIN_ADDR, thanksPayMainABI);
+  }
+  public method = {
+`; 
+
+  const schema = getSchema(thanksPayMainABI);
+  for(let i = 0; i < schema.length; i++) {
+    const funcName = schema[i].name;
+    classStr+= 
+`
+    ${funcName}: async (args: ThanksPaySuperType["thanksPayMain"]["${funcName}"]):Promise<any> => {
+      const receipt = await this.sendTx("${funcName}", args);
+      return receipt;
+    },
+` 
+  }
+  classStr += 
+`
+  }
+}
+`;
+// for thanksPayData:
+  classStr +=
+`
+export class ThanksPayData extends ThanksPayContracts {
+  constructor(signerOrProvider: SignerOrProvider) {
+    super(signerOrProvider, THANKS_PAY_DATA_ADDR, thanksPayDataABI);
+  }
+  public method = {
+`;
+  const schema2 = getSchema(thanksPayDataABI);
+  for(let i = 0; i < schema2.length; i++) {
+    const funcName = schema2[i].name;
+    classStr+=
+`
+    ${funcName}: async (args: ThanksPaySuperType["thanksPayData"]["${funcName}"]):Promise<any> => {
+      const receipt = await this.sendTx("${funcName}", args);
+      return receipt;
+    },
+`
+  }
+  classStr +=
+`
+  }
+}
+`;
+// for ThanksPaySecurity:
+  classStr +=
+`
+export class ThanksPaySecurity extends ThanksPayContracts {
+  constructor(signerOrProvider: SignerOrProvider) {
+    super(signerOrProvider, THANKS_PAY_SECURITY_ADDR, thanksPaySecurityABI);
+  }
+  public method = {
+`;
+  const schema3 = getSchema(thanksPaySecurityABI);
+  for(let i = 0; i < schema3.length; i++) {
+    const funcName = schema3[i].name;
+    classStr+=
+`
+    ${funcName}: async (args: ThanksPaySuperType["thanksPaySecurity"]["${funcName}"]):Promise<any> => {
+      const receipt = await this.sendTx("${funcName}", args);
+      return receipt;
+    },
+`
+  }
+  classStr +=
+`
+  }
+}
+`;
+// for ThanksPayRelay:
+  classStr +=
+`
+export class ThanksPayRelay extends ThanksPayContracts {
+  constructor(signerOrProvider: SignerOrProvider) {
+    super(signerOrProvider, THANKS_PAY_RELAY_ADDR, thanksPayRelayABI);
+  }
+  public method = {
+`;
+  const schema4 = getSchema(thanksPayRelayABI);
+  for(let i = 0; i < schema4.length; i++) {
+    const funcName = schema4[i].name;
+    classStr+=
+`
+    ${funcName}: async (args: ThanksPaySuperType["thanksPayRelay"]["${funcName}"]):Promise<any> => {
+      const receipt = await this.sendTx("${funcName}", args);
+      return receipt;
+    },
+`
+  }
+  classStr +=
+`
+  }
+}
+`;
+
+// For thanksPayCheck:
+  classStr +=
+`
+export class ThanksPayCheck extends ThanksPayContracts {
+  constructor(signerOrProvider: SignerOrProvider) {
+    super(signerOrProvider, THANKS_PAY_CHECK_ADDR, thanksPayCheckABI);
+  }
+  public method = {
+`;
+  const schema5 = getSchema(thanksPayCheckABI);
+  for(let i = 0; i < schema5.length; i++) {
+    const funcName = schema5[i].name;
+    classStr+=
+`
+    ${funcName}: async (args: ThanksPaySuperType["thanksPayCheck"]["${funcName}"]):Promise<any> => {
+      const receipt = await this.sendTx("${funcName}", args);
+      return receipt;
+    },
+`
+  }
+  classStr +=
+`
+  }
+}
+`;
+
+  fs.writeFileSync(__dirname + "/generatedClasses/ThanksPayContracts.ts", classStr);
+}
+
+async function generateChildClass(fileName: string, schema: any) {
+  let classStr = `
+  import { Contract } from "@ethersproject/contracts";
+  import { Provider } from "@ethersproject/providers";
+  import { Signer } from "@ethersproject/abstract-signer";
+  export type SignerOrProvider = Provider | Signer | undefined;
+
+  export class ${fileName} extends ThanksPayContracts {;
+    constructor(signerOrProvider: SignerOrProvider) {
+      super(signerOrProvider);
+    }
+  }
+`
+}
+
 async function main() {
-  const thanksPaySecuritySchema = getSchema(thanksSecurityABI);
+  const thanksPaySecuritySchema = getSchema(thanksPaySecurityABI);
   const thanksPayDataSchema = getSchema(thanksPayDataABI);
   const thanksPayMainSchema = getSchema(thanksPayMainABI);
   const thanksPayRelaySchema = getSchema(thanksPayRelayABI);
   const thanksPayCheckSchema = getSchema(thanksPayCheckABI);
-  await createFileIfNotThere("ThanksPaySecurityTypes");
-  await createFileIfNotThere("ThanksPayDataTypes");
-  await createFileIfNotThere("ThanksPayMainTypes");
-  await createFileIfNotThere("ThanksPayRelayTypes");
-  await createFileIfNotThere("ThanksPayCheckTypes");
-  await createFileIfNotThere("ThanksPaySuperType");
-  await generateTyping("ThanksPaySecurityTypes", thanksPaySecuritySchema);
-  await generateTyping("ThanksPayDataTypes", thanksPayDataSchema);
-  await generateTyping("ThanksPayMainTypes", thanksPayMainSchema);
-  await generateTyping("ThanksPayRelayTypes", thanksPayRelaySchema);
-  await generateTyping("ThanksPayCheckTypes", thanksPayCheckSchema);
+  await createFileIfNotThere1("ThanksPaySecurityType");
+  await createFileIfNotThere1("ThanksPayDataType");
+  await createFileIfNotThere1("ThanksPayMainType");
+  await createFileIfNotThere1("ThanksPayRelayType");
+  await createFileIfNotThere1("ThanksPayCheckType");
+  await createFileIfNotThere1("ThanksPaySuperType");
+
+  // await createFileIfNotThere2("/generatedClasses/", "ThanksPaySecurity");
+  // await createFileIfNotThere2("/generatedClasses/", "ThanksPayData");
+  // await createFileIfNotThere2("/generatedClasses/", "ThanksPayMain");
+  // await createFileIfNotThere2("/generatedClasses/", "ThanksPayRelay");
+  // await createFileIfNotThere2("/generatedClasses/", "ThanksPayCheck");
+  await createFileIfNotThere2("/generatedClasses/", "ThanksPayContracts");
+
+  await generateSuperClass();
+
+  await generateTyping("ThanksPaySecurityType", thanksPaySecuritySchema);
+  await generateTyping("ThanksPayDataType", thanksPayDataSchema);
+  await generateTyping("ThanksPayMainType", thanksPayMainSchema);
+  await generateTyping("ThanksPayRelayType", thanksPayRelaySchema);
+  await generateTyping("ThanksPayCheckType", thanksPayCheckSchema);
 
   let superType = `
-import { ThanksPaySecurityTypes } from "./ThanksPaySecurityTypes";
-import { ThanksPayDataTypes } from "./ThanksPayDataTypes";
-import { ThanksPayMainTypes } from "./ThanksPayMainTypes";
-import { ThanksPayRelayTypes } from "./ThanksPayRelayTypes";
-import { ThanksPayCheckTypes } from "./ThanksPayCheckTypes";
+import { ThanksPaySecurityType } from "./ThanksPaySecurityTypes";
+import { ThanksPayDataType } from "./ThanksPayDataTypes";
+import { ThanksPayMainType } from "./ThanksPayMainTypes";
+import { ThanksPayRelayType } from "./ThanksPayRelayTypes";
+import { ThanksPayCheckType } from "./ThanksPayCheckTypes";
 
 export type ThanksPaySuperType = {
-  thanksPaySecurity: ThanksPaySecurityTypes,
-  thanksPayData: ThanksPayDataTypes,
-  thanksPayMain: ThanksPayMainTypes,
-  thanksPayRelay: ThanksPayRelayTypes,
-  thanksPayCheck: ThanksPayCheckTypes,
+  thanksPaySecurity: ThanksPaySecurityType,
+  thanksPayData: ThanksPayDataType,
+  thanksPayMain: ThanksPayMainType,
+  thanksPayRelay: ThanksPayRelayType,
+  thanksPayCheck: ThanksPayCheckType,
 };`;
   fs.writeFileSync(__dirname + "/generatedTypes/ThanksPaySuperType.ts", superType);
 

@@ -36,7 +36,7 @@ type SetStaticPropertiesType = {
   propertyValues: string[],
 }
 
-export type ThanksPayRelayTypes = {
+export type ThanksPayRelayType = {
   allpropertyIDs: AllpropertyIDsType,
   alterEntityNames: AlterEntityNamesType,
   alterPropertyNames: AlterPropertyNamesType,

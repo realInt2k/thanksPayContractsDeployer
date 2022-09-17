@@ -40,7 +40,7 @@ type SupportsInterfaceType = {
   interfaceId: string,
 }
 
-export type ThanksPaySecurityTypes = {
+export type ThanksPaySecurityType = {
   aUTHORIZED: AUTHORIZEDType,
   dEFAULT_ADMIN_ROLE: DEFAULT_ADMIN_ROLEType,
   authorize: AuthorizeType,

@@ -53,7 +53,7 @@ type TypesType = {
 type WorkersType = {
 }
 
-export type ThanksPayDataTypes = {
+export type ThanksPayDataType = {
   getPartner: GetPartnerType,
   getPartnerThanksPayableBalance: GetPartnerThanksPayableBalanceType,
   getPartnerWithdrawableBalance: GetPartnerWithdrawableBalanceType,
