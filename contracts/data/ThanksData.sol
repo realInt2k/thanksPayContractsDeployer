@@ -55,12 +55,13 @@ contract ThanksData is ThanksDataStatic, ThanksSecurityWrapper {
         partners[pId].latestPay = timestamp;
     }
 
-    function getWorker(uint256 wId) view public returns (uint256 balance, uint256 wage, uint256 pId, uint256 latestRequest) {
+    function getWorker(uint256 wId) view public returns (uint256 balance, uint256 wage, uint256 pId, uint256 latestRequest, bool exist) {
         Worker memory worker = workers[wId];
         return (worker.balance,
                 worker.wage,
                 worker.pId,
-                worker.latestRequest
+                worker.latestRequest,
+                worker.exist
             );
     }
 

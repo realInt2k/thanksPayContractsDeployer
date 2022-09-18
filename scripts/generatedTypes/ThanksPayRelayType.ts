@@ -37,7 +37,7 @@ type SetStaticPropertiesType = {
 }
 
 export type ThanksPayRelayType = {
-  allpropertyIDs: AllpropertyIDsType,
+  AllpropertyIDs: AllpropertyIDsType,
   alterEntityNames: AlterEntityNamesType,
   alterPropertyNames: AlterPropertyNamesType,
   dynamicPropertiesMap: DynamicPropertiesMapType,
