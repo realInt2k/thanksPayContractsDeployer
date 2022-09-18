@@ -26,33 +26,7 @@ const networkName = arg.split("=")[1]; // "ganache"
 console.log(networkName, process.argv);
 
 
-export type networkNameType = "ganache" | "polygonTest" 
-
-export async function deployContract(networkName: networkNameType, name: string, args: any[] | null) {
-  const Platoon = await ethers.getContractFactory(name);
-  let soldier:any;
-  if(args !== null){
-    console.log(...args)
-    soldier = await Platoon.deploy(...args);
-  }
-  else {
-    soldier = await Platoon.deploy();
-  }
-  await soldier.deployed();
-  if(name === "ThanksSecurity") {
-    contractAddresses[networkName]["THANKS_PAY_SECURITY_ADDR"] = soldier.address;
-  } else if(name === "ThanksData") {
-    contractAddresses[networkName]["THANKS_PAY_DATA_ADDR"] = soldier.address;
-  } else if(name === "ThanksPayCheck") {
-    contractAddresses[networkName]["THANKS_PAY_CHECK_ADDR"] = soldier.address;
-  } else if(name === "thanksPayMain") {
-    contractAddresses[networkName]["THANKS_PAY_MAIN_ADDR"] = soldier.address;
-  } else if(name === "thanksPayRelay") {
-    contractAddresses[networkName]["THANKS_PAY_RELAY_ADDR"] = soldier.address;
-  }
-  console.log(`${name} deployed to: ${soldier.address}`);
-  return soldier.address;
-}
+export type networkNameType = "ganache" | "polygonTest";
 
 function getGanacheFactory() {
   return (contractName: string) => {
@@ -65,6 +39,8 @@ function getPolygonFactory(wallet: any) {
     return ethers.getContractFactory(contractName, wallet)
   };
 }
+
+
 
 async function main(networkName: networkNameType) {
   // We get the contract to deploy

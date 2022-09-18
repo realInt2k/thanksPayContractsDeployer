@@ -8,7 +8,7 @@ import thanksPayDataABI from "../../abis/ThanksData.json";
 import thanksPayMainABI from "../../abis/ThanksPayMain.json";
 import thanksPayRelayABI from "../../abis/ThanksPayRelay.json";
 import thanksPayCheckABI from "../../abis/ThanksPayCheck.json";
-
+import { networkNameType } from '../deploy';
 import { ThanksPayRelayType } from "../generatedTypes/ThanksPayRelayType";
 import { ThanksPayDataType } from "../generatedTypes/ThanksPayDataType";
 import { ThanksPayCheckType } from "../generatedTypes/ThanksPayCheckType";
@@ -28,12 +28,13 @@ export type ContractABIType =
   | typeof thanksPayMainABI
   | typeof thanksPayRelayABI;
 
-// this will be changed with env variable
-const THANKS_PAY_MAIN_ADDR = contractAddresses["ganache"]["THANKS_PAY_MAIN_ADDR"];
-const THANKS_PAY_DATA_ADDR = contractAddresses["ganache"]["THANKS_PAY_DATA_ADDR"];
-const THANKS_PAY_SECURITY_ADDR = contractAddresses["ganache"]["THANKS_PAY_SECURITY_ADDR"];
-const THANKS_PAY_RELAY_ADDR = contractAddresses["ganache"]["THANKS_PAY_RELAY_ADDR"];
-const THANKS_PAY_CHECK_ADDR = contractAddresses["ganache"]["THANKS_PAY_CHECK_ADDR"];
+
+type contractNameType = "THANKS_PAY_MAIN_ADDR" | "THANKS_PAY_DATA_ADDR" | "THANKS_PAY_SECURITY_ADDR" | "THANKS_PAY_RELAY_ADDR" | "THANKS_PAY_CHECK_ADDR";
+
+const getContractAddress = (networkName: networkNameType, contractName: contractNameType) => {
+  return contractAddresses[networkName][contractName];
+};
+
 
 type AuthorizeType = {
   addresses: string[];
@@ -165,13 +166,15 @@ export class ThanksPayContracts extends Contract {
   };
 }
 
-// up-to-date as of 2021-09-13
+// up-to-date as of 2022-09-13
+
 export class ThanksPayMain extends ThanksPayContracts {
   private thanksPayCheck: ThanksPayCheck;
 
-  constructor(signerOrProvider: SignerOrProvider) {
-    super(signerOrProvider, THANKS_PAY_MAIN_ADDR, thanksPayMainABI);
-    this.thanksPayCheck = new ThanksPayCheck(signerOrProvider);
+  constructor(networkName: networkNameType, signerOrProvider: SignerOrProvider) {
+    const address = getContractAddress(networkName, "THANKS_PAY_MAIN_ADDR");
+    super(signerOrProvider, address, thanksPayMainABI);
+    this.thanksPayCheck = new ThanksPayCheck(networkName, signerOrProvider);
   }
 
   public method = {
@@ -256,8 +259,9 @@ export class ThanksPayMain extends ThanksPayContracts {
 
 // up-to-date as of 2021-09-12
 export class ThanksPayRelay extends ThanksPayContracts {
-  constructor(signerOrProvider: SignerOrProvider) {
-    super(signerOrProvider, THANKS_PAY_RELAY_ADDR, thanksPayRelayABI);
+  constructor(networkName: networkNameType, signerOrProvider: SignerOrProvider) {
+    const address = getContractAddress(networkName, "THANKS_PAY_RELAY_ADDR");
+    super(signerOrProvider, address, thanksPayRelayABI);
   }
   public method = {
     // setProperty: async (args: ThanksPayRelayType["setProperty"]) => {
@@ -301,8 +305,9 @@ export class ThanksPayRelay extends ThanksPayContracts {
 
 // up-to-date as of 2021-09-13
 export class ThanksPayCheck extends ThanksPayContracts {
-  constructor(signerOrProvider: SignerOrProvider) {
-    super(signerOrProvider, THANKS_PAY_CHECK_ADDR, thanksPayCheckABI);
+  constructor(networkName: networkNameType, signerOrProvider: SignerOrProvider) {
+    const address = getContractAddress(networkName, "THANKS_PAY_CHECK_ADDR");
+    super(signerOrProvider, address, thanksPayCheckABI);
   }
   public method = {
     // workerGetSalaryEarlyCheck: async (
@@ -395,9 +400,10 @@ export class ThanksPayCheck extends ThanksPayContracts {
 // up-to-date as of 2021-09-13
 export class ThanksPayData extends ThanksPayContracts {
   private thanksPayCheck: ThanksPayCheck;
-  constructor(signerOrProvider: SignerOrProvider) {
-    super(signerOrProvider, THANKS_PAY_DATA_ADDR, thanksPayDataABI);
-    this.thanksPayCheck = new ThanksPayCheck(signerOrProvider);
+  constructor(networkName: networkNameType, signerOrProvider: SignerOrProvider) {
+    const address = getContractAddress(networkName, "THANKS_PAY_DATA_ADDR");
+    super(signerOrProvider, address, thanksPayDataABI);
+    this.thanksPayCheck = new ThanksPayCheck(networkName, signerOrProvider);
   }
 
   public method = {
@@ -505,8 +511,9 @@ export class ThanksPayData extends ThanksPayContracts {
 }
 
 export class ThanksPaySecurity extends ThanksPayContracts {
-  constructor(signerOrProvider: SignerOrProvider) {
-    super(signerOrProvider, THANKS_PAY_SECURITY_ADDR, thanksSecurityABI);
+  constructor(networkName: networkNameType, signerOrProvider: SignerOrProvider) {
+    const address = getContractAddress(networkName, "THANKS_PAY_SECURITY_ADDR");
+    super(signerOrProvider, address, thanksSecurityABI);
   }
 
   public method = {
