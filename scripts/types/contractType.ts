@@ -339,6 +339,7 @@ export class ThanksPayData extends ThanksPayContracts {
       const eventReturn = this.getEventObj(receipt);
       // now save to db
     },
+
     registerWorker: async (args: ThanksPayDataType["registerWorker"]) => {
       const check:boolean = await this.thanksPayCheck.method.registerWorkerCheck(args);
       if(!check) {
@@ -348,6 +349,7 @@ export class ThanksPayData extends ThanksPayContracts {
       }
       const receipt = await this.sendTx("registerWorker", args);
     },
+    
     setPartnerBonus: async (args: ThanksPayDataType["setPartnerBonus"]) => {
       const check = await this.thanksPayCheck.method.setPartnerBonusCheck(args);
       if(!check) {
