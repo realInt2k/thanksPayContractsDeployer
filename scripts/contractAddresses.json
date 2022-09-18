@@ -7,7 +7,7 @@
     "THANKS_PAY_CHECK_ADDR": "0x03e8c41c964B5D0F88179611F0dB3B93349E1E0D",
     "network": {
       "provider": "http://localhost:8545/",
-      "key": "0x",
+      "key": "0x3fc1627209bee4dda790a4c02a2cd2af5ce28cbdf501023758b8dfbf662e8119",
       "account": "0xed835a425fb8d5bea9c2c7fd202f637b3b95d3f8"
     }
   },
