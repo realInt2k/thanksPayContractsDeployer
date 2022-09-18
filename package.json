@@ -14,6 +14,7 @@
     "build": "graph build",
     "deploy": "graph deploy --product hosted-service realint2k/Lm1",
     "deployOlzhas": "graph deploy --product hosted-service ollie041114/lm-graphql",
+    "deployPolygon": "npx ts-node ./scripts/deploy.ts --networkName=polygonTest",
     "create-local": "graph create --node http://localhost:8020/ realint2k/int2kLM",
     "remove-local": "graph remove --node http://localhost:8020/ realint2k/int2kLM",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 realint2k/int2kLM",

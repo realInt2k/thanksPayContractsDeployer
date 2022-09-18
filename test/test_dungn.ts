@@ -30,12 +30,12 @@ describe("ThanksPay", function () {
   describe("Deployment", function () {
     it("Should create contract, the worker and the partner", async function () {
       this.timeout(0);
-      const THANKS_PAY_MAIN_ADDR = contractAddresses["THANKS_PAY_MAIN_ADDR"];
-      const THANKS_PAY_DATA_ADDR = contractAddresses["THANKS_PAY_DATA_ADDR"];
+      const THANKS_PAY_MAIN_ADDR = contractAddresses["ganache"]["THANKS_PAY_MAIN_ADDR"];
+      const THANKS_PAY_DATA_ADDR = contractAddresses["ganache"]["THANKS_PAY_DATA_ADDR"];
       const THANKS_PAY_SECURITY_ADDR =
-        contractAddresses["THANKS_PAY_SECURITY_ADDR"];
-      const THANKS_PAY_RELAY_ADDR = contractAddresses["THANKS_PAY_RELAY_ADDR"];
-      const THANKS_PAY_CHECK_ADDR = contractAddresses["THANKS_PAY_CHECK_ADDR"];
+        contractAddresses["ganache"]["THANKS_PAY_SECURITY_ADDR"];
+      const THANKS_PAY_RELAY_ADDR = contractAddresses["ganache"]["THANKS_PAY_RELAY_ADDR"];
+      const THANKS_PAY_CHECK_ADDR = contractAddresses["ganache"]["THANKS_PAY_CHECK_ADDR"];
 
       const thanksPaySecurity = new ethers.Contract(
         THANKS_PAY_SECURITY_ADDR,

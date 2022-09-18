@@ -25,11 +25,11 @@ import * as fs from 'fs';
 export type ContractABIType = any;
 
 // this will be changed with env variable
-const THANKS_PAY_MAIN_ADDR = contractAddresses["THANKS_PAY_MAIN_ADDR"];
-const THANKS_PAY_DATA_ADDR = contractAddresses["THANKS_PAY_DATA_ADDR"];
-const THANKS_PAY_SECURITY_ADDR = contractAddresses["THANKS_PAY_SECURITY_ADDR"];
-const THANKS_PAY_RELAY_ADDR = contractAddresses["THANKS_PAY_RELAY_ADDR"];
-const THANKS_PAY_CHECK_ADDR = contractAddresses["THANKS_PAY_CHECK_ADDR"];
+const THANKS_PAY_MAIN_ADDR = contractAddresses["ganache"]["THANKS_PAY_MAIN_ADDR"];
+const THANKS_PAY_DATA_ADDR = contractAddresses["ganache"]["THANKS_PAY_DATA_ADDR"];
+const THANKS_PAY_SECURITY_ADDR = contractAddresses["ganache"]["THANKS_PAY_SECURITY_ADDR"];
+const THANKS_PAY_RELAY_ADDR = contractAddresses["ganache"]["THANKS_PAY_RELAY_ADDR"];
+const THANKS_PAY_CHECK_ADDR = contractAddresses["ganache"]["THANKS_PAY_CHECK_ADDR"];
 
 const getSchema = (abi: ContractABIType) => {
   
