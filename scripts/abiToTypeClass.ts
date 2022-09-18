@@ -69,7 +69,7 @@ const getSchema = (abi: any) => {
   const arrayOfFunctions = functions.map((func: any) => {
     //func["name"] = func["name"].charAt(0).toUpperCase() + func["name"].slice(1);
     return {
-      name: func["name"].charAt(0).toUpperCase() + func["name"].slice(1),
+      name: func["name"],
       inputTypes: func["inputs"].map((input: any) => input["type"]),
       inputNames: func["inputs"].map((input: any) => input["name"]),
     };
@@ -132,7 +132,7 @@ async function generateTyping(fileName: string, schema: any) {
     const funcName = func.name;
     const inputTypes = func.inputTypes;
     const inputNames = func.inputNames;
-    typing += `type ${funcName}Type = {`;
+    typing += `type ${funcName.charAt(0).toUpperCase() + funcName.slice(1)}Type = {`;
     for (let j = 0; j < inputTypes.length; j++) {
       const inputType = inputTypes[j];
       const inputName = inputNames[j];
@@ -150,7 +150,7 @@ export type ${fileName} = {`
     const func = schema[i];
     const funcName = func.name;
     typing += `
-  ${funcName.charAt(0).toLowerCase() + funcName.slice(1)}: ${funcName}Type,`;
+  ${funcName}: ${funcName.charAt(0).toUpperCase() + funcName.slice(1)}Type,`;
   }
   typing += `
 }`
@@ -487,11 +487,11 @@ async function main() {
   await generateTyping("ThanksPayCheckType", thanksPayCheckSchema);
 
   let superType = `
-import { ThanksPaySecurityType } from "./ThanksPaySecurityTypes";
-import { ThanksPayDataType } from "./ThanksPayDataTypes";
-import { ThanksPayMainType } from "./ThanksPayMainTypes";
-import { ThanksPayRelayType } from "./ThanksPayRelayTypes";
-import { ThanksPayCheckType } from "./ThanksPayCheckTypes";
+import { ThanksPaySecurityType } from "./ThanksPaySecurityType";
+import { ThanksPayDataType } from "./ThanksPayDataType";
+import { ThanksPayMainType } from "./ThanksPayMainType";
+import { ThanksPayRelayType } from "./ThanksPayRelayType";
+import { ThanksPayCheckType } from "./ThanksPayCheckType";
 
 export type ThanksPaySuperType = {
   thanksPaySecurity: ThanksPaySecurityType,

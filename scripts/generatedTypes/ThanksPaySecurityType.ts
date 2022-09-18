@@ -41,8 +41,8 @@ type SupportsInterfaceType = {
 }
 
 export type ThanksPaySecurityType = {
-  aUTHORIZED: AUTHORIZEDType,
-  dEFAULT_ADMIN_ROLE: DEFAULT_ADMIN_ROLEType,
+  AUTHORIZED: AUTHORIZEDType,
+  DEFAULT_ADMIN_ROLE: DEFAULT_ADMIN_ROLEType,
   authorize: AuthorizeType,
   getRoleAdmin: GetRoleAdminType,
   getShit: GetShitType,

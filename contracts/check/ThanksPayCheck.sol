@@ -117,4 +117,22 @@ contract ThanksPayCheck {
             return true;
         }
     }
+
+    function partnerAddBonusCheck(uint256 pId, uint256 amount, uint256 timestamp) public view returns(bool) {
+        (,,,bool exist) = data.partners(pId);
+        if(exist) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function partnerAddBalanceCheck(uint256 pId, uint256 amount, uint256 timestamp) public view returns(bool) {
+        (,,,bool exist) = data.partners(pId);
+        if(exist) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

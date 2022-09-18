@@ -1,3 +1,13 @@
+type PartnerAddBalanceCheckType = {
+  pId: number,
+  amount: number,
+  timestamp: number,
+}
+type PartnerAddBonusCheckType = {
+  pId: number,
+  amount: number,
+  timestamp: number,
+}
 type PartnerWithdrawCheckType = {
   pId: number,
   amount: number,
@@ -23,6 +33,10 @@ type SetPartnerBalanceCheckType = {
   pId: number,
   newBalance: number,
 }
+type SetPartnerBonusCheckType = {
+  pId: number,
+  bonus: number,
+}
 type SetWorkerBalanceCheckType = {
   wId: number,
   newBalance: number,
@@ -41,12 +55,15 @@ type WorkerGetsThanksPayCheckType = {
 }
 
 export type ThanksPayCheckType = {
+  partnerAddBalanceCheck: PartnerAddBalanceCheckType,
+  partnerAddBonusCheck: PartnerAddBonusCheckType,
   partnerWithdrawCheck: PartnerWithdrawCheckType,
   registerPartnerCheck: RegisterPartnerCheckType,
   registerWorkerCheck: RegisterWorkerCheckType,
   setLatestRequestCheck: SetLatestRequestCheckType,
   setLatestWagePayCheck: SetLatestWagePayCheckType,
   setPartnerBalanceCheck: SetPartnerBalanceCheckType,
+  setPartnerBonusCheck: SetPartnerBonusCheckType,
   setWorkerBalanceCheck: SetWorkerBalanceCheckType,
   setWorkerPartnerCheck: SetWorkerPartnerCheckType,
   subtractFromPartnerCheck: SubtractFromPartnerCheckType,
