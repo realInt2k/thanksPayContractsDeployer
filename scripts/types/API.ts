@@ -6,7 +6,4 @@ function (saveToDB: function, parameters: any, functionName: any) => {
     // listen to events here
     const events = await receipts.events();
     saveToDB(events);
-
-
-    
 }
