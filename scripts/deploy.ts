@@ -55,11 +55,15 @@ export async function deployContract(networkName: networkNameType, name: string,
 }
 
 function getGanacheFactory() {
-  return (contractName: string) => {return ethers.getContractFactory(contractName)};
+  return (contractName: string) => {
+    return ethers.getContractFactory(contractName)
+  };
 }
 
 function getPolygonFactory(wallet: any) {
-  return (contractName: string) => {return ethers.getContractFactory(contractName, wallet)};
+  return (contractName: string) => {
+    return ethers.getContractFactory(contractName, wallet)
+  };
 }
 
 async function main(networkName: networkNameType) {
