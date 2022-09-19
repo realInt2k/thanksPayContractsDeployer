@@ -8,7 +8,7 @@ import thanksPayDataABI from "../../abis/ThanksData.json";
 import thanksPayMainABI from "../../abis/ThanksPayMain.json";
 import thanksPayRelayABI from "../../abis/ThanksPayRelay.json";
 import thanksPayCheckABI from "../../abis/ThanksPayCheck.json";
-
+import { networkNameType } from '../deploy';
 import { ThanksPayRelayType } from "../generatedTypes/ThanksPayRelayType";
 import { ThanksPayDataType } from "../generatedTypes/ThanksPayDataType";
 import { ThanksPayCheckType } from "../generatedTypes/ThanksPayCheckType";
@@ -28,12 +28,13 @@ export type ContractABIType =
   | typeof thanksPayMainABI
   | typeof thanksPayRelayABI;
 
-// this will be changed with env variable
-const THANKS_PAY_MAIN_ADDR = contractAddresses["ganache"]["THANKS_PAY_MAIN_ADDR"];
-const THANKS_PAY_DATA_ADDR = contractAddresses["ganache"]["THANKS_PAY_DATA_ADDR"];
-const THANKS_PAY_SECURITY_ADDR = contractAddresses["ganache"]["THANKS_PAY_SECURITY_ADDR"];
-const THANKS_PAY_RELAY_ADDR = contractAddresses["ganache"]["THANKS_PAY_RELAY_ADDR"];
-const THANKS_PAY_CHECK_ADDR = contractAddresses["ganache"]["THANKS_PAY_CHECK_ADDR"];
+
+type contractNameType = "THANKS_PAY_MAIN_ADDR" | "THANKS_PAY_DATA_ADDR" | "THANKS_PAY_SECURITY_ADDR" | "THANKS_PAY_RELAY_ADDR" | "THANKS_PAY_CHECK_ADDR";
+
+const getContractAddress = (networkName: networkNameType, contractName: contractNameType) => {
+  return contractAddresses[networkName][contractName];
+};
+
 
 type AuthorizeType = {
   addresses: string[];
@@ -93,6 +94,7 @@ const getRequiredTypeOrder = (functionName: string, schema: any) => {
 export class ThanksPayContracts extends Contract {
   public schema: any;
   public events: any;
+
   public getEventTypesArray(eventName: string) {
     const event = this.events.find((row: any) => row.name === eventName);
     if (event) {
@@ -127,6 +129,7 @@ export class ThanksPayContracts extends Contract {
       obj,
     };
   };
+
   constructor(
     signerOrProvider: SignerOrProvider,
     contractAddr: string,
@@ -136,24 +139,27 @@ export class ThanksPayContracts extends Contract {
     this.schema = getSchema(abi);
     this.events = getEvents(abi);
   }
-  public sendTx = async (name: string, args: any): Promise<any> => {
+  public sendTx = async (name: string, args: any, check?: boolean | null, checkErrorString?: string): Promise<any> => {
     try {
       const order = this.getRequiredOrder(name);
       const orderedArgs = order.map((item: string) => {
         return (args as any)[item];
       });
-      if ("payableAmt" in args) {
-        orderedArgs.push(args.payableAmt);
+      // if ("payableAmt" in args) {
+      //   orderedArgs.push(args.payableAmt);
+      // }
+
+      if (check===false) {
+        return {
+          error: checkErrorString,
+        };
       }
-      // console.log(
-      //   "in contractType.ts sendTx: orderedArg is: ",
-      //   orderedArgs,
-      //   " method: ",
-      //   name
-      // );
+      
       const tx = await this[name](...orderedArgs);
       const txReceipt = await tx.wait();
       return txReceipt;
+      // Receipt should now contain the logs
+      // console.log(receipt.logs)
     } catch (e: any) {
       //console.log("error is: ", e); // change to alert
       // if (e.data && e.data.message) {
@@ -165,146 +171,112 @@ export class ThanksPayContracts extends Contract {
   };
 }
 
-// up-to-date as of 2021-09-13
+// up-to-date as of 2022-09-13
+
 export class ThanksPayMain extends ThanksPayContracts {
   private thanksPayCheck: ThanksPayCheck;
 
-  constructor(signerOrProvider: SignerOrProvider) {
-    super(signerOrProvider, THANKS_PAY_MAIN_ADDR, thanksPayMainABI);
-    this.thanksPayCheck = new ThanksPayCheck(signerOrProvider);
+  constructor(networkName: networkNameType, signerOrProvider: SignerOrProvider) {
+    const address = getContractAddress(networkName, "THANKS_PAY_MAIN_ADDR");
+    super(signerOrProvider, address, thanksPayMainABI);
+    this.thanksPayCheck = new ThanksPayCheck(networkName, signerOrProvider);
   }
 
-  public method = {
+  public methods = {
     setLatestWagePay: async (
       args: ThanksPayMainType["setLatestWagePay"]
     ): Promise<any> => {
-      const check = await this.thanksPayCheck.method.setLatestWagePayCheck(
-        args
-      );
-      if (!check) {
-        return {
-          error: "setLatestWagePayCheck failed",
-        };
-      }
-      await this.sendTx("setLatestWagePay", args);
+      const check = await this.thanksPayCheck.methods.setLatestWagePayCheck(args);
+      const checkErrorString = "setLatestWagePayCheck failed";
+      await this.sendTx("setLatestWagePay", args, check, checkErrorString);
     },
     subtractFromPartner: async (
       args: ThanksPayMainType["subtractFromPartner"]
     ): Promise<any> => {
-      const check = await this.thanksPayCheck.method.subtractFromPartnerCheck(
+      const check = await this.thanksPayCheck.methods.subtractFromPartnerCheck(
         args
       );
-      if (!check) {
-        return {
-          error: "subtractFromPartnerCheck failed",
-        };
-      }
-      const res = await this.sendTx("subtractFromPartner", args);
-      return res;
+      const checkErrorString = "subtractFromPartnerCheck failed";
+      return await this.sendTx("subtractFromPartner", args, check, checkErrorString);
     },
     partnerAddBonus: async (
       args: ThanksPayMainType["partnerAddBonus"]
     ): Promise<any> => {
-      const check = await this.thanksPayCheck.method.partnerAddBonusCheck(args);
-      if (!check) {
-        return {
-          error: "partnerAddBonusCheck failed",
-        };
-      }
-      const res = await this.sendTx("partnerAddBonus", args);
-      return res;
+      const check = await this.thanksPayCheck.methods.partnerAddBonusCheck(args);
+      const checkErrorString = "partnerAddBonusCheck failed";
+      return await this.sendTx("partnerAddBonus", args, check, checkErrorString);
+      // return res;
     },
     partnerAddBalance: async (
       args: ThanksPayMainType["partnerAddBalance"]
     ): Promise<any> => {
-      const check = await this.thanksPayCheck.method.partnerAddBalanceCheck(
+      const check = await this.thanksPayCheck.methods.partnerAddBalanceCheck(
         args
       );
-      if (!check) {
-        return {
-          error: "partnerAddBalanceCheck failed",
-        };
-      }
-      await this.sendTx("partnerAddBalance", args);
+      const checkErrorString = "partnerAddBalanceCheck failed";
+      return await this.sendTx("partnerAddBalance", args, check, checkErrorString);
     },
     partnerWithdraw: async (
       args: ThanksPayMainType["partnerWithdraw"]
     ): Promise<any> => {
-      const check = await this.thanksPayCheck.method.partnerWithdrawCheck(args);
-      if (!check) {
-        return {
-          error: "partnerWithdrawCheck failed",
-        };
-      }
-      await this.sendTx("partnerWithdraw", args);
+      const check = await this.thanksPayCheck.methods.partnerWithdrawCheck(args);
+      const checkErrorString = "partnerWithdrawCheck failed";
+      return await this.sendTx("partnerWithdraw", args, check, checkErrorString);
     },
     workerGetsThanksPay: async (
       args: ThanksPayMainType["workerGetsThanksPay"]
     ): Promise<any> => {
-      const check = await this.thanksPayCheck.method.workerGetsThanksPayCheck(
+      const check = await this.thanksPayCheck.methods.workerGetsThanksPayCheck(
         args
       );
-      if (!check) {
-        return {
-          error: "workerGetsThanksPayCheck failed",
-        };
-      }
-      await this.sendTx("workerGetsThanksPay", args);
+      const checkErrorString = "workerGetsThanksPayCheck failed";
+      return await this.sendTx("workerGetsThanksPay", args, check, checkErrorString);
     },
   };
 }
 
 // up-to-date as of 2021-09-12
 export class ThanksPayRelay extends ThanksPayContracts {
-  constructor(signerOrProvider: SignerOrProvider) {
-    super(signerOrProvider, THANKS_PAY_RELAY_ADDR, thanksPayRelayABI);
+  constructor(networkName: networkNameType, signerOrProvider: SignerOrProvider) {
+    const address = getContractAddress(networkName, "THANKS_PAY_RELAY_ADDR");
+    super(signerOrProvider, address, thanksPayRelayABI);
   }
-  public method = {
-    // setProperty: async (args: ThanksPayRelayType["setProperty"]) => {
-    //   await this.sendTx("setProperty", args);
-    // },
-    // addProperty: async (args: ThanksPayRelayType["addProperty"]) => {
-    //   await this.sendTx("addProperty", args);
-    // },
-    // editProperty: async (args: ThanksPayRelayType["editProperty"]) => {
-    //   await this.sendTx("editProperty", args);
-    // },
-    // getPropertyName: async (args: ThanksPayRelayType["getPropertyName"]) => {
-    //   await this.sendTx("getPropertyName", args);
-    // },
+  public methods = {
     setDynamicProperties: async (
       args: ThanksPayRelayType["setDynamicProperties"]
     ) => {
-      await this.sendTx("setDynamicProperties", args);
+      return await this.sendTx("setDynamicProperties", args);
     },
     setStaticProperties: async (
       args: ThanksPayRelayType["setStaticProperties"]
     ) => {
-      await this.sendTx("setStaticProperties", args);
+      return await this.sendTx("setStaticProperties", args);
     },
     alterEntityNames: async (args: ThanksPayRelayType["alterEntityNames"]) => {
-      await this.sendTx("alterEntityNames", args);
+      return await this.sendTx("alterEntityNames", args);
     },
     alterPropertyNames: async (
       args: ThanksPayRelayType["alterPropertyNames"]
     ) => {
-      await this.sendTx("alterPropertyNames", args);
+      return await this.sendTx("alterPropertyNames", args);
     },
     getAllEntities: async (args: ThanksPayRelayType["getAllEntities"]) => {
-      await this.sendTx("getAllEntities", args);
+      return await this.sendTx("getAllEntities", args);
     },
     getAllProperties: async (args: ThanksPayRelayType["getAllProperties"]) => {
-      await this.sendTx("getAllProperties", args);
+      return await this.sendTx("getAllProperties", args);
     },
   };
 }
 
 // up-to-date as of 2021-09-13
 export class ThanksPayCheck extends ThanksPayContracts {
-  constructor(signerOrProvider: SignerOrProvider) {
-    super(signerOrProvider, THANKS_PAY_CHECK_ADDR, thanksPayCheckABI);
+  constructor(networkName: networkNameType, signerOrProvider: SignerOrProvider) {
+    const address = getContractAddress(networkName, "THANKS_PAY_CHECK_ADDR");
+
+    super(signerOrProvider, address, thanksPayCheckABI);
   }
-  public method = {
+  public methods = {
     // workerGetSalaryEarlyCheck: async (
     //   args: ThanksPayCheckType["workerGetSalaryEarlyCheck"]
     // ): Promise<boolean> => {
@@ -314,80 +286,80 @@ export class ThanksPayCheck extends ThanksPayContracts {
     subtractFromPartnerCheck: async (
       args: ThanksPayCheckType["subtractFromPartnerCheck"]
     ): Promise<boolean> => {
-      const res = await this.sendTx("subtractFromPartnerCheck", args);
-      return res;
+      return await this.sendTx("subtractFromPartnerCheck", args);
+      //return res;
     },
     partnerWithdrawCheck: async (
       args: ThanksPayCheckType["partnerWithdrawCheck"]
     ): Promise<boolean> => {
-      const res = await this.sendTx("partnerWithdrawCheck", args);
-      return res;
+      return await this.sendTx("partnerWithdrawCheck", args);
+      // return res;
     },
     workerGetsThanksPayCheck: async (
       args: ThanksPayCheckType["workerGetsThanksPayCheck"]
     ): Promise<boolean> => {
-      const res = await this.sendTx("workerGetsThanksPayCheck", args);
-      return res;
+      return await this.sendTx("workerGetsThanksPayCheck", args);
+      // return res;
     },
     registerWorkerCheck: async (
       args: ThanksPayCheckType["registerWorkerCheck"]
     ): Promise<boolean> => {
-      const res = await this.sendTx("registerWorkerCheck", args);
-      return res;
+      return await this.sendTx("registerWorkerCheck", args);
+      // return res;
     },
     setWorkerPartnerCheck: async (
       args: ThanksPayCheckType["setWorkerPartnerCheck"]
     ): Promise<boolean> => {
-      const res = await this.sendTx("setWorkerPartnerCheck", args);
-      return res;
+      return await this.sendTx("setWorkerPartnerCheck", args);
+      // return res;
     },
     registerPartnerCheck: async (
       args: ThanksPayCheckType["registerPartnerCheck"]
     ): Promise<boolean> => {
-      const res = await this.sendTx("registerPartnerCheck", args);
-      return res;
+      return await this.sendTx("registerPartnerCheck", args);
+      // return res;
     },
     setPartnerBonusCheck: async (
       args: ThanksPayCheckType["setPartnerBonusCheck"]
     ): Promise<boolean> => {
-      const res = await this.sendTx("setPartnerWorkerCheck", args);
-      return res;
+      return await this.sendTx("setPartnerWorkerCheck", args);
+      // return res;
     },
     setLatestWagePayCheck: async (
       args: ThanksPayCheckType["setLatestWagePayCheck"]
     ): Promise<boolean> => {
-      const res = await this.sendTx("setLatestWagePayCheck", args);
-      return res;
+      return await this.sendTx("setLatestWagePayCheck", args);
+      // return res;
     },
     setLatestRequestCheck: async (
       args: ThanksPayCheckType["setLatestRequestCheck"]
     ): Promise<boolean> => {
-      const res = await this.sendTx("setLatestRequestCheck", args);
-      return res;
+      return await this.sendTx("setLatestRequestCheck", args);
+      // return res;
     },
     setWorkerBalanceCheck: async (
       args: ThanksPayCheckType["setWorkerBalanceCheck"]
     ): Promise<boolean> => {
-      const res = await this.sendTx("setWorkerBalanceCheck", args);
-      return res;
+      return await this.sendTx("setWorkerBalanceCheck", args);
+      // return res;
     },
     setPartnerBalanceCheck: async (
       args: ThanksPayCheckType["setPartnerBalanceCheck"]
     ): Promise<boolean> => {
-      const res = await this.sendTx("setPartnerBalanceCheck", args);
-      return res;
+      return await this.sendTx("setPartnerBalanceCheck", args);
+      // return res;
     },
     partnerAddBonusCheck: async (
       args: ThanksPaySuperType["thanksPayCheck"]["partnerAddBonusCheck"]
     ): Promise<boolean> => {
-      const res = await this.sendTx("partnerAddBonusCheck", args);
-      return res;
+      return await this.sendTx("partnerAddBonusCheck", args);
+      // return res;
     },
     partnerAddBalanceCheck: async (
       args: ThanksPaySuperType["thanksPayCheck"]["partnerAddBalanceCheck"]
     ): Promise<any> => {
-      const res = await this.sendTx("PartnerAddBalanceCheck", args);
-      return res;
+      return await this.sendTx("PartnerAddBalanceCheck", args);
+      // return res;
     },
   };
 }
@@ -395,121 +367,93 @@ export class ThanksPayCheck extends ThanksPayContracts {
 // up-to-date as of 2021-09-13
 export class ThanksPayData extends ThanksPayContracts {
   private thanksPayCheck: ThanksPayCheck;
-  constructor(signerOrProvider: SignerOrProvider) {
-    super(signerOrProvider, THANKS_PAY_DATA_ADDR, thanksPayDataABI);
-    this.thanksPayCheck = new ThanksPayCheck(signerOrProvider);
+  constructor(networkName: networkNameType, signerOrProvider: SignerOrProvider) {
+    const address = getContractAddress(networkName, "THANKS_PAY_DATA_ADDR");
+    super(signerOrProvider, address, thanksPayDataABI);
+    this.thanksPayCheck = new ThanksPayCheck(networkName, signerOrProvider);
   }
 
-  public method = {
+  public methods = {
     registerPartner: async (args: ThanksPayDataType["registerPartner"]) => {
       const check: boolean =
-        await this.thanksPayCheck.method.registerPartnerCheck(args);
-      if (!check) {
-        return {
-          error: "registerPartnerCheck failed",
-        };
-      }
-      const receipt: any = await this.sendTx("registerPartner", args);
-      const eventReturn = this.getEventObj(receipt);
-      // now save to db
+        await this.thanksPayCheck.methods.registerPartnerCheck(args);
+      const checkErrorString = "registerPartnerCheck failed";
+      return await this.sendTx("registerPartner", args, check, checkErrorString);
     },
 
     registerWorker: async (args: ThanksPayDataType["registerWorker"]) => {
       const check: boolean =
-        await this.thanksPayCheck.method.registerWorkerCheck(args);
-      if (!check) {
-        return {
-          error: "registerWorkerCheck failed",
-        };
-      }
-      const receipt = await this.sendTx("registerWorker", args);
+        await this.thanksPayCheck.methods.registerWorkerCheck(args);
+      const checkErrorString = "registerWorkerCheck failed";
+      return await this.sendTx("registerWorker", args, check, checkErrorString);
     },
     
     setPartnerBonus: async (args: ThanksPayDataType["setPartnerBonus"]) => {
-      const check = await this.thanksPayCheck.method.setPartnerBonusCheck(args);
-      if (!check) {
-        return {
-          error: "setPartnerBonusCheck failed",
-        };
-      }
-      this.sendTx("setPartnerBonus", args);
+      const check = await this.thanksPayCheck.methods.setPartnerBonusCheck(args);
+      const checkErrorString = "setPartnerBonusCheck failed";
+      return await this.sendTx("setPartnerBonus", args, check, checkErrorString);
     },
     setPartnerBalance: async (args: ThanksPayDataType["setPartnerBalance"]) => {
-      const check = await this.thanksPayCheck.method.setPartnerBalanceCheck(
+      const check = await this.thanksPayCheck.methods.setPartnerBalanceCheck(
         args
       );
-      if (!check) {
-        return {
-          error: "setPartnerBalanceCheck failed",
-        };
-      }
-      const receipt = await this.sendTx("setPartnerBalance", args);
-      const eventReturn = this.getEventObj(receipt);
+      const checkErrorString = "setPartnerBalanceCheck failed";
+      return await this.sendTx("setPartnerBalance", args, check, checkErrorString);
+      // const eventReturn = this.getEventObj(receipt);
       // now save to db
     },
     setLatestRequest: async (args: ThanksPayDataType["setLatestRequest"]) => {
-      const check = await this.thanksPayCheck.method.setLatestRequestCheck(
+      const check = await this.thanksPayCheck.methods.setLatestRequestCheck(
         args
       );
-      if (!check) {
-        return {
-          error: "setLatestRequestCheck (for worker) failed",
-        };
-      }
-      this.sendTx("setLatestRequest", args);
+      const checkErrorString = "setLatestRequestCheck (for worker) failed";
+      return await this.sendTx("setLatestRequest", args, check, checkErrorString);
     },
+
     setWorkerBalance: async (args: ThanksPayDataType["setWorkerBalance"]) => {
-      const check = await this.thanksPayCheck.method.setWorkerBalanceCheck(
+      const check = await this.thanksPayCheck.methods.setWorkerBalanceCheck(
         args
       );
-      if (!check) {
-        return {
-          error: "setWorkerBalanceCheck failed",
-        };
-      }
-
-      const receipt = await this.sendTx("setWorkerBalance", args);
-      const eventReturn = this.getEventObj(receipt);
+      const checkErrorString = "setWorkerBalanceCheck failed";
+      return await this.sendTx("setWorkerBalance", args, check, checkErrorString);
+      // const eventReturn = this.getEventObj(receipt);
     },
     setLatestWagePay: async (args: ThanksPayDataType["setLatestWagePay"]) => {
-      const check = await this.thanksPayCheck.method.setLatestWagePayCheck(
+      const check = await this.thanksPayCheck.methods.setLatestWagePayCheck(
         args
       );
-      if (!check) {
-        return {
-          error: "setLatestWagePayCheck failed",
-        };
-      }
-      this.sendTx("setLatestWagePay", args);
+      const checkErrorString = "setLatestWagePayCheck failed";
+      await this.sendTx("setLatestWagePay", args, check, checkErrorString);
     },
     getWorker: async (args: ThanksPayDataType["getWorker"]) => {
-      this.sendTx("getWorker", args);
+      await this.sendTx("getWorker", args);
     },
     getWorkerBalance: async (args: ThanksPayDataType["getWorkerBalance"]) => {
-      this.sendTx("getWorkerBalance", args);
+      await this.sendTx("getWorkerBalance", args);
     },
     getPartnerThanksPayableBalance: async (
       args: ThanksPayDataType["getPartnerThanksPayableBalance"]
     ) => {
-      this.sendTx("getPartnerThanksPayableBalance", args);
+      await this.sendTx("getPartnerThanksPayableBalance", args);
     },
     getPartnerWithdrawableBalance: async (
       args: ThanksPayDataType["getPartnerWithdrawableBalance"]
     ) => {
-      this.sendTx("getPartnerWithdrawableBalance", args);
+      await this.sendTx("getPartnerWithdrawableBalance", args);
     },
     getPartner: async (args: ThanksPayDataType["getPartner"]) => {
-      this.sendTx("getPartner", args);
+      await this.sendTx("getPartner", args);
     },
   };
 }
 
 export class ThanksPaySecurity extends ThanksPayContracts {
-  constructor(signerOrProvider: SignerOrProvider) {
-    super(signerOrProvider, THANKS_PAY_SECURITY_ADDR, thanksSecurityABI);
+  constructor(networkName: networkNameType, signerOrProvider: SignerOrProvider) {
+    const address = getContractAddress(networkName, "THANKS_PAY_SECURITY_ADDR");
+    super(signerOrProvider, address, thanksSecurityABI);
   }
 
-  public method = {
+  public methods = {
     authorize: async (args: ThanksPaySecurityType["authorize"]) => {
       await this.sendTx("authorize", args);
     },
