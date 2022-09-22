@@ -22,25 +22,6 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "latestPay",
-        "type": "uint256"
-      }
-    ],
-    "name": "companyRegistered",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "pId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
         "name": "newBalance",
         "type": "uint256"
       }

@@ -4,6 +4,8 @@ import thanksPayMainABI from "../abis/ThanksPayMain.json";
 import thanksPayRelayABI from "../abis/ThanksPayRelay.json";
 import thanksPayCheckABI from "../abis/ThanksPayCheck.json";
 
+import oldThanksABI from "../abis/oldThanks.json";
+
 import * as fs from "fs";
 
 const typeTranslate = (type: string) => {
@@ -440,6 +442,32 @@ export class ThanksPayCheck extends ThanksPayContracts {
 }
 `;
 
+// for oldThanks
+  classStr +=
+`
+export class OldThanks extends ThanksPayContracts {
+  constructor(signerOrProvider: SignerOrProvider) {
+    super(signerOrProvider, OLD_THANKS_ADDR, oldThanksABI);
+  }
+  public method = {
+`;
+  const schema6 = getSchema(oldThanksABI);
+  for(let i = 0; i < schema6.length; i++) {
+    const funcName = schema6[i].name;
+    classStr+=
+`
+    ${funcName}: async (args: ThanksPaySuperType["oldThanks"]["${funcName}"]):Promise<any> => {
+      const receipt = await this.sendTx("${funcName}", args);
+      return receipt;
+    },
+`
+  }
+  classStr +=
+`
+  }
+}
+`;
+
   fs.writeFileSync(__dirname + "/generatedClasses/ThanksPayContracts.ts", classStr);
 }
 
@@ -464,12 +492,14 @@ async function main() {
   const thanksPayMainSchema = getSchema(thanksPayMainABI);
   const thanksPayRelaySchema = getSchema(thanksPayRelayABI);
   const thanksPayCheckSchema = getSchema(thanksPayCheckABI);
+  const oldThanksSchema = getSchema(oldThanksABI);
   await createFileIfNotThere1("ThanksPaySecurityType");
   await createFileIfNotThere1("ThanksPayDataType");
   await createFileIfNotThere1("ThanksPayMainType");
   await createFileIfNotThere1("ThanksPayRelayType");
   await createFileIfNotThere1("ThanksPayCheckType");
   await createFileIfNotThere1("ThanksPaySuperType");
+  await createFileIfNotThere1("oldThanksType");
 
   // await createFileIfNotThere2("/generatedClasses/", "ThanksPaySecurity");
   // await createFileIfNotThere2("/generatedClasses/", "ThanksPayData");
@@ -485,6 +515,7 @@ async function main() {
   await generateTyping("ThanksPayMainType", thanksPayMainSchema);
   await generateTyping("ThanksPayRelayType", thanksPayRelaySchema);
   await generateTyping("ThanksPayCheckType", thanksPayCheckSchema);
+  await generateTyping("oldThanksType", oldThanksSchema);
 
   let superType = `
 import { ThanksPaySecurityType } from "./ThanksPaySecurityType";
@@ -492,6 +523,7 @@ import { ThanksPayDataType } from "./ThanksPayDataType";
 import { ThanksPayMainType } from "./ThanksPayMainType";
 import { ThanksPayRelayType } from "./ThanksPayRelayType";
 import { ThanksPayCheckType } from "./ThanksPayCheckType";
+import { oldThanksType } from "./oldThanksType";
 
 export type ThanksPaySuperType = {
   thanksPaySecurity: ThanksPaySecurityType,
@@ -499,6 +531,7 @@ export type ThanksPaySuperType = {
   thanksPayMain: ThanksPayMainType,
   thanksPayRelay: ThanksPayRelayType,
   thanksPayCheck: ThanksPayCheckType,
+  oldThanks: oldThanksType,
 };`;
   fs.writeFileSync(__dirname + "/generatedTypes/ThanksPaySuperType.ts", superType);
 

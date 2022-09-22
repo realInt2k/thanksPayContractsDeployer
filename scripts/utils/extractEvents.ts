@@ -1,8 +1,8 @@
-import thanksSecurityABI from "../abis/ThanksSecurity.json";
-import thanksPayDataABI from "../abis/ThanksData.json";
-import thanksPayMainABI from "../abis/ThanksPayMain.json";
-import thanksPayRelayABI from "../abis/ThanksPayRelay.json";
-import thanksPayCheckABI from "../abis/ThanksPayCheck.json";
+import thanksSecurityABI from "../../abis/ThanksSecurity.json";
+import thanksPayDataABI from "../../abis/ThanksData.json";
+import thanksPayMainABI from "../../abis/ThanksPayMain.json";
+import thanksPayRelayABI from "../../abis/ThanksPayRelay.json";
+import thanksPayCheckABI from "../../abis/ThanksPayCheck.json";
 
 import * as fs from "fs";
 

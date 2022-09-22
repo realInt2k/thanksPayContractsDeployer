@@ -4,6 +4,7 @@ import { ThanksPayDataType } from "./ThanksPayDataType";
 import { ThanksPayMainType } from "./ThanksPayMainType";
 import { ThanksPayRelayType } from "./ThanksPayRelayType";
 import { ThanksPayCheckType } from "./ThanksPayCheckType";
+import { oldThanksType } from "./oldThanksType";
 
 export type ThanksPaySuperType = {
   thanksPaySecurity: ThanksPaySecurityType,
@@ -11,4 +12,5 @@ export type ThanksPaySuperType = {
   thanksPayMain: ThanksPayMainType,
   thanksPayRelay: ThanksPayRelayType,
   thanksPayCheck: ThanksPayCheckType,
+  oldThanks: oldThanksType,
 };
