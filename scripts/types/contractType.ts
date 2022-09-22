@@ -312,12 +312,6 @@ export class ThanksPayCheck extends ThanksPayContracts {
   }
 
   public methods = {
-    // workerGetSalaryEarlyCheck: async (
-    //   args: ThanksPayCheckType["workerGetSalaryEarlyCheck"]
-    // ): Promise<boolean> => {
-    //   const res = await this.sendTx("workerGetSalaryEarlyCheck", args);
-    //   return res;
-    // },
     subtractFromPartnerCheck: async (
       args: ThanksPayCheckType["subtractFromPartnerCheck"]
     ): Promise<boolean> => {
