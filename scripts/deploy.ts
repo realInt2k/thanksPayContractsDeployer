@@ -45,7 +45,6 @@ function getPolygonFactory(wallet: any) {
 async function main(networkName: networkNameType) {
   // We get the contract to deploy
   console.log("DEPLOYING TO "+ networkName);
-
   
   const uri = contractAddresses[networkName]["network"]["provider"];
   const web3 = new Web3(uri);
@@ -57,19 +56,13 @@ async function main(networkName: networkNameType) {
 
   var getContractFactory;
   var authorizedAddresses;
-
-  if (networkName=="polygonTest"){
-    const networkInfo = contractAddresses[networkName]["network"];
-    
-    const provider = new ethers.providers.JsonRpcProvider(networkInfo["provider"]);
-    const private_key = networkInfo["key"];
-    const wallet = new ethers.Wallet(private_key, provider);
-    getContractFactory = getPolygonFactory(wallet);
-    authorizedAddresses = [wallet.address];
-  } else {
-    getContractFactory = getGanacheFactory();
-    authorizedAddresses = ["0xed835a425fb8d5bea9c2c7fd202f637b3b95d3f8"];
-  }
+  const networkInfo = contractAddresses[networkName]["network"];
+  const provider = new ethers.providers.JsonRpcProvider(networkInfo["provider"]);
+  const private_key = networkInfo["key"];
+  const wallet = new ethers.Wallet(private_key, provider);
+  getContractFactory = (contractName: string) => {return ethers.getContractFactory(contractName, wallet)};
+  
+  authorizedAddresses = [wallet.address];
   
   Platoon = await getContractFactory("ThanksSecurity");
   const thanksSecuritySoldier = await Platoon.deploy(authorizedAddresses);

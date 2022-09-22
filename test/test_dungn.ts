@@ -30,6 +30,7 @@ describe("ThanksPay", function () {
   describe("Deployment", function () {
     it("Should create contract, the worker and the partner", async function () {
       this.timeout(0);
+      const 
       const THANKS_PAY_MAIN_ADDR = contractAddresses["ganache"]["THANKS_PAY_MAIN_ADDR"];
       const THANKS_PAY_DATA_ADDR = contractAddresses["ganache"]["THANKS_PAY_DATA_ADDR"];
       const THANKS_PAY_SECURITY_ADDR =
