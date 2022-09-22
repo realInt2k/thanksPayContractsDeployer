@@ -1,0 +1,826 @@
+[
+  {
+    "inputs": [],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "workerEmail",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "payReqDate",
+        "type": "uint256"
+      }
+    ],
+    "name": "cancelPay",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "partnerLicenseId",
+        "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "klaytnAcc",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "initialDeposit",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "depositType",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "salaryDay",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "partnerState",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "partnerHashData",
+        "type": "string"
+      }
+    ],
+    "name": "editPartner",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "workerEmail",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "partnerLicenseId",
+            "type": "string"
+          },
+          {
+            "internalType": "address",
+            "name": "klaytnAcc",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "blackWorkerState",
+            "type": "bool"
+          },
+          {
+            "internalType": "string",
+            "name": "workerHashData",
+            "type": "string"
+          },
+          {
+            "internalType": "bool",
+            "name": "isReg",
+            "type": "bool"
+          },
+          {
+            "internalType": "uint256",
+            "name": "serviceFeeRate",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct oldThanks.Worker",
+        "name": "worker",
+        "type": "tuple"
+      }
+    ],
+    "name": "editWorker",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllPartner",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "partnerLicenseId",
+            "type": "string"
+          },
+          {
+            "internalType": "address",
+            "name": "klaytnAcc",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "initialDeposit",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "depositType",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "addDeposit",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "addDepositDate",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "uint256",
+            "name": "salaryDay",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "realtimeDeposit",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "partnerState",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "partnerHashData",
+            "type": "string"
+          },
+          {
+            "internalType": "bool",
+            "name": "isReg",
+            "type": "bool"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "deposit",
+            "type": "uint256[]"
+          }
+        ],
+        "internalType": "struct oldThanks.Partner[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllWorker",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "workerEmail",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "partnerLicenseId",
+            "type": "string"
+          },
+          {
+            "internalType": "address",
+            "name": "klaytnAcc",
+            "type": "address"
+          },
+          {
+            "internalType": "bool",
+            "name": "blackWorkerState",
+            "type": "bool"
+          },
+          {
+            "internalType": "string",
+            "name": "workerHashData",
+            "type": "string"
+          },
+          {
+            "internalType": "bool",
+            "name": "isReg",
+            "type": "bool"
+          },
+          {
+            "internalType": "uint256",
+            "name": "serviceFeeRate",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct oldThanks.Worker[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "partnerLicenseId",
+        "type": "string"
+      }
+    ],
+    "name": "getPartner",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "partnerLicenseId",
+            "type": "string"
+          },
+          {
+            "internalType": "address",
+            "name": "klaytnAcc",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "initialDeposit",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "depositType",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "addDeposit",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "addDepositDate",
+            "type": "uint256[]"
+          },
+          {
+            "internalType": "uint256",
+            "name": "salaryDay",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "realtimeDeposit",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "partnerState",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "partnerHashData",
+            "type": "string"
+          },
+          {
+            "internalType": "bool",
+            "name": "isReg",
+            "type": "bool"
+          },
+          {
+            "internalType": "uint256[]",
+            "name": "deposit",
+            "type": "uint256[]"
+          }
+        ],
+        "internalType": "struct oldThanks.Partner",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "partnerLicenseId",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "fromDate",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "toDate",
+        "type": "uint256"
+      }
+    ],
+    "name": "getPayByPartnerAndDate",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "workerEmail",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payState",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payReqDate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payReqAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payDate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "repaymentDate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "repaymentAmount",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct oldThanks.Pay[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "workerEmail",
+        "type": "string"
+      }
+    ],
+    "name": "getPayByWorker",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "workerEmail",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payState",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payReqDate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payReqAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payDate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "repaymentDate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "repaymentAmount",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct oldThanks.Pay[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "workerEmail",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "fromDate",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "toDate",
+        "type": "uint256"
+      }
+    ],
+    "name": "getPayByWorkerAndDate",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "string",
+            "name": "workerEmail",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payState",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payReqDate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payReqAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payDate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "payAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "repaymentDate",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "repaymentAmount",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct oldThanks.Pay[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "partnerLicenseId",
+        "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "klaytnAcc",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "initialDeposit",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "depositType",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "salaryDay",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "partnerHashData",
+        "type": "string"
+      }
+    ],
+    "name": "newPartner",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "workerEmail",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "partnerLicenseId",
+        "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "klaytnAcc",
+        "type": "address"
+      },
+      {
+        "internalType": "string",
+        "name": "workerHashData",
+        "type": "string"
+      }
+    ],
+    "name": "newWorker",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "partnerLicenseId",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "addDeposit",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "addDepositDate",
+        "type": "uint256"
+      }
+    ],
+    "name": "partnerAddDeposit",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "name": "partnerMap",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "partnerLicenseId",
+        "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "klaytnAcc",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "initialDeposit",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "depositType",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "salaryDay",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "realtimeDeposit",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "partnerState",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "partnerHashData",
+        "type": "string"
+      },
+      {
+        "internalType": "bool",
+        "name": "isReg",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "partners",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "workerEmail",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "payReqDate",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "payAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "payDate",
+        "type": "uint256"
+      }
+    ],
+    "name": "pay",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "workerEmail",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "payReqAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "payReqDate",
+        "type": "uint256"
+      }
+    ],
+    "name": "payRequest",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "thanksAdmin",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "name": "workerMap",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "workerEmail",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "partnerLicenseId",
+        "type": "string"
+      },
+      {
+        "internalType": "address",
+        "name": "klaytnAcc",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "blackWorkerState",
+        "type": "bool"
+      },
+      {
+        "internalType": "string",
+        "name": "workerHashData",
+        "type": "string"
+      },
+      {
+        "internalType": "bool",
+        "name": "isReg",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "serviceFeeRate",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "workers",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

@@ -7,7 +7,7 @@ contract ThanksDataStatic {
     }
 
     event partnerRegistered(uint256 pId, uint256 latestPay);
-    event companyRegistered(uint256 pId, uint256 latestPay);
+    //event companyRegistered(uint256 pId, uint256 latestPay);
     event partnerBalanceChanged(uint256 pId, uint256 newBalance);
     event workerRegistered(uint256 wId, uint256 pId, uint256 wage);
     event workerBalanceChanged(uint256 wId, uint256 newBalance);

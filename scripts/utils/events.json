@@ -1,70 +1,14 @@
-[
+So when we call some blockchain function, an event will be emited, and DB will somehow changed. The
+implementation in which how the DB change I've no idea.
+But preferably, I'll do the task of calling the blockchain function, then call a call-back function provided by you.
+
+
+The call-back function will accept event's data/information, and do the job of changing the DB.
+  
+  [
   {
-    "tableName": "RoleAdminChanged",
-    "fields": [
-      {
-        "type": "bytes32",
-        "name": "role"
-      },
-      {
-        "type": "bytes32",
-        "name": "previousAdminRole"
-      },
-      {
-        "type": "bytes32",
-        "name": "newAdminRole"
-      }
-    ]
-  },
-  {
-    "tableName": "RoleGranted",
-    "fields": [
-      {
-        "type": "bytes32",
-        "name": "role"
-      },
-      {
-        "type": "address",
-        "name": "account"
-      },
-      {
-        "type": "address",
-        "name": "sender"
-      }
-    ]
-  },
-  {
-    "tableName": "RoleRevoked",
-    "fields": [
-      {
-        "type": "bytes32",
-        "name": "role"
-      },
-      {
-        "type": "address",
-        "name": "account"
-      },
-      {
-        "type": "address",
-        "name": "sender"
-      }
-    ]
-  }
-][
-  {
-    "tableName": "companyRegistered",
-    "fields": [
-      {
-        "type": "uint256",
-        "name": "pId"
-      },
-      {
-        "type": "uint256",
-        "name": "latestPay"
-      }
-    ]
-  },
-  {
+    "explain" : "partner with partner's id ${pId} will have its balance changed to 'newBalance' ",
+    "implementation" : "totally dependent on you, you can update entry in existing table",
     "tableName": "partnerBalanceChanged",
     "fields": [
       {
@@ -78,6 +22,8 @@
     ]
   },
   {
+    "explain":"new, never seen before partner was registered from front-end => need to update Partner's table i.e: add new entry?",
+    "implementation": "in the new entry, at least 2 columns: partnerId and LatestPay should be the same as received info",
     "tableName": "partnerRegistered",
     "fields": [
       {
@@ -91,6 +37,7 @@
     ]
   },
   {
+    "explain": "same explanation as partnerBalanceChanged but applied for worker",
     "tableName": "workerBalanceChanged",
     "fields": [
       {
@@ -104,6 +51,7 @@
     ]
   },
   {
+    "explain": "same explanation as partnerRegistered",
     "tableName": "workerRegistered",
     "fields": [
       {
@@ -122,6 +70,7 @@
   }
 ][
   {
+    "explain" : "this will be used for logging, you can make a column in each partner table's entry refering to an array of all the balance updates relating to such entry",
     "tableName": "partnerAddBalanceEvent",
     "fields": [
       {
@@ -139,6 +88,10 @@
     ]
   },
   {
+    "explain" : "this will be used for logging, you can make another column in each partner table's entry refering to an array of all the bonus updates relating to such entry",
+    "explain2" : {
+      "." : "but also, you should make a colum showing the sumation of all the bonus such partner receive"
+    },
     "tableName": "partnerAddBonusEvent",
     "fields": [
       {
@@ -156,6 +109,9 @@
     ]
   },
   {
+    "explain" : {
+      "." : "decreases such partner's balance by amount"
+    }
     "tableName": "partnerWithdrawEvent",
     "fields": [
       {
@@ -173,6 +129,10 @@
     ]
   },
   {
+    "explain" : {
+      "." : "another column named latestWagePay in which the value is unix time-stamp (number)",
+      "." : "this latest pay will be updated each month manually, and it's a key in worker's balance withdrawal procedure"
+    }
     "tableName": "setLatestWagePayEvent",
     "fields": [
       {
@@ -186,6 +146,10 @@
     ]
   },
   {
+    "explain" : {
+      "." : "worker's withdraw-able salary will be decreased by such amount",
+      "." : "another column in worker's table denoting when was the latest transaction it made? preferable number (unix timestamp)"
+    }
     "tableName": "workerGetsThanksPayEvent",
     "fields": [
       {
@@ -210,7 +174,12 @@
       }
     ]
   }
-][
+]
+
+
+// don't care about this for now:
+
+[
   {
     "tableName": "dynamicPropertySet",
     "fields": [
