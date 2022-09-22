@@ -19,11 +19,12 @@ const {
     ThanksPayRelay,
     ThanksPayCheck,
     ThanksPaySecurity,
-  } from "./types/contractType";
-    import { ThanksPaySuperType } from "./generatedTypes/ThanksPaySuperType";
+  } from "../scripts/types/contractType";
+  import { ThanksPaySuperType } from "./generatedTypes/ThanksPaySuperType";
+  import { getMoney } from "../scripts/utils/getMoney";
 
   var thanksPay;
-  const partnerId = 1;
+  const partnerId = 15;
   
   describe("ThanksPay", function () {
     describe("Deployment", function () {
@@ -43,8 +44,10 @@ const {
             latestPay: 1663007942, // date Tue Sep 13 2022 03:39:02 GMT+0900 (Korean Standard Time)
           };
         const result = await thanksPayData.methods.registerPartner(registerPartnerArgs);
-
-        
+        console.log(result);
+        if (result.type=="success") {
+          console.log("Transaction gas is: ", getMoney(result as SuccessReturn));
+        }
 
 
 
