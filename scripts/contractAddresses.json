@@ -9,7 +9,8 @@
     "network": {
       "provider": "http://localhost:8545/",
       "key": "0x10de3a455dcef8e4c826e50e8fb795b2727c1d19774318ba4b7e670d335899f8",
-      "account": "0x25BcD4E9BE194638139a9C06e660448938cBefCe"
+      "account": "0x25BcD4E9BE194638139a9C06e660448938cBefCe",
+      "USDPrice:": 0
     }
   },
   "polygonTest": {
@@ -22,7 +23,22 @@
     "network": {
       "provider": "https://rpc-mumbai.maticvigil.com/",
       "key": "0x29b2e592b4f40ee0d6fee08be9a65290d7afdd30a9dfb7883c8ae7b970618a98",
-      "account": "0x0bb1d88859FEe17c7F9C13CB55B83784ce7Eb402"
+      "account": "0x0bb1d88859FEe17c7F9C13CB55B83784ce7Eb402",
+      "USDPrice": 0.7
+    }
+  },
+  "klaytn": {
+    "THANKS_PAY_MAIN_ADDR": "0xF17785a662A506015286138156d8f8430898507B",
+    "THANKS_PAY_DATA_ADDR": "0x8237df825f5539Ab80839D143D383dC01E5C5318",
+    "THANKS_PAY_SECURITY_ADDR": "0x438586fded2F40814c3cA6631f18C7797cb16a8f",
+    "THANKS_PAY_RELAY_ADDR": "0x4fB1B8c852E63b2d3fc5610A63304ae2Eae88294",
+    "THANKS_PAY_CHECK_ADDR": "0xcC64ed2eBB27666c9A84699c6f551eFFa890f6b6",
+    "OLD_THANKS_ADDR": "0xa1EEC0E163FD55a3fe906e8CACbb444d25Cd0d30",
+    "network": {
+      "provider": "https://public-node-api.klaytnapi.com/v1/baobab",
+      "key": "0x29b2e592b4f40ee0d6fee08be9a65290d7afdd30a9dfb7883c8ae7b970618a98",
+      "account": "0x0bb1d88859FEe17c7F9C13CB55B83784ce7Eb402",
+      "USDprice": 0.22
     }
   }
 }

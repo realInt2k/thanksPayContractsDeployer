@@ -173,7 +173,7 @@ export class ThanksPayContracts extends Contract {
           }
         };
       }
-
+      console.log(name);
       const tx = await this[name](...orderedArgs);
 
       if (getFunctionStateMutability(name, this.schema) === "view") {
@@ -506,10 +506,10 @@ export class ThanksPaySecurity extends ThanksPayContracts {
 export class OldThanks extends ThanksPayContracts {
 
   constructor(networkName: networkNameType) {
-    super("THANKS_PAY_SECURITY_ADDR", networkName, thanksSecurityABI);
+    super("OLD_THANKS_ADDR", networkName, oldThanksABI);
   }
   
-  public method = {
+  public methods = {
 
     cancelPay: async (args: ThanksPaySuperType["oldThanks"]["cancelPay"]):Promise<any> => {
       const receipt = await this.sendTx("cancelPay", args);
@@ -520,12 +520,6 @@ export class OldThanks extends ThanksPayContracts {
       const receipt = await this.sendTx("editPartner", args);
       return receipt;
     },
-
-    editWorker: async (args: ThanksPaySuperType["oldThanks"]["editWorker"]):Promise<any> => {
-      const receipt = await this.sendTx("editWorker", args);
-      return receipt;
-    },
-
     getAllPartner: async (args: ThanksPaySuperType["oldThanks"]["getAllPartner"]):Promise<any> => {
       const receipt = await this.sendTx("getAllPartner", args);
       return receipt;

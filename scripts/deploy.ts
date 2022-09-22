@@ -13,7 +13,7 @@ import * as dotenv from "dotenv";
 //const filepath = "./logs";
 dotenv.config();
 console.log(__dirname + './contractAddresses.json');
-import contractAddresses from './contractAddresses.json';
+import contractAddresses from './config/contractAddresses.json';
 import * as fs from 'fs';
 import { Signer } from "@ethersproject/abstract-signer";
 dotenv.config();
@@ -26,7 +26,7 @@ const networkName = arg.split("=")[1]; // "ganache"
 console.log(networkName, process.argv);
 
 
-export type networkNameType = "ganache" | "polygonTest";
+export type networkNameType = "ganache" | "polygonTest" | "klaytn";
 
 function getGanacheFactory() {
   return (contractName: string) => {
@@ -92,8 +92,13 @@ async function main(networkName: networkNameType) {
   soldier = await Platoon.deploy();
   const thanksPayRelayAddr = soldier.address;
   contractAddresses[networkName]["THANKS_PAY_RELAY_ADDR"] = soldier.address;
+
+  Platoon = await getContractFactory("oldThanks");
+  soldier = await Platoon.deploy();
+//  const thanksPayRelayAddr = soldier.address;
+  contractAddresses[networkName]["OLD_THANKS_ADDR"] = soldier.address;
   
-  console.log("ThanksPayRelay deployed to:", soldier.address);
+  console.log("OldThanks deployed to:", soldier.address);
 
   console.log("\nNearbyBlock is ", nearByBlock);
   fs.writeFileSync(__dirname + '/contractAddresses.json', JSON.stringify(contractAddresses, null, 2));

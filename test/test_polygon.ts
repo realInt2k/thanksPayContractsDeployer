@@ -11,15 +11,15 @@ const {
   import thanksPayDataABI from "../abis/ThanksData.json";
   import thanksPayABI from "../abis/ThanksPayMain.json";
   import thanksRelayABI from "../abis/ThanksPayRelay.json";
-  import contractAddresses from "../scripts/contractAddresses.json";
-  import { SuccessReturn, ErrorReturn, ViewReturn } from "../scripts/types/returnType";
+  import contractAddresses from "./contractAddresses.json";
+  import { SuccessReturn, ErrorReturn, ViewReturn } from "./types/returnType";
   import {
     ThanksPayMain,
     ThanksPayData,
     ThanksPayRelay,
     ThanksPayCheck,
     ThanksPaySecurity,
-  } from "../scripts/types/contractType";
+  } from "./types/contractType";
     import { ThanksPaySuperType } from "./generatedTypes/ThanksPaySuperType";
 
   var thanksPay;
@@ -36,24 +36,19 @@ const {
         const thanksPaySecurity = new ThanksPaySecurity("ganache");
 
   
-        const workerId = Math.floor(Math.random() * 100);
+
         let registerPartnerArgs: ThanksPaySuperType["thanksPayData"]["registerPartner"] =
           {
             pId: partnerId,
             latestPay: 1663007942, // date Tue Sep 13 2022 03:39:02 GMT+0900 (Korean Standard Time)
           };
         const result = await thanksPayData.methods.registerPartner(registerPartnerArgs);
-        let setLatestWagePayArgs: ThanksPaySuperType["thanksPayMain"]["setLatestWagePay"] = {
-          pId: partnerId,
-          timestamp: 1663007942, // date Tue Sep 13 2022 03:39:02 GMT+0900 (Korean Standard Time)
-        };
-        const result2 = await thanksPayMain.methods.setLatestWagePay(setLatestWagePayArgs);
-        if (result.type=="success"){
-          console.log("Transaction gas is:", (result as SuccessReturn).values.receipt.cumulativeGasUsed);
-        }
-        if (result.type=="error"){
-          console.log("Transaction error is:", (result as ErrorReturn).values.reason);
-        }
+
+        
+
+
+
+
       });
     });
   });

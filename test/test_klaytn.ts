@@ -12,6 +12,7 @@ const {
   import thanksPayABI from "../abis/ThanksPayMain.json";
   import thanksRelayABI from "../abis/ThanksPayRelay.json";
   import contractAddresses from "../scripts/contractAddresses.json";
+  import { getMoney } from "./utils/getMoney";
   import { SuccessReturn, ErrorReturn, ViewReturn } from "../scripts/types/returnType";
   import {
     ThanksPayMain,
@@ -19,9 +20,10 @@ const {
     ThanksPayRelay,
     ThanksPayCheck,
     ThanksPaySecurity,
+    OldThanks
   } from "../scripts/types/contractType";
-    import { ThanksPaySuperType } from "./generatedTypes/ThanksPaySuperType";
-
+    import { ThanksPaySuperType} from "./generatedTypes/ThanksPaySuperType";
+    import { oldThanksType } from './generatedTypes/oldThanksType';
   var thanksPay;
   const partnerId = 1;
   
@@ -29,30 +31,21 @@ const {
     describe("Deployment", function () {
       it("Should create contract, the worker and the partner", async function () {
         this.timeout(0);
-        const thanksPayMain = new ThanksPayMain("ganache");
-        const thanksPayData = new ThanksPayData("ganache");
-        const thanksPayRelay = new ThanksPayRelay("ganache");
-        const thanksPayCheck = new ThanksPayCheck("ganache");
-        const thanksPaySecurity = new ThanksPaySecurity("ganache");
-
+        const oldThanks = new OldThanks("klaytn");
   
         const workerId = Math.floor(Math.random() * 100);
-        let registerPartnerArgs: ThanksPaySuperType["thanksPayData"]["registerPartner"] =
+        let registerPartnerArgs: oldThanksType["newPartner"] =
           {
-            pId: partnerId,
-            latestPay: 1663007942, // date Tue Sep 13 2022 03:39:02 GMT+0900 (Korean Standard Time)
+            partnerLicenseId: "parnerId3223265",
+            klaytnAcc: "0xB0246401E074B0BB813381d8954F91d4C9C3e804",
+            initialDeposit: 10,
+            depositType: 1,
+            salaryDay: 10,
+            partnerHashData: "string1623325" // date Tue Sep 13 2022 03:39:02 GMT+0900 (Korean Standard Time)
           };
-        const result = await thanksPayData.methods.registerPartner(registerPartnerArgs);
-        let setLatestWagePayArgs: ThanksPaySuperType["thanksPayMain"]["setLatestWagePay"] = {
-          pId: partnerId,
-          timestamp: 1663007942, // date Tue Sep 13 2022 03:39:02 GMT+0900 (Korean Standard Time)
-        };
-        const result2 = await thanksPayMain.methods.setLatestWagePay(setLatestWagePayArgs);
-        if (result.type=="success"){
-          console.log("Transaction gas is:", (result as SuccessReturn).values.receipt.cumulativeGasUsed);
-        }
-        if (result.type=="error"){
-          console.log("Transaction error is:", (result as ErrorReturn).values.reason);
+        const result = await oldThanks.methods.newPartner(registerPartnerArgs);
+        if (result.type=="success") {
+            console.log("Transaction gas is: ", getMoney(result as SuccessReturn));
         }
       });
     });
