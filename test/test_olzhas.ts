@@ -12,6 +12,7 @@ const {
   import thanksPayABI from "../abis/ThanksPayMain.json";
   import thanksRelayABI from "../abis/ThanksPayRelay.json";
   import contractAddresses from "../scripts/contractAddresses.json";
+  import { SuccessReturn, ErrorReturn, ViewReturn } from "../scripts/types/returnType";
   import {
     ThanksPayMain,
     ThanksPayData,
@@ -22,7 +23,7 @@ const {
     import { ThanksPaySuperType } from "./generatedTypes/ThanksPaySuperType";
 
   var thanksPay;
-  const partnerId = 5;
+  const partnerId = 1;
   // const uri = "http://localhost:8545/";
   // const provider = new ethers.providers.JsonRpcProvider(uri);
   // const privateKey =
@@ -46,12 +47,18 @@ const {
             pId: partnerId,
             latestPay: 1663007942, // date Tue Sep 13 2022 03:39:02 GMT+0900 (Korean Standard Time)
           };
-        await thanksPayData.methods.registerPartner(registerPartnerArgs);
+        const result = await thanksPayData.methods.registerPartner(registerPartnerArgs);
         let setLatestWagePayArgs: ThanksPaySuperType["thanksPayMain"]["setLatestWagePay"] = {
           pId: partnerId,
           timestamp: 1663007942, // date Tue Sep 13 2022 03:39:02 GMT+0900 (Korean Standard Time)
         };
-        await thanksPayMain.methods.setLatestWagePay(setLatestWagePayArgs);
+        const result2 = await thanksPayMain.methods.setLatestWagePay(setLatestWagePayArgs);
+        if (result.type=="success"){
+          console.log("Transaction gas is:", (result as SuccessReturn).values.receipt.cumulativeGasUsed);
+        }
+        if (result.type=="error"){
+          console.log("Transaction error is:", (result as ErrorReturn).values.reason);
+        }
       });
     });
   });

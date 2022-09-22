@@ -42,4 +42,8 @@ This will connect you to the new network! Write the test below, and run them wit
 mocha -r ts-node/register test/test_olzhas.ts
 ```
 
-To view which functions are available, you can check `scripts/types/contractType.ts`. To view the return objects, see `scripts/types/returnType.ts`. To see the transaction receipt, which includes the transaction fee (in gas), you can print `console.log(object.values.receipt)`, and see the gas price (or something similar). To convert to dollars, google the gas price in the native currency of your blockchain network.
+To view which functions are available, you can check `scripts/types/contractType.ts`. To view the return objects, see `scripts/types/returnType.ts`. To see the transaction receipt, which includes the transaction fee (in gas), you can print `(result as SuccessReturn).values.receipt.cumulativeGasUsed`, and see the gas price (or something similar). To convert to dollars, google the gas price in the native currency of your blockchain network.
+
+
+
+
