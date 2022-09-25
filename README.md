@@ -30,7 +30,7 @@ npx ts-node ./scripts/deploy.ts --networkName=newNetwork
 This will deploy new contracts, and authorize you appropriately.
 
 #### Run some functions
-To test some contracts and functions, go to `test/test_olzhas.ts`, and change the following:
+To test some contracts and functions, go to `test/test_polygon.ts`, and change the following:
 ```
         const thanksPayMain = new ThanksPayMain("newNetwork");
         const thanksPayData = new ThanksPayData("newNetwork");
@@ -39,7 +39,7 @@ To test some contracts and functions, go to `test/test_olzhas.ts`, and change th
 This will connect you to the new network! Write the test below, and run them with the terminal command:
 
 ```
-mocha -r ts-node/register test/test_olzhas.ts
+mocha -r ts-node/register test/test_polygon.ts
 ```
 
 To view which functions are available, you can check `scripts/types/contractType.ts`. To view the return objects, see `scripts/types/returnType.ts`. To see the transaction receipt, which includes the transaction fee (in gas), you can print `(result as SuccessReturn).values.receipt.cumulativeGasUsed`, and see the gas price (or something similar). To convert to dollars, google the gas price in the native currency of your blockchain network.
