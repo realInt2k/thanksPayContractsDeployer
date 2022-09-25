@@ -7,7 +7,6 @@ contract ThanksDataStatic {
     }
 
     event partnerRegistered(uint256 pId, uint256 latestPay);
-    //event companyRegistered(uint256 pId, uint256 latestPay);
     event partnerBalanceChanged(uint256 pId, uint256 newBalance);
     event workerRegistered(uint256 wId, uint256 pId, uint256 wage);
     event workerBalanceChanged(uint256 wId, uint256 newBalance);
@@ -36,5 +35,4 @@ contract ThanksDataStatic {
     mapping(uint256 => Partner) public partners;
     mapping(uint256 => Worker) public workers;
     mapping(uint256 => uint256) public types;
-        // 1: "Partner", 2: "Worker", 3: "Pay"
 }

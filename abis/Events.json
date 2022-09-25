@@ -1,0 +1,196 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "entityID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "blockchainID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256[]",
+        "name": "propertyID",
+        "type": "uint256[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256[]",
+        "name": "propertyValue",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "dynamicPropertySet",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256[]",
+        "name": "_entityIDs",
+        "type": "uint256[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "string[]",
+        "name": "_entityNames",
+        "type": "string[]"
+      }
+    ],
+    "name": "entityNamesAltered",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "pId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newBalance",
+        "type": "uint256"
+      }
+    ],
+    "name": "partnerBalanceChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "pId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "latestPay",
+        "type": "uint256"
+      }
+    ],
+    "name": "partnerRegistered",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "entityID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256[]",
+        "name": "propertyIDs",
+        "type": "uint256[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "string[]",
+        "name": "propertyNames",
+        "type": "string[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256[]",
+        "name": "propertyTypes",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "propertyNamesAltered",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "entityID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "blockchainID",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256[]",
+        "name": "propertyID",
+        "type": "uint256[]"
+      },
+      {
+        "indexed": false,
+        "internalType": "string[]",
+        "name": "propertyValue",
+        "type": "string[]"
+      }
+    ],
+    "name": "staticPropertySet",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "wId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newBalance",
+        "type": "uint256"
+      }
+    ],
+    "name": "workerBalanceChanged",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "wId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "pId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "wage",
+        "type": "uint256"
+      }
+    ],
+    "name": "workerRegistered",
+    "type": "event"
+  }
+]

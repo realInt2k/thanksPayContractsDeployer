@@ -50,7 +50,6 @@ export type ThanksPaySecurityType = {
 };
 
 const getSchema = (abi: ContractABIType) => {
-  // filter abi where "type" is "function"
   const functions = abi.filter((row: any) => row["type"] === "function");
 
   // make an array where key is functions['name']
@@ -104,6 +103,7 @@ const getFunctionStateMutability = (functionName: string, schema: any) => {
 export class ThanksPayContracts extends Contract {
   public schema: any;
   public events: any;
+  public allEvents: any; // all events in the ThanksPayContracts family. Can be dangerous!
   public iface: any;
 
   public getEventTypesArray(eventName: string) {
@@ -146,6 +146,20 @@ export class ThanksPayContracts extends Contract {
     networkName: networkNameType,
     abi: ContractABIType
   ) {
+    const thisABI = abi;
+    const ABIs=[thanksPayCheckABI, thanksPayDataABI, thanksPayMainABI, thanksPayRelayABI, thanksSecurityABI];
+
+    ABIs.map((abi: any) => {
+      const events = abi.filter((row: any) => row["type"] === "event");
+      events.map((event: any) => {
+        // if thisABI has the same event, do not add it
+        const hasEvent = thisABI.find((row: any) => row["name"] === event["name"]);
+        if (!hasEvent) {
+          thisABI.push(event);
+        }
+    })
+    });
+
     const contractAddress = getContractAddress(networkName, contractName);
     const privateKey = contractAddresses[networkName]["network"]["key"];
     const providerName = contractAddresses[networkName]["network"]["provider"];
@@ -153,9 +167,9 @@ export class ThanksPayContracts extends Contract {
     const signer = new ethers.Wallet(privateKey, provider);
     super(contractAddress, abi, signer);
 
-    this.iface = new ethers.utils.Interface(abi);
-    this.schema = getSchema(abi);
-    this.events = getEvents(abi);
+    this.iface = new ethers.utils.Interface(thisABI);
+    this.schema = getSchema(thisABI);
+    this.events = getEvents(thisABI);
   }
   public sendTx = async (name: string, args: any, check?: boolean | null, checkErrorString?: string): Promise<SuccessReturn | ErrorReturn | ViewReturn> => {
     try {
@@ -175,6 +189,7 @@ export class ThanksPayContracts extends Contract {
       }
       console.log(name);
       const tx = await this[name](...orderedArgs);
+      console.log(tx);
 
       if (getFunctionStateMutability(name, this.schema) === "view") {
         return {
@@ -185,11 +200,15 @@ export class ThanksPayContracts extends Contract {
         };
       } else {
         const txReceipt = await tx.wait();
+        console.log(txReceipt.logs);
         return {
           type: "success",
           values: {
             hash: txReceipt.transactionHash,
             logs: txReceipt.logs.map((log: any) => {
+              console.log(this.iface);
+              console.log(this.abi);
+              console.log("The decoded event is: ",this.iface.parseLog(log));
               return this.iface.parseLog(log);
             }),
             receipt: txReceipt,

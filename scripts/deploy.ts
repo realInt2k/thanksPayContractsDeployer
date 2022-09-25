@@ -13,7 +13,7 @@ import * as dotenv from "dotenv";
 //const filepath = "./logs";
 dotenv.config();
 console.log(__dirname + './contractAddresses.json');
-import contractAddresses from './config/contractAddresses.json';
+import contractAddresses from './contractAddresses.json';
 import * as fs from 'fs';
 import { Signer } from "@ethersproject/abstract-signer";
 dotenv.config();
