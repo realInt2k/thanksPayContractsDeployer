@@ -9,7 +9,7 @@ import thanksPayRelayABI from "../../abis/ThanksPayRelay.json";
 import thanksPayCheckABI from "../../abis/ThanksPayCheck.json";
 import oldThanksABI from "../../abis/oldThanks.json";
 
-import { networkNameType } from '../deploy';
+import { networkNameType } from './networkNameType';
 import { ThanksPayRelayType } from "../generatedTypes/ThanksPayRelayType";
 import { ThanksPayDataType } from "../generatedTypes/ThanksPayDataType";
 import { ThanksPayCheckType } from "../generatedTypes/ThanksPayCheckType";
@@ -31,7 +31,6 @@ export type ContractABIType =
   | typeof thanksPayMainABI
   | typeof thanksPayRelayABI 
   | typeof oldThanksABI;
-
 
 type contractNameType = "OLD_THANKS_ADDR" | "THANKS_PAY_MAIN_ADDR" | "THANKS_PAY_DATA_ADDR" | "THANKS_PAY_SECURITY_ADDR" | "THANKS_PAY_RELAY_ADDR" | "THANKS_PAY_CHECK_ADDR";
 
@@ -155,6 +154,7 @@ export class ThanksPayContracts extends Contract {
         // if thisABI has the same event, do not add it
         const hasEvent = thisABI.find((row: any) => row["name"] === event["name"]);
         if (!hasEvent) {
+          // console.log("Printing out the thisABI events", event);
           thisABI.push(event);
         }
     })
@@ -179,7 +179,6 @@ export class ThanksPayContracts extends Contract {
       });
 
       if (check === false) {
-        console.log(checkErrorString);
         return {
           type: "error",
           values: {
@@ -187,9 +186,7 @@ export class ThanksPayContracts extends Contract {
           }
         };
       }
-      console.log(name);
       const tx = await this[name](...orderedArgs);
-      console.log(tx);
 
       if (getFunctionStateMutability(name, this.schema) === "view") {
         return {
@@ -200,27 +197,26 @@ export class ThanksPayContracts extends Contract {
         };
       } else {
         const txReceipt = await tx.wait();
-        console.log(txReceipt.logs);
+        // console.log("printing out events available in, ", txReceipt.logs); 
         return {
           type: "success",
           values: {
             hash: txReceipt.transactionHash,
             logs: txReceipt.logs.map((log: any) => {
-              console.log(this.iface);
-              console.log(this.abi);
-              console.log("The decoded event is: ",this.iface.parseLog(log));
-              return this.iface.parseLog(log);
+              try{
+              return this.iface.parseLog(log);} catch (e: any){
+                console.log("Some unknown error, but everything seems fine");
+              }
             }),
             receipt: txReceipt,
           }
         };
       }
     } catch (e: any) {
-      console.log(name, " failed to deliver", e);
       return {
         type: "error",
         values: {
-          reason: "-1"
+          reason: e.reason ? e.reason : e.code,
         }
       };
     }

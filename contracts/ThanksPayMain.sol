@@ -86,4 +86,5 @@ contract ThanksPayMain is ThanksSecurityWrapper, RevertCheck {
 
         emit workerGetsThanksPayEvent(wId, pId, amount, bankReceipt, timestamp);
     }
+    
 }

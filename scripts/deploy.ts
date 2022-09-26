@@ -3,6 +3,7 @@
 //
 // When running the script with `npx hardhat run <script>` you'll find the Hardhat
 // Runtime Environment's members available in the global scope.
+
 import { ethers } from "hardhat";
 import Web3 from "web3";
 import * as dotenv from "dotenv";
@@ -19,28 +20,10 @@ import { Signer } from "@ethersproject/abstract-signer";
 dotenv.config();
 console.log(__dirname + './contractAddresses.json');
 
+import { getNetworkName } from "../utils/getNetworkName";
+import { networkNameType } from "./types/networkNameType";
 
-const arg = process.argv[2]; // ["networkName=ganache"]
-const networkName = arg.split("=")[1]; // "ganache"
-
-console.log(networkName, process.argv);
-
-
-export type networkNameType = "ganache" | "polygonTest" | "klaytn";
-
-function getGanacheFactory() {
-  return (contractName: string) => {
-    return ethers.getContractFactory(contractName)
-  };
-}
-
-function getPolygonFactory(wallet: any) {
-  return (contractName: string) => {
-    return ethers.getContractFactory(contractName, wallet)
-  };
-}
-
-
+const networkName = getNetworkName(process);
 
 async function main(networkName: networkNameType) {
   // We get the contract to deploy

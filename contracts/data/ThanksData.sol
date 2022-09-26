@@ -6,12 +6,15 @@ import "../security/ThanksSecurityWrapper.sol";
 
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
-/*
-    This has pure set and get, no logics
- */
+
 
 contract ThanksData is ThanksDataStatic, ThanksSecurityWrapper {
     using SafeMath for uint256;
+
+    event partnerRegistered(uint256 pId, uint256 latestPay);
+    event partnerBalanceChanged(uint256 pId, uint256 newBalance);
+    event workerRegistered(uint256 wId, uint256 pId, uint256 wage);
+    event workerBalanceChanged(uint256 wId, uint256 newBalance);
 
     constructor(address securityAddr) ThanksSecurityWrapper(securityAddr) {
 
@@ -62,7 +65,7 @@ contract ThanksData is ThanksDataStatic, ThanksSecurityWrapper {
                 worker.pId,
                 worker.latestRequest,
                 worker.exist
-            );
+        );
     }
 
     function getWorkerBalance(uint256 wId) public view returns (uint256) {
