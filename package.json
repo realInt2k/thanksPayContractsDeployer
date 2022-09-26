@@ -3,6 +3,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "ganache": "ganache --database.dbPath './ganache_DB' --wallet.accountKeysPath './ganacheAccounts.txt' --wallet.totalAccounts 120 --wallet.seed 'GivingDays'",
+    "ganacheDung": "npx ganache --wallet.mnemonic 'polar velvet stereo oval sonic senior cause taylor tube hobby exact angry' --db './ganacheDB'  --wallet.accountKeysPath  './ganacheAccounts.json' -p 8545 --chain.chainId 1337  -a 120 -e 10000",
     "ganacheSh": "./start-ganache.sh",
     "ganachePs1": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./start-ganache.ps1",
     "codegen": "graph codegen",
@@ -13,6 +14,7 @@
     "deployGanache": "npx ts-node ./scripts/deploy.ts --networkName=ganache",
     "deployKlaytn": "npx ts-node ./scripts/deploy.ts --networkName=klaytn",
     "test": "mocha -r ts-node/register test/test.ts",
+    "test_rawTx": "mocha -r ts-node/register test/test_rawTx.ts",
     "testDung": "mocha -r ts-node/register test/test_dungn.ts",
     "testPolygonNEW": "mocha -r ts-node/register test/test_new.ts --networkName=polygonTest",
     "testKlaytnNEW": "mocha -r ts-node/register test/test_new.ts --networkName=klaytn",

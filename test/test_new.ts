@@ -17,7 +17,7 @@ const {
   } from "../scripts/types/contractType";
   import { ThanksPaySuperType } from "./generatedTypes/ThanksPaySuperType";
   import { getMoney } from "../scripts/utils/getMoney";
-  import { getNetworkName } from "../utils/getNetworkName";
+  import { getNetworkName } from "../scripts/utils/getNetworkName";
   // import { networkNameType } from "./deploy";
   import { networkNameType } from "./types/networkNameType";
 
@@ -27,7 +27,7 @@ const {
   console.log(networkName);
 
   var thanksPay;
-  const partnerId = 150;
+  const partnerId = 1735;
   
   describe("ThanksPay", function () {
     describe("Deployment", function () {

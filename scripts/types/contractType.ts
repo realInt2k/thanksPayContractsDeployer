@@ -8,7 +8,7 @@ import thanksPayMainABI from "../../abis/ThanksPayMain.json";
 import thanksPayRelayABI from "../../abis/ThanksPayRelay.json";
 import thanksPayCheckABI from "../../abis/ThanksPayCheck.json";
 import oldThanksABI from "../../abis/oldThanks.json";
-
+import {getSigner} from "../utils/getSigner";
 import { networkNameType } from './networkNameType';
 import { ThanksPayRelayType } from "../generatedTypes/ThanksPayRelayType";
 import { ThanksPayDataType } from "../generatedTypes/ThanksPayDataType";
@@ -19,9 +19,14 @@ import { oldThanksType } from "../generatedTypes/oldThanksType";
 import { ethers } from 'ethers';
 import { SuccessReturn, ErrorReturn, ViewReturn } from "./returnType";
 import contractAddresses from "../contractAddresses.json";
+import { rawTxDataType } from "./rawTxDataType";
 const Web3 = require("web3");
 const web3 = new Web3();
+import { contractNameType } from "./contractNameType";
 import * as fs from "fs";
+import * as path from "path";
+import { writeToTxLog } from '../utils/writeToTransactionLog';
+
 
 export type ContractABIType =
   | any
@@ -32,7 +37,6 @@ export type ContractABIType =
   | typeof thanksPayRelayABI 
   | typeof oldThanksABI;
 
-type contractNameType = "OLD_THANKS_ADDR" | "THANKS_PAY_MAIN_ADDR" | "THANKS_PAY_DATA_ADDR" | "THANKS_PAY_SECURITY_ADDR" | "THANKS_PAY_RELAY_ADDR" | "THANKS_PAY_CHECK_ADDR";
 
 const getContractAddress = (networkName: networkNameType, contractName: contractNameType) => {
   return contractAddresses[networkName][contractName];
@@ -104,6 +108,8 @@ export class ThanksPayContracts extends Contract {
   public events: any;
   public allEvents: any; // all events in the ThanksPayContracts family. Can be dangerous!
   public iface: any;
+  public contractName: string;
+  public networkName: networkNameType;
 
   public getEventTypesArray(eventName: string) {
     const event = this.events.find((row: any) => row.name === eventName);
@@ -148,6 +154,7 @@ export class ThanksPayContracts extends Contract {
     const thisABI = abi;
     const ABIs=[thanksPayCheckABI, thanksPayDataABI, thanksPayMainABI, thanksPayRelayABI, thanksSecurityABI];
 
+
     ABIs.map((abi: any) => {
       const events = abi.filter((row: any) => row["type"] === "event");
       events.map((event: any) => {
@@ -161,15 +168,17 @@ export class ThanksPayContracts extends Contract {
     });
 
     const contractAddress = getContractAddress(networkName, contractName);
-    const privateKey = contractAddresses[networkName]["network"]["key"];
-    const providerName = contractAddresses[networkName]["network"]["provider"];
-    const provider = new ethers.providers.JsonRpcProvider(providerName);
-    const signer = new ethers.Wallet(privateKey, provider);
+    // const privateKey = contractAddresses[networkName]["network"]["key"];
+    // const providerName = contractAddresses[networkName]["network"]["provider"];
+    // const provider = new ethers.providers.JsonRpcProvider(providerName);
+    const signer = getSigner(networkName);
     super(contractAddress, abi, signer);
 
     this.iface = new ethers.utils.Interface(thisABI);
     this.schema = getSchema(thisABI);
     this.events = getEvents(thisABI);
+    this.contractName = contractName;
+    this.networkName = networkName;
   }
   public sendTx = async (name: string, args: any, check?: boolean | null, checkErrorString?: string): Promise<SuccessReturn | ErrorReturn | ViewReturn> => {
     try {
@@ -186,8 +195,11 @@ export class ThanksPayContracts extends Contract {
           }
         };
       }
+      
       const tx = await this[name](...orderedArgs);
 
+    
+      
       if (getFunctionStateMutability(name, this.schema) === "view") {
         return {
           type: "view",
@@ -196,7 +208,12 @@ export class ThanksPayContracts extends Contract {
           }
         };
       } else {
-        const txReceipt = await tx.wait();
+      // if the network is Ganache, then write into the thing. 
+      if (this.networkName=="ganache"){
+        writeToTxLog(tx.data, (this.contractName as contractNameType), tx.nonce);
+      }
+      
+      const txReceipt = await tx.wait();
         // console.log("printing out events available in, ", txReceipt.logs); 
         return {
           type: "success",

@@ -20,7 +20,7 @@ import { Signer } from "@ethersproject/abstract-signer";
 dotenv.config();
 console.log(__dirname + './contractAddresses.json');
 
-import { getNetworkName } from "../utils/getNetworkName";
+import { getNetworkName } from "./utils/getNetworkName";
 import { networkNameType } from "./types/networkNameType";
 
 const networkName = getNetworkName(process);
