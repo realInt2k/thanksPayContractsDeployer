@@ -22,6 +22,7 @@
     "testPolygonNEW": "mocha -r ts-node/register test/test_new.ts --networkName=polygonTest",
     "testKlaytnNEW": "mocha -r ts-node/register test/test_new.ts --networkName=klaytn",
     "testGanacheNEW": "mocha -r ts-node/register test/test_new.ts --networkName=ganache",
+    "testOldContractKlaytn" : "mocha -r ts-node/register test/test_old_contract.ts --networkName=klaytn",
 
     "ganacheSh": "./start-ganache.sh",
     "ganachePs1": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./start-ganache.ps1",
