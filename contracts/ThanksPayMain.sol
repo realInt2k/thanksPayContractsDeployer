@@ -33,10 +33,10 @@ contract ThanksPayMain is ThanksSecurityWrapper, RevertCheck {
         emit setLatestWagePayEvent(pId, timestamp);
     }
 
-    // TS calls workerGetSalaryEarlyCheck first, so there is no checking 
-    // because we assume everything is fine
+    // TS calls workerGetSalaryEarlyCheck first, so there is no checking, because we assume everything is fine
     function subtractFromPartner(uint256 pId, uint256 amount) public isAuthorized(msg.sender){
         revertCheck(check.subtractFromPartnerCheck(pId, amount), 1);
+        
         (uint256 balance, uint256 bonus, ) = data.getPartner(pId);
 
         if (amount <= balance) {

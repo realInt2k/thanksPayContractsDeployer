@@ -253,7 +253,7 @@ export class ThanksPayMain extends ThanksPayContracts {
       const check = await this.thanksPayCheck.methods.subtractFromPartnerCheck(
         args
       );
-      const checkErrorString = "subtractFromPartnerCheck failed";
+      const checkErrorString = "subtractFromPartnerCheck failed, insufficient partner balance";
       return await this.sendTx("subtractFromPartner", args, check, checkErrorString);
     },
     partnerAddBonus: async (
@@ -283,10 +283,25 @@ export class ThanksPayMain extends ThanksPayContracts {
     workerGetsThanksPay: async (
       args: ThanksPayMainType["workerGetsThanksPay"]
     ): Promise<any> => {
-      const check = await this.thanksPayCheck.methods.workerGetsThanksPayCheck(
+      const workerCheck = await this.thanksPayCheck.methods.workerGetsThanksPayCheck(
         args
       );
-      const checkErrorString = "workerGetsThanksPayCheck failed";
+      const pId: number = args.pId;
+      const amount: number = args.amount;
+      const partnerArgs: ThanksPayMainType["subtractFromPartner"] = {
+        pId,
+        amount,
+      }
+      const partnerCheck = await this.thanksPayCheck.methods.subtractFromPartnerCheck(partnerArgs);
+      var checkErrorString;
+      if (!workerCheck){
+        checkErrorString = "workerGetsThanksPayCheck failed, insufficient worker balance";
+      } else {
+        if (!partnerCheck){
+          checkErrorString = "subtractFromPartnerCheck failed, insufficient partner balance";
+        }
+      }
+      const check = workerCheck && partnerCheck;
       return await this.sendTx("workerGetsThanksPay", args, check, checkErrorString);
     },
   };
