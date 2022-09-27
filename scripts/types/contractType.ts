@@ -8,7 +8,7 @@ import thanksPayMainABI from "../../abis/ThanksPayMain.json";
 import thanksPayRelayABI from "../../abis/ThanksPayRelay.json";
 import thanksPayCheckABI from "../../abis/ThanksPayCheck.json";
 import oldThanksABI from "../../abis/oldThanks.json";
-import {getSigner} from "../utils/getSigner";
+import { getSigner } from "../utils/getSigner";
 import { networkNameType } from './networkNameType';
 import { ThanksPayRelayType } from "../generatedTypes/ThanksPayRelayType";
 import { ThanksPayDataType } from "../generatedTypes/ThanksPayDataType";
@@ -26,6 +26,8 @@ import { contractNameType } from "./contractNameType";
 import * as fs from "fs";
 import * as path from "path";
 import { writeToTxLog } from '../utils/writeToTransactionLog';
+import { getTxDetails } from "../utils/getTxDetails";
+
 
 
 export type ContractABIType =
@@ -34,7 +36,7 @@ export type ContractABIType =
   | typeof thanksPayDataABI
   | typeof thanksPayCheckABI
   | typeof thanksPayMainABI
-  | typeof thanksPayRelayABI 
+  | typeof thanksPayRelayABI
   | typeof oldThanksABI;
 
 
@@ -157,7 +159,7 @@ export class ThanksPayContracts extends Contract {
     abi: ContractABIType
   ) {
     const thisABI = abi;
-    const ABIs=[thanksPayCheckABI, thanksPayDataABI, thanksPayMainABI, thanksPayRelayABI, thanksSecurityABI];
+    const ABIs = [thanksPayCheckABI, thanksPayDataABI, thanksPayMainABI, thanksPayRelayABI, thanksSecurityABI];
 
 
     ABIs.map((abi: any) => {
@@ -166,16 +168,12 @@ export class ThanksPayContracts extends Contract {
         // if thisABI has the same event, do not add it
         const hasEvent = thisABI.find((row: any) => row["name"] === event["name"]);
         if (!hasEvent) {
-          // console.log("Printing out the thisABI events", event);
           thisABI.push(event);
         }
-    })
+      })
     });
 
     const contractAddress = getContractAddress(networkName, contractName);
-    // const privateKey = contractAddresses[networkName]["network"]["key"];
-    // const providerName = contractAddresses[networkName]["network"]["provider"];
-    // const provider = new ethers.providers.JsonRpcProvider(providerName);
     const signer = getSigner(networkName);
     super(contractAddress, abi, signer);
 
@@ -185,6 +183,7 @@ export class ThanksPayContracts extends Contract {
     this.contractName = contractName;
     this.networkName = networkName;
   }
+
   public sendTx = async (name: string, args: any, check?: boolean | null, checkErrorString?: string): Promise<SuccessReturn | ErrorReturn | ViewReturn> => {
     try {
       const order = this.getRequiredOrder(name);
@@ -200,12 +199,10 @@ export class ThanksPayContracts extends Contract {
           }
         };
       }
-      
-      const tx = await this[name](...orderedArgs);
-      console.log(tx);
 
-    
-      
+      const tx = await this[name](...orderedArgs);
+
+
       if (getFunctionStateMutability(name, this.schema) === "view") {
         return {
           type: "view",
@@ -214,26 +211,13 @@ export class ThanksPayContracts extends Contract {
           }
         };
       } else {
-      // if the network is Ganache, then write into the thing. 
-      if (this.networkName=="ganache"){
-        writeToTxLog(tx.data, (this.contractName as contractNameType), tx.nonce);
-      }
-      
-      const txReceipt = await tx.wait();
-        // console.log("printing out events available in, ", txReceipt.logs); 
-        return {
-          type: "success",
-          values: {
-            hash: txReceipt.transactionHash,
-            logs: txReceipt.logs.map((log: any) => {
-              try{
-              return this.iface.parseLog(log);} catch (e: any){
-                console.log("Some unknown error, but everything seems fine");
-              }
-            }),
-            receipt: txReceipt,
-          }
-        };
+        // if the network is Ganache, then write into the thing. 
+        const txReceipt = await tx.wait();
+        if (this.networkName == "ganache") {
+          writeToTxLog(tx.data, (this.contractName as contractNameType), tx.nonce);
+        }
+        const txDetails = getTxDetails(txReceipt, this.networkName, this.iface);
+        return txDetails;
       }
     } catch (e: any) {
       console.log(e);
@@ -246,8 +230,6 @@ export class ThanksPayContracts extends Contract {
     }
   };
 }
-
-// up-to-date as of 2022-09-13
 
 export class ThanksPayMain extends ThanksPayContracts {
   private thanksPayCheck: ThanksPayCheck;
@@ -407,7 +389,7 @@ export class ThanksPayCheck extends ThanksPayContracts {
     setLatestWagePayCheck: async (
       args: ThanksPayCheckType["setLatestWagePayCheck"]
     ): Promise<boolean> => {
-      return await this.returnView("setLatestWagePayCheck", args);      
+      return await this.returnView("setLatestWagePayCheck", args);
       // return await this.sendTx("setLatestWagePayCheck", args);
       // return res;
     },
@@ -415,35 +397,35 @@ export class ThanksPayCheck extends ThanksPayContracts {
       args: ThanksPayCheckType["setLatestRequestCheck"]
     ): Promise<boolean> => {
       return await this.returnView("setLatestRequestCheck", args);
-//      return await this.sendTx("setLatestRequestCheck", args);
+      //      return await this.sendTx("setLatestRequestCheck", args);
       // return res;
     },
     setWorkerBalanceCheck: async (
       args: ThanksPayCheckType["setWorkerBalanceCheck"]
     ): Promise<boolean> => {
       return await this.returnView("setWorkerBalanceCheck", args);
-//      return await this.sendTx("setWorkerBalanceCheck", args);
+      //      return await this.sendTx("setWorkerBalanceCheck", args);
       // return res;
     },
     setPartnerBalanceCheck: async (
       args: ThanksPayCheckType["setPartnerBalanceCheck"]
     ): Promise<boolean> => {
       return await this.returnView("setPartnerBalanceCheck", args);
-//      return await this.sendTx("setPartnerBalanceCheck", args);
+      //      return await this.sendTx("setPartnerBalanceCheck", args);
       // return res;
     },
     partnerAddBonusCheck: async (
       args: ThanksPaySuperType["thanksPayCheck"]["partnerAddBonusCheck"]
     ): Promise<boolean> => {
       return await this.returnView("partnerAddBonusCheck", args);
-//      return await this.sendTx("partnerAddBonusCheck", args);
+      //      return await this.sendTx("partnerAddBonusCheck", args);
       // return res;
     },
     partnerAddBalanceCheck: async (
       args: ThanksPaySuperType["thanksPayCheck"]["partnerAddBalanceCheck"]
     ): Promise<any> => {
       return await this.returnView("partnerAddBalanceCheck", args);
-//      return await this.sendTx("PartnerAddBalanceCheck", args);
+      //      return await this.sendTx("PartnerAddBalanceCheck", args);
       // return res;
     },
   };
@@ -550,94 +532,94 @@ export class OldThanks extends ThanksPayContracts {
   constructor(networkName: networkNameType) {
     super("OLD_THANKS_ADDR", networkName, oldThanksABI);
   }
-  
+
   public methods = {
 
-    cancelPay: async (args: ThanksPaySuperType["oldThanks"]["cancelPay"]):Promise<any> => {
+    cancelPay: async (args: ThanksPaySuperType["oldThanks"]["cancelPay"]): Promise<any> => {
       const receipt = await this.sendTx("cancelPay", args);
       return receipt;
     },
 
-    editPartner: async (args: ThanksPaySuperType["oldThanks"]["editPartner"]):Promise<any> => {
+    editPartner: async (args: ThanksPaySuperType["oldThanks"]["editPartner"]): Promise<any> => {
       const receipt = await this.sendTx("editPartner", args);
       return receipt;
     },
-    getAllPartner: async (args: ThanksPaySuperType["oldThanks"]["getAllPartner"]):Promise<any> => {
+    getAllPartner: async (args: ThanksPaySuperType["oldThanks"]["getAllPartner"]): Promise<any> => {
       const receipt = await this.sendTx("getAllPartner", args);
       return receipt;
     },
 
-    getAllWorker: async (args: ThanksPaySuperType["oldThanks"]["getAllWorker"]):Promise<any> => {
+    getAllWorker: async (args: ThanksPaySuperType["oldThanks"]["getAllWorker"]): Promise<any> => {
       const receipt = await this.sendTx("getAllWorker", args);
       return receipt;
     },
 
-    getPartner: async (args: ThanksPaySuperType["oldThanks"]["getPartner"]):Promise<any> => {
+    getPartner: async (args: ThanksPaySuperType["oldThanks"]["getPartner"]): Promise<any> => {
       const receipt = await this.sendTx("getPartner", args);
       return receipt;
     },
 
-    getPayByPartnerAndDate: async (args: ThanksPaySuperType["oldThanks"]["getPayByPartnerAndDate"]):Promise<any> => {
+    getPayByPartnerAndDate: async (args: ThanksPaySuperType["oldThanks"]["getPayByPartnerAndDate"]): Promise<any> => {
       const receipt = await this.sendTx("getPayByPartnerAndDate", args);
       return receipt;
     },
 
-    getPayByWorker: async (args: ThanksPaySuperType["oldThanks"]["getPayByWorker"]):Promise<any> => {
+    getPayByWorker: async (args: ThanksPaySuperType["oldThanks"]["getPayByWorker"]): Promise<any> => {
       const receipt = await this.sendTx("getPayByWorker", args);
       return receipt;
     },
 
-    getPayByWorkerAndDate: async (args: ThanksPaySuperType["oldThanks"]["getPayByWorkerAndDate"]):Promise<any> => {
+    getPayByWorkerAndDate: async (args: ThanksPaySuperType["oldThanks"]["getPayByWorkerAndDate"]): Promise<any> => {
       const receipt = await this.sendTx("getPayByWorkerAndDate", args);
       return receipt;
     },
 
-    newPartner: async (args: ThanksPaySuperType["oldThanks"]["newPartner"]):Promise<any> => {
+    newPartner: async (args: ThanksPaySuperType["oldThanks"]["newPartner"]): Promise<any> => {
       const receipt = await this.sendTx("newPartner", args);
       return receipt;
     },
 
-    newWorker: async (args: ThanksPaySuperType["oldThanks"]["newWorker"]):Promise<any> => {
+    newWorker: async (args: ThanksPaySuperType["oldThanks"]["newWorker"]): Promise<any> => {
       const receipt = await this.sendTx("newWorker", args);
       return receipt;
     },
 
-    partnerAddDeposit: async (args: ThanksPaySuperType["oldThanks"]["partnerAddDeposit"]):Promise<any> => {
+    partnerAddDeposit: async (args: ThanksPaySuperType["oldThanks"]["partnerAddDeposit"]): Promise<any> => {
       const receipt = await this.sendTx("partnerAddDeposit", args);
       return receipt;
     },
 
-    partnerMap: async (args: ThanksPaySuperType["oldThanks"]["partnerMap"]):Promise<any> => {
+    partnerMap: async (args: ThanksPaySuperType["oldThanks"]["partnerMap"]): Promise<any> => {
       const receipt = await this.sendTx("partnerMap", args);
       return receipt;
     },
 
-    partners: async (args: ThanksPaySuperType["oldThanks"]["partners"]):Promise<any> => {
+    partners: async (args: ThanksPaySuperType["oldThanks"]["partners"]): Promise<any> => {
       const receipt = await this.sendTx("partners", args);
       return receipt;
     },
 
-    pay: async (args: ThanksPaySuperType["oldThanks"]["pay"]):Promise<any> => {
+    pay: async (args: ThanksPaySuperType["oldThanks"]["pay"]): Promise<any> => {
       const receipt = await this.sendTx("pay", args);
       return receipt;
     },
 
-    payRequest: async (args: ThanksPaySuperType["oldThanks"]["payRequest"]):Promise<any> => {
+    payRequest: async (args: ThanksPaySuperType["oldThanks"]["payRequest"]): Promise<any> => {
       const receipt = await this.sendTx("payRequest", args);
       return receipt;
     },
 
-    thanksAdmin: async (args: ThanksPaySuperType["oldThanks"]["thanksAdmin"]):Promise<any> => {
+    thanksAdmin: async (args: ThanksPaySuperType["oldThanks"]["thanksAdmin"]): Promise<any> => {
       const receipt = await this.sendTx("thanksAdmin", args);
       return receipt;
     },
 
-    workerMap: async (args: ThanksPaySuperType["oldThanks"]["workerMap"]):Promise<any> => {
+    workerMap: async (args: ThanksPaySuperType["oldThanks"]["workerMap"]): Promise<any> => {
       const receipt = await this.sendTx("workerMap", args);
       return receipt;
     },
 
-    workers: async (args: ThanksPaySuperType["oldThanks"]["workers"]):Promise<any> => {
+    workers: async (args: ThanksPaySuperType["oldThanks"]["workers"]): Promise<any> => {
       const receipt = await this.sendTx("workers", args);
       return receipt;
     },

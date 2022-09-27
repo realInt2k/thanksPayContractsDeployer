@@ -1,4 +1,4 @@
-import { sendRawTxData } from "./sendRawTxData";
+import { getTxDetails } from "./getTxDetails";
 import * as fs from "fs";
 const path = require("path");
 import { getSigner, getProvider } from "./getSigner";
@@ -36,8 +36,6 @@ function readFilesSync(dir: any) {
   });
 
   files.sort((a, b) => {
-    // natural sort alphanumeric strings
-    // https://stackoverflow.com/a/38641281
     return a.name.localeCompare(b.name, undefined, {
       numeric: true,
       sensitivity: "base",
@@ -75,7 +73,7 @@ async function main() {
       try {
         const sentTx = await signer.sendTransaction(tx);
         const receipt = await sentTx.wait();
-        console.log("receipt", receipt.transactionHash);
+        console.log("receipt", (await getTxDetails(receipt, NETWORKNAME as networkNameType)).values.money);
       } catch (e:any) {
         // ignore
         console.log("NO MONEY ????");
