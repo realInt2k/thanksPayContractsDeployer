@@ -11,7 +11,7 @@ import "./security/ThanksSecurityWrapper.sol";
 
 contract ThanksPayMain is ThanksSecurityWrapper, RevertCheck {
     using SafeMath for uint256;
-    ThanksData private data;
+    ThanksData data;
     ThanksPayCheck check;
 
     event setLatestWagePayEvent(uint256 pId, uint256 timestamp);
@@ -20,22 +20,23 @@ contract ThanksPayMain is ThanksSecurityWrapper, RevertCheck {
     event partnerWithdrawEvent(uint256 pId, uint256 amount, uint256 timestamp);
     event workerGetsThanksPayEvent(uint256 wId, uint256 pId, uint256 amount, string bankReceipt, uint256 timestamp);
     // event partnerGotThanksPay(uint256 pId, uint256 amount, string bankReceipt, uint256 timestamp);
-    // event partnerAddBonusEvent(uint256 pId, uint256 amount);
     
     constructor(address _security, address dataAddr, address _check) ThanksSecurityWrapper(_security) {
+        //console.log("hardhatlog: ", _security, " ", dataAddr, "  ",_check);
         data = ThanksData(dataAddr);
         check = ThanksPayCheck(_check);
     }
 
     function setLatestWagePay(uint256 pId, uint256 timestamp) public isAuthorized(msg.sender){
+        console.log("hardhatlog: ", pId, " ", timestamp);
         data.setLatestWagePay(pId, timestamp);
         emit setLatestWagePayEvent(pId, timestamp);
     }
 
-    // TS calls workerGetSalaryEarlyCheck first, so there is no checking 
-    // because we assume everything is fine
+    // TS calls workerGetSalaryEarlyCheck first, so there is no checking, because we assume everything is fine
     function subtractFromPartner(uint256 pId, uint256 amount) public isAuthorized(msg.sender){
         revertCheck(check.subtractFromPartnerCheck(pId, amount), 1);
+        
         (uint256 balance, uint256 bonus, ) = data.getPartner(pId);
 
         if (amount <= balance) {
@@ -84,4 +85,5 @@ contract ThanksPayMain is ThanksSecurityWrapper, RevertCheck {
 
         emit workerGetsThanksPayEvent(wId, pId, amount, bankReceipt, timestamp);
     }
+    
 }

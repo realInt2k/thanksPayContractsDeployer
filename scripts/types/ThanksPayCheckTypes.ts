@@ -17,10 +17,59 @@ type WorkerGetsThanksPayCheckType = {
     wId: number,
     pId: number,
 }
+
+type RegisterWorkerCheckType = {
+    wId: number,
+    pId: number,
+    wage: number
+}
+
+type SetWorkerPartnerCheckType = {
+    wId: number,
+    pId: number,
+}
+
+type RegisterPartnerCheckType = {
+    pId: number,
+    latestPay: number,
+}
+
+type SetLatestWagePayCheckType = {
+    pId: number,
+    timestamp: number,
+}
+
+type SetLatestRequestCheckType = {
+    wId: number,
+    latestRequest: number
+}
+
+type SetWorkerBalanceCheckType = {
+    wId: number,
+    newBalance: number
+}
+
+type SetPartnerBalanceCheckType = {
+    pId: number,
+    newBalance: number
+}
+
+type setPartnerBonusCheckType = {
+    pId: number,
+    bonus: number
+}
   
 export type ThanksPayCheckType = {
     workerGetSalaryEarlyCheck: WorkerGetsSalaryEarlyCheckType
     subtractFromPartnerCheck: SubtractFromPartnerCheckType,
     partnerWithdrawCheck: PartnerWithdrawCheckType,
-    workerGetsThanksPayCheck: WorkerGetsThanksPayCheckType
+    workerGetsThanksPayCheck: WorkerGetsThanksPayCheckType,
+    registerWorkerCheck: RegisterWorkerCheckType,
+    setWorkerPartnerCheck: SetWorkerPartnerCheckType,
+    registerPartnerCheck: RegisterPartnerCheckType,
+    setPartnerBonusCheck: setPartnerBonusCheckType,
+    setLatestWagePayCheck: SetLatestWagePayCheckType,
+    setLatestRequestCheck: SetLatestRequestCheckType,
+    setWorkerBalanceCheck: SetWorkerBalanceCheckType,
+    setPartnerBalanceCheck: SetPartnerBalanceCheckType
 }

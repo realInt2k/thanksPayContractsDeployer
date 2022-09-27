@@ -22,8 +22,8 @@ contract ThanksPayCheck {
     }
 
     function subtractFromPartnerCheck(uint256 pId, uint256 amount) public view returns(bool) {
-        (uint256 balance, uint256 bonus,) = data.getPartner(pId);
-        if (balance + bonus >= amount) {
+        (uint256 balance, uint256 bonus, ) = data.getPartner(pId);
+        if (balance.add(bonus) >= amount) {
             return true;
         } else {
             return false;
@@ -41,36 +41,98 @@ contract ThanksPayCheck {
 
     function workerGetsThanksPayCheck(uint256 wId, uint256 amount) public view returns(bool)  {
         uint256 workerBalance = data.getWorkerBalance(wId);
-        // check if the Partner or worker doesn't have eough money is sufficent 
+        // check if the Partner or worker doesn't have eough money is sufficent
         if(workerBalance < amount) return false;
         return true;
     }
 
-    function registerWorkerCheck() public view returns(bool) {
-        return security.isAuthorized(msg.sender);
+    function registerWorkerCheck(uint256 wId, uint256 pId, uint256 wage) public view returns(bool) {
+        (,,,,bool exist) = data.workers(wId);
+        if (exist) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
-    function registerPartnerCheck() public view returns(bool) {
-        return security.isAuthorized(msg.sender);
+    function setWorkerPartnerCheck(uint256 wId, uint256 pId) public view returns(bool) {
+        (,,,,bool exist) = data.workers(wId);
+        if (exist) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    function setLatestWagePayCheck() public view returns(bool) {
-        return security.isAuthorized(msg.sender);
+    function setPartnerBonusCheck(uint256 pId, uint256 bonus) public view returns(bool){
+        (,,,bool exist) = data.partners(pId);
+        if(exist) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
-    function setLatestRequestCheck() public view returns(bool) {
-        return security.isAuthorized(msg.sender);
+    function registerPartnerCheck(uint256 pId, uint256 latestPay) public view returns(bool) {
+        (,,,bool exist) = data.partners(pId);
+        if(exist) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
-    function setWorkerBalanceCheck() public view returns(bool) {
-        return security.isAuthorized(msg.sender);
+    function setLatestWagePayCheck(uint256 pId, uint256 timestamp) public view returns(bool) {
+        (,,,bool exist) = data.partners(pId);
+        if(exist) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
-    function setCompanyBalanceCheck() public view returns(bool) {
-        return security.isAuthorized(msg.sender);
+    function setLatestRequestCheck(uint256 wId, uint256 latestRequest) public view returns(bool) {
+        (,,,,bool exist) = data.workers(wId);
+        if (exist) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    function setPartnerBalanceCheck() public view returns(bool) {
-        return security.isAuthorized(msg.sender);
+    function setWorkerBalanceCheck(uint256 wId, uint256 newBalance) public view returns(bool) {
+        (,,,,bool exist) = data.workers(wId);
+        if (exist) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function setPartnerBalanceCheck(uint256 pId, uint256 newBalance) public view returns(bool) {
+        (,,,bool exist) = data.partners(pId);
+        if(exist) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function partnerAddBonusCheck(uint256 pId, uint256 amount, uint256 timestamp) public view returns(bool) {
+        (,,,bool exist) = data.partners(pId);
+        if(exist) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function partnerAddBalanceCheck(uint256 pId, uint256 amount, uint256 timestamp) public view returns(bool) {
+        (,,,bool exist) = data.partners(pId);
+        if(exist) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -1,0 +1,223 @@
+
+> test:new2:ganache:testnet
+> mocha -r ts-node/register test/test_new2.ts --networkName=ganache
+
+ganache [
+  'C:\\Program Files\\nodejs\\node.exe',
+  'D:\\docs\\nodeApps\\THANKS\\thanksPayContractsDeployer\\node_modules\\mocha\\bin\\mocha.js',
+  '-r',
+  'ts-node/register',
+  'test/test_new2.ts',
+  '--networkName=ganache'
+]
+ganache
+
+
+  ThanksPay
+    Deployment
+{
+  to: '0x1175a97C058443274336538Eb82E0B793aAECDfc',
+  from: '0x89b9CE9d84A5FC01fDd37aE72d1Baf13d4FCD4c7',
+  contractAddress: null,
+  transactionIndex: 0,
+  gasUsed: BigNumber { _hex: '0x015072', _isBigNumber: true },
+  logsBloom: '0x00000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000080000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000',
+  blockHash: '0xcb8bc2fefbd54ba0beaee6df856347e4d031fc65707fff098003c68279dce3f5',
+  transactionHash: '0x1d337ebf9b47ec34278766a9cf87081b43fef30f796615ea50217fdbeb301090',
+  logs: [
+    {
+      transactionIndex: 0,
+      blockNumber: 13,
+      transactionHash: '0x1d337ebf9b47ec34278766a9cf87081b43fef30f796615ea50217fdbeb301090',
+      address: '0x1175a97C058443274336538Eb82E0B793aAECDfc',
+      topics: [Array],
+      data: '0x00000000000000000000000000000000000000000000000000000000000007d500000000000000000000000000000000000000000000000000000000631f7cc6',
+      logIndex: 0,
+      blockHash: '0xcb8bc2fefbd54ba0beaee6df856347e4d031fc65707fff098003c68279dce3f5'
+    }
+  ],
+  blockNumber: 13,
+  confirmations: 1,
+  cumulativeGasUsed: BigNumber { _hex: '0x015072', _isBigNumber: true },
+  effectiveGasPrice: BigNumber { _hex: '0x6533e2b2', _isBigNumber: true },
+  status: 1,
+  type: 2,
+  byzantium: true,
+  events: [
+    {
+      transactionIndex: 0,
+      blockNumber: 13,
+      transactionHash: '0x1d337ebf9b47ec34278766a9cf87081b43fef30f796615ea50217fdbeb301090',
+      address: '0x1175a97C058443274336538Eb82E0B793aAECDfc',
+      topics: [Array],
+      data: '0x00000000000000000000000000000000000000000000000000000000000007d500000000000000000000000000000000000000000000000000000000631f7cc6',
+      logIndex: 0,
+      blockHash: '0xcb8bc2fefbd54ba0beaee6df856347e4d031fc65707fff098003c68279dce3f5',
+      args: [Array],
+      decode: [Function (anonymous)],
+      event: 'partnerRegistered',
+      eventSignature: 'partnerRegistered(uint256,uint256)',
+      removeListener: [Function (anonymous)],
+      getBlock: [Function (anonymous)],
+      getTransaction: [Function (anonymous)],
+      getTransactionReceipt: [Function (anonymous)]
+    }
+  ]
+}
+{
+  to: '0x1175a97C058443274336538Eb82E0B793aAECDfc',
+  from: '0x89b9CE9d84A5FC01fDd37aE72d1Baf13d4FCD4c7',
+  contractAddress: null,
+  transactionIndex: 0,
+  gasUsed: BigNumber { _hex: '0x015072', _isBigNumber: true },
+  logsBloom: '0x00000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000080000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000200000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000',
+  blockHash: '0xcb8bc2fefbd54ba0beaee6df856347e4d031fc65707fff098003c68279dce3f5',
+  transactionHash: '0x1d337ebf9b47ec34278766a9cf87081b43fef30f796615ea50217fdbeb301090',
+  logs: [
+    {
+      transactionIndex: 0,
+      blockNumber: 13,
+      transactionHash: '0x1d337ebf9b47ec34278766a9cf87081b43fef30f796615ea50217fdbeb301090',
+      address: '0x1175a97C058443274336538Eb82E0B793aAECDfc',
+      topics: [Array],
+      data: '0x00000000000000000000000000000000000000000000000000000000000007d500000000000000000000000000000000000000000000000000000000631f7cc6',
+      logIndex: 0,
+      blockHash: '0xcb8bc2fefbd54ba0beaee6df856347e4d031fc65707fff098003c68279dce3f5'
+    }
+  ],
+  blockNumber: 13,
+  confirmations: 1,
+  cumulativeGasUsed: BigNumber { _hex: '0x015072', _isBigNumber: true },
+  effectiveGasPrice: BigNumber { _hex: '0x6533e2b2', _isBigNumber: true },
+  status: 1,
+  type: 2,
+  byzantium: true,
+  events: [
+    {
+      transactionIndex: 0,
+      blockNumber: 13,
+      transactionHash: '0x1d337ebf9b47ec34278766a9cf87081b43fef30f796615ea50217fdbeb301090',
+      address: '0x1175a97C058443274336538Eb82E0B793aAECDfc',
+      topics: [Array],
+      data: '0x00000000000000000000000000000000000000000000000000000000000007d500000000000000000000000000000000000000000000000000000000631f7cc6',
+      logIndex: 0,
+      blockHash: '0xcb8bc2fefbd54ba0beaee6df856347e4d031fc65707fff098003c68279dce3f5',
+      args: [Array],
+      decode: [Function (anonymous)],
+      event: 'partnerRegistered',
+      eventSignature: 'partnerRegistered(uint256,uint256)',
+      removeListener: [Function (anonymous)],
+      getBlock: [Function (anonymous)],
+      getTransaction: [Function (anonymous)],
+      getTransactionReceipt: [Function (anonymous)]
+    }
+  ]
+}
+registered Partner:  success
+{
+  to: '0x1175a97C058443274336538Eb82E0B793aAECDfc',
+  from: '0x89b9CE9d84A5FC01fDd37aE72d1Baf13d4FCD4c7',
+  contractAddress: null,
+  transactionIndex: 0,
+  gasUsed: BigNumber { _hex: '0x01ebfc', _isBigNumber: true },
+  logsBloom: '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000000000000000010001000000000000000000000000000000000000000000000000000',
+  blockHash: '0xd73958bd9db971ba883a7686c47a9c113024dfef661e435f23cfa5f6715a8c67',
+  transactionHash: '0x2ef4fea7b12ec46c0d9c9de9b6fb88e4d819890045dc9c313ff7da447622410b',
+  logs: [
+    {
+      transactionIndex: 0,
+      blockNumber: 14,
+      transactionHash: '0x2ef4fea7b12ec46c0d9c9de9b6fb88e4d819890045dc9c313ff7da447622410b',
+      address: '0x1175a97C058443274336538Eb82E0B793aAECDfc',
+      topics: [Array],
+      data: '0x00000000000000000000000000000000000000000000000000000000000007d600000000000000000000000000000000000000000000000000000000000007d50000000000000000000000000000000000000000000000000000000000000064',
+      logIndex: 0,
+      blockHash: '0xd73958bd9db971ba883a7686c47a9c113024dfef661e435f23cfa5f6715a8c67'
+    }
+  ],
+  blockNumber: 14,
+  confirmations: 1,
+  cumulativeGasUsed: BigNumber { _hex: '0x01ebfc', _isBigNumber: true },
+  effectiveGasPrice: BigNumber { _hex: '0x63bc9716', _isBigNumber: true },
+  status: 1,
+  type: 2,
+  byzantium: true,
+  events: [
+    {
+      transactionIndex: 0,
+      blockNumber: 14,
+      transactionHash: '0x2ef4fea7b12ec46c0d9c9de9b6fb88e4d819890045dc9c313ff7da447622410b',
+      address: '0x1175a97C058443274336538Eb82E0B793aAECDfc',
+      topics: [Array],
+      data: '0x00000000000000000000000000000000000000000000000000000000000007d600000000000000000000000000000000000000000000000000000000000007d50000000000000000000000000000000000000000000000000000000000000064',
+      logIndex: 0,
+      blockHash: '0xd73958bd9db971ba883a7686c47a9c113024dfef661e435f23cfa5f6715a8c67',
+      args: [Array],
+      decode: [Function (anonymous)],
+      event: 'workerRegistered',
+      eventSignature: 'workerRegistered(uint256,uint256,uint256)',
+      removeListener: [Function (anonymous)],
+      getBlock: [Function (anonymous)],
+      getTransaction: [Function (anonymous)],
+      getTransactionReceipt: [Function (anonymous)]
+    }
+  ]
+}
+{
+  to: '0x1175a97C058443274336538Eb82E0B793aAECDfc',
+  from: '0x89b9CE9d84A5FC01fDd37aE72d1Baf13d4FCD4c7',
+  contractAddress: null,
+  transactionIndex: 0,
+  gasUsed: BigNumber { _hex: '0x01ebfc', _isBigNumber: true },
+  logsBloom: '0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000000000000000000010001000000000000000000000000000000000000000000000000000',
+  blockHash: '0xd73958bd9db971ba883a7686c47a9c113024dfef661e435f23cfa5f6715a8c67',
+  transactionHash: '0x2ef4fea7b12ec46c0d9c9de9b6fb88e4d819890045dc9c313ff7da447622410b',
+  logs: [
+    {
+      transactionIndex: 0,
+      blockNumber: 14,
+      transactionHash: '0x2ef4fea7b12ec46c0d9c9de9b6fb88e4d819890045dc9c313ff7da447622410b',
+      address: '0x1175a97C058443274336538Eb82E0B793aAECDfc',
+      topics: [Array],
+      data: '0x00000000000000000000000000000000000000000000000000000000000007d600000000000000000000000000000000000000000000000000000000000007d50000000000000000000000000000000000000000000000000000000000000064',
+      logIndex: 0,
+      blockHash: '0xd73958bd9db971ba883a7686c47a9c113024dfef661e435f23cfa5f6715a8c67'
+    }
+  ],
+  blockNumber: 14,
+  confirmations: 1,
+  cumulativeGasUsed: BigNumber { _hex: '0x01ebfc', _isBigNumber: true },
+  effectiveGasPrice: BigNumber { _hex: '0x63bc9716', _isBigNumber: true },
+  status: 1,
+  type: 2,
+  byzantium: true,
+  events: [
+    {
+      transactionIndex: 0,
+      blockNumber: 14,
+      transactionHash: '0x2ef4fea7b12ec46c0d9c9de9b6fb88e4d819890045dc9c313ff7da447622410b',
+      address: '0x1175a97C058443274336538Eb82E0B793aAECDfc',
+      topics: [Array],
+      data: '0x00000000000000000000000000000000000000000000000000000000000007d600000000000000000000000000000000000000000000000000000000000007d50000000000000000000000000000000000000000000000000000000000000064',
+      logIndex: 0,
+      blockHash: '0xd73958bd9db971ba883a7686c47a9c113024dfef661e435f23cfa5f6715a8c67',
+      args: [Array],
+      decode: [Function (anonymous)],
+      event: 'workerRegistered',
+      eventSignature: 'workerRegistered(uint256,uint256,uint256)',
+      removeListener: [Function (anonymous)],
+      getBlock: [Function (anonymous)],
+      getTransaction: [Function (anonymous)],
+      getTransactionReceipt: [Function (anonymous)]
+    }
+  ]
+}
+registered Worker:  success
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+partner add balance failed
+      ✔ Should create contract, the worker and the partner (465ms)
+
+
+  1 passing (468ms)
+
+

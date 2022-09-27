@@ -1,0 +1,1 @@
+export type networkNameType = "ganache" | "polygonTest" | "klaytn";

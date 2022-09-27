@@ -2,17 +2,35 @@
   "name": "lm-graphql",
   "license": "UNLICENSED",
   "scripts": {
-    "ganache": "ganache --database.dbPath './ganacheDB' --wallet.accountKeysPath './ganacheAccounts.txt' --wallet.totalAccounts 120",
+
+    "start:ganache": "npx ganache --wallet.seed='GivingDays' --db './ganacheDB'  --wallet.accountKeysPath  './ganacheAccounts.json' -p 8545 --chain.chainId 1337  -a 120 -e 10000",
+    "start:polygonPolling": "npx ts-node ./scripts/utils/polygonScriptUnderground.ts",
+    
+
+    "deploy:polygon:testnet": "npx ts-node ./scripts/deploy.ts --networkName=polygonTest",
+    "deploy:ganache:testnet": "npx ts-node ./scripts/deploy.ts --networkName=ganache && rm -rf ./transaction_log/unsynced/* && rm -rf ./transaction_log/synced/*",
+    "deploy:klaytn:testnet": "npx ts-node ./scripts/deploy.ts --networkName=klaytn",
+
+    "test:new:polygon:testnet": "mocha -r ts-node/register test/test_new.ts --networkName=polygonTest",
+    "test:new:ganache:testnet": "mocha -r ts-node/register test/test_new.ts --networkName=ganache",
+    "test:new:klaytn:testnet": "mocha -r ts-node/register test/test_new.ts --networkName=klaytn",
+    
+    "test:new2:polygon:testnet": "mocha -r ts-node/register test/test_new2.ts --networkName=polygonTest",
+    "test:new2:ganache:testnet": "mocha -r ts-node/register test/test_new2.ts --networkName=ganache",
+    "test:new2:klaytn:testnet": "mocha -r ts-node/register test/test_new2.ts --networkName=klaytn",
+    
+    "test": "mocha -r ts-node/register test/test.ts",
+    "test_rawTx": "mocha -r ts-node/register test/test_rawTx.ts",
+    "testDung": "mocha -r ts-node/register test/test_dungn.ts",
+    "testPolygonNEW": "mocha -r ts-node/register test/test_new.ts --networkName=polygonTest",
+    "testKlaytnNEW": "mocha -r ts-node/register test/test_new.ts --networkName=klaytn",
+    "testGanacheNEW": "mocha -r ts-node/register test/test_new.ts --networkName=ganache",
+    "testOldContractKlaytn" : "mocha -r ts-node/register test/test_old_contract.ts --networkName=klaytn",
     "ganacheSh": "./start-ganache.sh",
     "ganachePs1": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./start-ganache.ps1",
-    "deployContract": "npx hardhat run ./scripts/deployGanache.ts",
-    "deployContractGanache": "npx hardhat run ./scripts/deployGanache.ts --network ganache",
-    "deployContractBnbTest": "npx hardhat run ./scripts/deployBnbTest.ts --network bnb_test",
-    "test": "mocha -r ts-node/register test/test.ts",
     "codegen": "graph codegen",
     "build": "graph build",
     "deploy": "graph deploy --product hosted-service realint2k/Lm1",
-    "deployOlzhas": "graph deploy --product hosted-service ollie041114/lm-graphql",
     "create-local": "graph create --node http://localhost:8020/ realint2k/int2kLM",
     "remove-local": "graph remove --node http://localhost:8020/ realint2k/int2kLM",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 realint2k/int2kLM",
@@ -29,8 +47,11 @@
     "@nomicfoundation/hardhat-toolbox": "^1.0.2",
     "@nomiclabs/hardhat-etherscan": "^3.0.4",
     "@openzeppelin/contracts": "^4.7.3",
+    "@redis/client": "^1.3.0",
+    "@redis/json": "^1.0.4",
     "@typechain/ethers-v5": "^10.0.0",
     "@typechain/hardhat": "^6.0.0",
+    "axios": "^0.27.2",
     "crypto-js": "^4.1.1",
     "dotenv": "^16.0.1",
     "ganache": "^7.3.0",
@@ -39,7 +60,9 @@
     "hardhat-contract-sizer": "^2.6.1",
     "hardhat-gas-reporter": "^1.0.8",
     "module-alias": "^2.2.2",
+    "redis": "^4.3.1",
     "solidity-coverage": "^0.7.21",
+    "tspath": "^1.3.7",
     "typechain": "^8.0.0"
   },
   "devDependencies": {

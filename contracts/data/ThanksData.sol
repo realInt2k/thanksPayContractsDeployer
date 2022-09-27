@@ -6,19 +6,21 @@ import "../security/ThanksSecurityWrapper.sol";
 
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
-/*
-    This has pure set and get, no logics
- */
 
 contract ThanksData is ThanksDataStatic, ThanksSecurityWrapper {
     using SafeMath for uint256;
 
-    constructor(address securityAddr) ThanksSecurityWrapper(securityAddr) {
+    event partnerRegistered(uint256 pId, uint256 latestPay);
+    event partnerBalanceChanged(uint256 pId, uint256 newBalance);
+    event workerRegistered(uint256 wId, uint256 pId, uint256 wage);
+    event workerBalanceChanged(uint256 wId, uint256 newBalance);
 
+    constructor(address securityAddr) ThanksSecurityWrapper(securityAddr) {
+        
     }
 
     function registerPartner(uint256 pId, uint256 latestPay) public isAuthorized(msg.sender){
-        partners[pId] = Partner(0, 0, latestPay);
+        partners[pId] = Partner(0, 0, latestPay, true);
         types[pId] = 1;
         emit partnerRegistered(pId, latestPay);
     }
@@ -33,9 +35,13 @@ contract ThanksData is ThanksDataStatic, ThanksSecurityWrapper {
     }
 
     function registerWorker(uint256 wId, uint256 pId, uint256 wage) public isAuthorized(msg.sender) {
-        workers[wId] = Worker(0, wage, pId, 0);
+        workers[wId] = Worker(0, wage, pId, 0, true);
         types[wId] = 2;
         emit workerRegistered(wId, pId, wage);
+    }
+
+    function setWorkerPartner(uint256 wId, uint256 pId) public isAuthorized(msg.sender) {
+        workers[wId].pId = pId;
     }
 
     function setLatestRequest(uint256 wId, uint256 latestRequest) public isAuthorized(msg.sender) {
@@ -51,13 +57,14 @@ contract ThanksData is ThanksDataStatic, ThanksSecurityWrapper {
         partners[pId].latestPay = timestamp;
     }
 
-    function getWorker(uint256 wId) view public returns (uint256 balance, uint256 wage, uint256 pId, uint256 latestRequest) {
+    function getWorker(uint256 wId) view public returns (uint256 balance, uint256 wage, uint256 pId, uint256 latestRequest, bool exist) {
         Worker memory worker = workers[wId];
         return (worker.balance,
                 worker.wage,
                 worker.pId,
-                worker.latestRequest
-            );
+                worker.latestRequest,
+                worker.exist
+        );
     }
 
     function getWorkerBalance(uint256 wId) public view returns (uint256) {
@@ -70,17 +77,18 @@ contract ThanksData is ThanksDataStatic, ThanksSecurityWrapper {
             return worker.balance;
         }
     }
-    function getPartnerThanksPayableBalance(uint256 partner) public view returns (uint256) {
+    
+    function getPartnerThanksPayableBalance(uint256 partner) external view returns (uint256) {
         // return both partner's balance and bonus
         return (partners[partner].balance.add(partners[partner].bonus));
     }
 
-    function getPartnerWithdrawableBalance(uint256 partner) public view returns (uint256) {
+    function getPartnerWithdrawableBalance(uint256 partner) external view returns (uint256) {
         // return both partner's balance and bonus
         return (partners[partner].balance);
     }
 
-    function getPartner(uint256 pId) view public returns (uint256 balance, uint256 bonus, uint256 latestPay) {
+    function getPartner(uint256 pId) view external returns (uint256 balance, uint256 bonus, uint256 latestPay) {
         Partner memory partner = partners[pId];
         return (partner.balance, partner.bonus, partner.latestPay);
     }

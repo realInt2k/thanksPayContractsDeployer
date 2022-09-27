@@ -11,11 +11,11 @@
     "rootDirs": ["./src", "./scripts", "./test"],
     "paths": {
       "@abis/*": ["abis/*"],
-      "@contracts/*": ["contracts/*"],
+      "@contracts/*": ["./contracts/*"],
       "@scripts/*": ["scripts/*"],
-      "@test/*": ["test/*"],
-    },
+      "@test/*": ["./test/*"]
+    }
   },
-  "include": ["./scripts", "./test", "./typechain", "ignore"],
+  "include": ["./scripts", "./test", "./typechain", "ignore", "scripts/utils"],
   "files": ["./hardhat.config.ts"]
 }

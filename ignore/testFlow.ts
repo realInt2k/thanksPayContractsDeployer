@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { ethers, Contract } from 'ethers';
 import * as dotenv from "dotenv";
 import ABI from '../../packages/shared/BLOCK_CHAIN_THINGS/abis/LeagueMaker.json';
-import { connectAsOwner, connectAsUserWithPrivateKey } from '../scripts/utils/testUtils';
+import { connectAsOwner, connectAsUserWithPrivateKey } from 'utils/testUtils';
 import ganacheAccounts from '../ganacheAccounts.json';
 export type AccountData = typeof ganacheAccounts;
 let progressiveTestState = true;

@@ -6,38 +6,33 @@ import "hardhat/console.sol";
 import "./RevertCheck.sol";
 
 contract ThanksSecurity is AccessControl, RevertCheck {
-    bytes32 public constant AUTHORIZED = keccak256("AUTHORIZED");
-    uint public constant shit = 100;
+    // bytes32 public constant AUTHORIZED = keccak256("AUTHORIZED");
+    mapping(address => bool) authorized;
+    // uint public constant shit = 100;
 
-    function getShit() pure public returns(uint256) {
-        return shit;
-    }
+    // function getShit() pure public returns(uint256) {
+    //     return shit;
+    // }
 
     modifier checkAuthorized() {
-        require(hasRole(AUTHORIZED, msg.sender));
+        require(authorized[msg.sender]==true);
         _;
     }
+    
 
-    constructor(address[] memory authorized) {
-        console.log("in security's constructor: ", msg.sender);
-        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-        grantRole(AUTHORIZED, msg.sender);
-        for (uint i; i<authorized.length; i++){
-            grantRole(AUTHORIZED, authorized[i]);
+    constructor(address[] memory _authorized) {
+        for (uint i=0; i<_authorized.length; i++){
+            authorized[_authorized[i]] = true;
         }
     }
 
-    function authorize(address[] memory authorized) checkAuthorized() public {
-        for (uint i; i<authorized.length; i++){
-            grantRole(AUTHORIZED, authorized[i]);
+    function authorize(address[] memory _authorized) checkAuthorized() public {
+         for (uint i=0; i<_authorized.length; i++){
+            authorized[_authorized[i]] = true;
         }
     }
 
-    function isAuthorized(address account) public view returns (bool){
-        if (hasRole(AUTHORIZED, account)){
-            return true;
-        } else {
-            return false;
-        }
+    function isAuthorized(address account) external view returns (bool){
+        return authorized[account];
     }
 }
