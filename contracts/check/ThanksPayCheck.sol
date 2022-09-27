@@ -130,9 +130,9 @@ contract ThanksPayCheck {
     function partnerAddBalanceCheck(uint256 pId, uint256 amount, uint256 timestamp) public view returns(bool) {
         (,,,bool exist) = data.partners(pId);
         if(exist) {
-            return false;
-        } else {
             return true;
+        } else {
+            return false;
         }
     }
 }

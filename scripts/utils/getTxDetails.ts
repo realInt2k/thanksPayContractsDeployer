@@ -11,7 +11,7 @@ export const getTxDetails = async (
     networkName: networkNameType,
     iface?: any,
     ): Promise<SuccessReturn> => {
-    console.log(txReceipt);
+    // console.log(txReceipt);
         return {
         type: "success",
         values: {

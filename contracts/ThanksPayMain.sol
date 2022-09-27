@@ -57,7 +57,6 @@ contract ThanksPayMain is ThanksSecurityWrapper, RevertCheck {
     // added by partner himself, no check
     function partnerAddBalance(uint256 pId, uint256 amount, uint256 timestamp) public isAuthorized(msg.sender){
         (uint256 balance, , ) = data.getPartner(pId);
-        console.log("hardhat log: ",balance);
         data.setPartnerBalance(pId, balance.add(amount));
         emit partnerAddBalanceEvent(pId, amount, timestamp);
     }

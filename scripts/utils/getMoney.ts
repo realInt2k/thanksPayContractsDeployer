@@ -26,3 +26,7 @@ export const getMoney = (result: any, networkName: networkNameType) => {
         USD: contractAddresses[networkName]["network"]["USD"]*transactionFeeEthers
     };
 } 
+
+export const getMoney2 = (result: any) => {
+    return "success";
+} 

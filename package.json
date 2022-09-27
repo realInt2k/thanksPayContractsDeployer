@@ -15,6 +15,9 @@
     "test:new:ganache:testnet": "mocha -r ts-node/register test/test_new.ts --networkName=ganache",
     "test:new:klaytn:testnet": "mocha -r ts-node/register test/test_new.ts --networkName=klaytn",
     
+    "test:new2:polygon:testnet": "mocha -r ts-node/register test/test_new2.ts --networkName=polygonTest",
+    "test:new2:ganache:testnet": "mocha -r ts-node/register test/test_new2.ts --networkName=ganache",
+    "test:new2:klaytn:testnet": "mocha -r ts-node/register test/test_new2.ts --networkName=klaytn",
     
     "test": "mocha -r ts-node/register test/test.ts",
     "test_rawTx": "mocha -r ts-node/register test/test_rawTx.ts",
@@ -23,7 +26,6 @@
     "testKlaytnNEW": "mocha -r ts-node/register test/test_new.ts --networkName=klaytn",
     "testGanacheNEW": "mocha -r ts-node/register test/test_new.ts --networkName=ganache",
     "testOldContractKlaytn" : "mocha -r ts-node/register test/test_old_contract.ts --networkName=klaytn",
-
     "ganacheSh": "./start-ganache.sh",
     "ganachePs1": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./start-ganache.ps1",
     "codegen": "graph codegen",

@@ -220,7 +220,7 @@ export class ThanksPayContracts extends Contract {
         return txDetails;
       }
     } catch (e: any) {
-      console.log(e);
+      // console.log(e);
       return {
         type: "error",
         values: {
