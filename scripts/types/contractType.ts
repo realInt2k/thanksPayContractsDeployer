@@ -213,7 +213,7 @@ export class ThanksPayContracts extends Contract {
       } else {
         // if the network is Ganache, then write into the thing. 
         const txReceipt = await tx.wait();
-        if (this.networkName == "ganache") {
+        if (this.networkName == "ganache" && this.contractName !== "OLD_THANKS_ADDR" ) {
           writeToTxLog(tx.data, (this.contractName as contractNameType), tx.nonce);
         }
         const txDetails = getTxDetails(txReceipt, this.networkName, this.iface);

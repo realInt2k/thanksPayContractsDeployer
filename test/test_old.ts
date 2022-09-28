@@ -45,7 +45,7 @@ const {
           };
         const result = await oldThanks.methods.newPartner(registerPartnerArgs);
         if (result.type=="success") {
-            console.log("Transaction gas is: ", getMoney(result as SuccessReturn));
+            console.log("Transaction gas is: ", getMoney2(result as SuccessReturn));
         }
       });
     });
