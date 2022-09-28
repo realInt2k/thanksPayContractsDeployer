@@ -5,6 +5,7 @@ import { getSigner, getProvider } from "./getSigner";
 import contractAddresses from '../contractAddresses.json';
 import { networkNameType } from "@scripts/types/networkNameType";
 import { contractNameType } from '../types/contractNameType';
+import { SuccessReturn } from "@scripts/types/returnType";
 
 const NETWORKNAME = "polygonTest";
 
@@ -58,7 +59,9 @@ async function main() {
     for (let i = 0; i < files.length; i++) {
       const thisNonce = nextNonce + i;
       console.log(thisNonce);
-      const file = files[i];
+      const fileName = files[i].name;
+      var file = (files[i]);
+
       const contractName = file.contractName;
       const data = file.txData;
       const targetContract = contractAddresses[NETWORKNAME as networkNameType][contractName as contractNameType];
@@ -73,17 +76,23 @@ async function main() {
       try {
         const sentTx = await signer.sendTransaction(tx);
         const receipt = await sentTx.wait();
-        console.log("receipt", (await getTxDetails(receipt, NETWORKNAME as networkNameType)).values.money);
+        const details = await getTxDetails(receipt, NETWORKNAME as networkNameType) as SuccessReturn;
+        const moneyDetails = details.values.money;
+        
+        file["moneyDetails"] = moneyDetails;
       } catch (e:any) {
         // ignore
         console.log("NO MONEY ????");
         return;
       }
+      // save file 
+      const filePath = __dirname + "../../../transaction_log/synced/" + fileName + ".json";
+      fs.writeFileSync(filePath, JSON.stringify(file));
 
-      // move file to synced folder
-      const oldPath = __dirname + "../../../transaction_log/unsynced/" + file.name + ".json";
-      const newPath = __dirname + "../../../transaction_log/synced/" + file.name + ".json";
-      fs.renameSync(oldPath, newPath);
+      // delete the old file
+      const oldFilePath = __dirname + "../../../transaction_log/unsynced/" + fileName + ".json";
+      fs.unlinkSync(oldFilePath);
+
     }
     await delay(2000);
   }
