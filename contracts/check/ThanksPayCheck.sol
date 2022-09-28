@@ -39,11 +39,13 @@ contract ThanksPayCheck {
         }
     }
 
-    function workerGetsThanksPayCheck(uint256 wId, uint256 amount) public view returns(bool)  {
+    function workerGetsThanksPayCheck(uint256 wId, uint256 amount) external view returns(bool)  {
         uint256 workerBalance = data.getWorkerBalance(wId);
+        (,,uint256 pId,,) = data.getWorker(wId);
+        uint256 thanksPayableBalance = data.getPartnerThanksPayableBalance(pId);
         // check if the Partner or worker doesn't have eough money is sufficent
-        if(workerBalance < amount) return false;
-        return true;
+        if(workerBalance >= amount && thanksPayableBalance >= amount) return true;
+        return false;
     }
 
     function registerWorkerCheck(uint256 wId, uint256 pId, uint256 wage) public view returns(bool) {

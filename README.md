@@ -1,5 +1,4 @@
-
-### Add a new blockchain network
+## Add a new blockchain network
 
 To add a new blockchain network (i.e. Polygon or Klaytn), go to `scripts/contractAddresses`, and add a new object with network specifications:
 ```
@@ -19,37 +18,77 @@ To add a new blockchain network (i.e. Polygon or Klaytn), go to `scripts/contrac
 Provider: RPC provider for the network (google it)
 Key: private key of your account (in case you are using a public network, you should have some currency of that blockchain).
 
+## Testing the new system
 
-#### Deploy the contracts
-In blockchain, contract logic has to be deployed (i.e. instantiated) at a particular address, which can be called by users. This function takes the contracts in `./contracts`, and deploys them into particular addresses, i.e.:
+#### 1. Start Ganache (VM) and Polygon Polling
+Start Ganache (VM) with the following commands:
 ```
-    "THANKS_PAY_MAIN_ADDR": "0x36C68670b3c0148B9545f51DB95Bd3A05CB3Dd4E",
-    "THANKS_PAY_DATA_ADDR": "0xD30a3503DFb107b07f713C5FC09EBebA273666BF",
-    "THANKS_PAY_SECURITY_ADDR": "0xd60Cd6AC163086553a1d7ceB4496d809f78957C0",
-    "THANKS_PAY_RELAY_ADDR": "0x0666D6E3B3A5641B9E4E22B5a88c22D226ee0eF1",
-    "THANKS_PAY_CHECK_ADDR": "0xc543372AA4e6874d9950b26D828fdACC66C1FC31",
-    "OLD_THANKS_ADDR": "0x0000000000000000000000000000000000000000000",
+npm run start:ganache
 ```
-To deploy the contracts (currently, the new ThanksPay contracts and the oldThanks contract), run the following terminal command: 
+First, we will submit all transactions to Ganache (Virtual Machine), and then polygon will listen to these transactions and replicate them (using a special script).
+
+Deploy all smart contracts on both Ganache and Polygon:
 ```
-npx ts-node ./scripts/deploy.ts --networkName=newNetwork
+npx hardhat compile
+npm run deploy:ganache:testnet
+npm run deploy:polygon:testnet
 ```
-This will deploy BOTH the NEW and OLD contracts.
+
 All contract addresses will be automatically written into `contractAddresses.json` for the `newNetwork`, and when you use tests (see below), you will only have to provide `newNetwork` name. 
+
+Now, start the script that syncs the transactions with the Polygon:
+```
+npm run start:polygonPolling
+```
+This script will listen to all transactions submitted to VM, and then duplicate them to Polygon. You can see the list of transactions on `./transaction_log`.
 
 
 #### Run some functions
-To test the new Polygon contracts, go to `test/test_polygon.ts` (for ), and change the following:
+To test the contracts, you can go to `./test/test_new2.ts`.
+Currently, it is testing: registering a partner, registering a worker, partner putting in some money, and worker getting a thanksPay (some more functions can be added, see the list of available functions at `./scripts/types/contractType.ts`):
 ```
-        const thanksPayMain = new ThanksPayMain("newNetwork");
-        const thanksPayData = new ThanksPayData("newNetwork");
-        const thanksPayRelay = new ThanksPayRelay("newNetwork");
-```
-This will connect you to the new network! Write the test below, and run them with the terminal command:
-
-```
-mocha -r ts-node/register test/test_polygon.ts
+npm run test:new2:ganache:testnet
 ```
 
-To view which functions are available, you can check `scripts/types/contractType.ts`.
-To view the return objects, see `scripts/types/returnType.ts`. To see the transaction receipt, which includes the transaction fee (in gas), you can print `(result as SuccessReturn).values.receipt.cumulativeGasUsed`, and see the gas price (or something similar). To convert to dollars, google the gas price in the native currency of your blockchain network.
+
+### Successful transactions
+The successful transactions give information about the update of the Blockchain state (in event logs),
+and some information about the money (I think this one is more important in case of a polygonScript).
+Here is how you can get this information:
+```
+  const result3 = await thanksPayMain.methods.partnerAddBalance(
+    partnerAddBalanceArgs
+  ) as SuccessReturn;
+  console.log("Logs of result3: ", result3.values.logs);
+  console.log("Money used in the transaction: ", result3.values.logs);
+```
+Note: this information is for the network you are ORIGINALLY sending to (in case of the new implementation, it's Ganache). If you want to know Polygon-specific price, please refer to `polygonScriptUnderground.ts` file and find this information there (see `getTxDetails` function in `scripts/utils`: submit a tx receipt in there and you will get the money information, the logs, etc.).
+
+This will give the following information:
+```
+Logs of result3:  [
+LogDescription {
+    ...
+    name: 'partnerAddBalanceEvent',
+    ...        
+    args: [
+      ...
+      pId: [BigNumber],
+      amount: [BigNumber],
+      timestamp: [BigNumber]
+    ]
+  }
+]
+Money used in the transaction:  {
+  gasUsed: BigNumber { _hex: '0x012e0b', _isBigNumber: true },
+  gasPrice: BigNumber { _hex: '0x596835e0', _isBigNumber: true },
+  transactionFee: BigNumber { _hex: '0x697cc70890a0', _isBigNumber: true },
+  transactionFeeEthers: 0.00011598463608848,
+  USD: 0
+}
+```
+This assumes that a transaction is successfully passed. It can also be not successfully passed, in this case, see all possible\ return objects at `scripts/types/returnType.ts`.
+
+
+## Testing the old system
+

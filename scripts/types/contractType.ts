@@ -17,7 +17,7 @@ import { ThanksPayMainType } from "../generatedTypes/ThanksPayMainType";
 import { ThanksPaySuperType } from "../generatedTypes/ThanksPaySuperType";
 import { oldThanksType } from "../generatedTypes/oldThanksType";
 import { ethers } from 'ethers';
-import { SuccessReturn, ErrorReturn, ViewReturn } from "./returnType";
+import { SuccessReturn, ErrorReturn, ViewReturn, CheckReturn } from "./returnType";
 import contractAddresses from "../contractAddresses.json";
 import { rawTxDataType } from "./rawTxDataType";
 const Web3 = require("web3");
@@ -184,7 +184,7 @@ export class ThanksPayContracts extends Contract {
     this.networkName = networkName;
   }
 
-  public sendTx = async (name: string, args: any, check?: boolean | null, checkErrorString?: string): Promise<SuccessReturn | ErrorReturn | ViewReturn> => {
+  public sendTx = async (name: string, args: any, check?: boolean | null, checkErrorString?: string): Promise<SuccessReturn | ErrorReturn | ViewReturn | CheckReturn> => {
     try {
       const order = this.getRequiredOrder(name);
       const orderedArgs = order.map((item: string) => {
@@ -207,7 +207,7 @@ export class ThanksPayContracts extends Contract {
         return {
           type: "view",
           values: {
-            ok: tx
+            return: tx
           }
         };
       } else {
@@ -283,25 +283,10 @@ export class ThanksPayMain extends ThanksPayContracts {
     workerGetsThanksPay: async (
       args: ThanksPayMainType["workerGetsThanksPay"]
     ): Promise<any> => {
-      const workerCheck = await this.thanksPayCheck.methods.workerGetsThanksPayCheck(
+      const check = await this.thanksPayCheck.methods.workerGetsThanksPayCheck(
         args
       );
-      const pId: number = args.pId;
-      const amount: number = args.amount;
-      const partnerArgs: ThanksPayMainType["subtractFromPartner"] = {
-        pId,
-        amount,
-      }
-      const partnerCheck = await this.thanksPayCheck.methods.subtractFromPartnerCheck(partnerArgs);
-      var checkErrorString;
-      if (!workerCheck){
-        checkErrorString = "workerGetsThanksPayCheck failed, insufficient worker balance";
-      } else {
-        if (!partnerCheck){
-          checkErrorString = "subtractFromPartnerCheck failed, insufficient partner balance";
-        }
-      }
-      const check = workerCheck && partnerCheck;
+      const checkErrorString = "worker check failed, either the balance is insufficient, or partner doesn't have enough balance";
       return await this.sendTx("workerGetsThanksPay", args, check, checkErrorString);
     },
   };
@@ -347,8 +332,8 @@ export class ThanksPayCheck extends ThanksPayContracts {
     super("THANKS_PAY_CHECK_ADDR", networkName, thanksPayCheckABI);
   }
   public returnView = async (functionName: string, args: any): Promise<boolean> => {
-    const res = await this.sendTx(functionName, args) as ViewReturn;
-    return res.values.ok;
+    const res = await this.sendTx(functionName, args) as CheckReturn;
+    return res.values.return;
   }
 
   public methods = {
@@ -503,26 +488,26 @@ export class ThanksPayData extends ThanksPayContracts {
         args
       );
       const checkErrorString = "setLatestWagePayCheck failed";
-      await this.sendTx("setLatestWagePay", args, check, checkErrorString);
+      return await this.sendTx("setLatestWagePay", args, check, checkErrorString);
     },
     getWorker: async (args: ThanksPayDataType["getWorker"]) => {
-      await this.sendTx("getWorker", args);
+      return await this.sendTx("getWorker", args) as ViewReturn;
     },
     getWorkerBalance: async (args: ThanksPayDataType["getWorkerBalance"]) => {
-      await this.sendTx("getWorkerBalance", args);
+      return await this.sendTx("getWorkerBalance", args) as ViewReturn;
     },
     getPartnerThanksPayableBalance: async (
       args: ThanksPayDataType["getPartnerThanksPayableBalance"]
     ) => {
-      await this.sendTx("getPartnerThanksPayableBalance", args);
+      return await this.sendTx("getPartnerThanksPayableBalance", args) as ViewReturn;
     },
     getPartnerWithdrawableBalance: async (
       args: ThanksPayDataType["getPartnerWithdrawableBalance"]
     ) => {
-      await this.sendTx("getPartnerWithdrawableBalance", args);
+      return await this.sendTx("getPartnerWithdrawableBalance", args) as ViewReturn;
     },
     getPartner: async (args: ThanksPayDataType["getPartner"]) => {
-      await this.sendTx("getPartner", args);
+      return await this.sendTx("getPartner", args) as ViewReturn;
     },
   };
 }
@@ -534,10 +519,10 @@ export class ThanksPaySecurity extends ThanksPayContracts {
 
   public methods = {
     authorize: async (args: ThanksPaySecurityType["authorize"]) => {
-      await this.sendTx("authorize", args);
+      return await this.sendTx("authorize", args);
     },
     isAuthorized: async (args: ThanksPaySecurityType["isAuthorized"]) => {
-      await this.sendTx("isAuthorized", args);
+      return await this.sendTx("isAuthorized", args) as CheckReturn;
     }
   };
 }

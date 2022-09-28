@@ -12,7 +12,7 @@ export type moneyInfoType = {
 }
 
 export const getMoney = (result: any, networkName: networkNameType) => {
-    console.log(result);
+    // console.log(result);
     const gas = (result).cumulativeGasUsed;
     const gasPrice = (result).effectiveGasPrice;
     const transactionFee = gasPrice.mul(gas);

@@ -8,8 +8,10 @@
     
 
     "deploy:polygon:testnet": "npx ts-node ./scripts/deploy.ts --networkName=polygonTest",
-    "deploy:ganache:testnet": "npx ts-node ./scripts/deploy.ts --networkName=ganache && rm -rf ./transaction_log/unsynced/* && rm -rf ./transaction_log/synced/*",
+    "deploy:ganache:testnet": "npx ts-node ./scripts/deploy.ts --networkName=ganache && rm -r ./transaction_log/unsynced/* && rm -r ./transaction_log/synced/*",
     "deploy:klaytn:testnet": "npx ts-node ./scripts/deploy.ts --networkName=klaytn",
+
+    "deploy:ganache:testnet": "npx ts-node ./scripts/deploy.ts --networkName=ganache",
 
     "test:new:polygon:testnet": "mocha -r ts-node/register test/test_new.ts --networkName=polygonTest",
     "test:new:ganache:testnet": "mocha -r ts-node/register test/test_new.ts --networkName=ganache",
