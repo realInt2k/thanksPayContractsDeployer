@@ -12,6 +12,7 @@ lerna-debug.log*
 **/typechain-types/*
 **scripts/contractAddresses.json*
 **/transaction_log/*
+.vscode/*
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
