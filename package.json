@@ -22,6 +22,7 @@
     "test:new2:klaytn:testnet": "mocha -r ts-node/register test/test_new2.ts --networkName=klaytn",
 
     "test:old2:ganache:testnet": "mocha -r ts-node/register test/test_old_2.ts --networkName=ganache",
+    "test:old2:polygon:testnet": "mocha -r ts-node/register test/test_old_2.ts --networkName=polygonTest",
 
     
     "test": "mocha -r ts-node/register test/test.ts",

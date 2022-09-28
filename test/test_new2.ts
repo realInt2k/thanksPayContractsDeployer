@@ -25,7 +25,7 @@ const networkName = getNetworkName(process) as networkNameType;
 console.log(networkName);
 
 var thanksPay;
-const partnerId = 2009; 
+const partnerId = 2011; 
 
 describe("ThanksPay", function () {
   describe("Deployment", function () {

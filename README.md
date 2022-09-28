@@ -40,7 +40,8 @@ Now, start the script that syncs the transactions with the Polygon:
 ```
 npm run start:polygonPolling
 ```
-This script will listen to all transactions submitted to VM, and then duplicate them to Polygon. You can see the list of transactions on `./transaction_log`.
+This script will listen to all transactions submitted to VM, and then duplicate them to Polygon. You can see the list of transactions on `./transaction_log`. Also, the money price will be automatically appended in `./transaction_log/synced/__.json`, assuming price of Polygon MATIC is 0.7 dollars (you can recalculate later).
+
 
 
 #### Run some functions
@@ -92,3 +93,10 @@ This assumes that a transaction is successfully passed. It can also be not succe
 
 ## Testing the old system
 
+Just run:
+```
+npm run test:old2:polygon:testnet
+```
+
+(Note: technically speaking, Klaytn price has dropped by 10 times in the last year, and is currently dramatically fluctuating, so the actual transaction fees on Klaytn might be cheaper...
+However, our contracts are still cheaper & faster, so it is better to compare on th same network (Polygon or Klaytn). Our contracts are guaranteed to be faster due to the use of VM, and they are cheaper because of restructuring of data and so on. Now that all setup with VM and passing transactions work, we may work a bit more to optimize the contracts in terms of price.) 
