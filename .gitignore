@@ -11,10 +11,10 @@ lerna-debug.log*
 **/ganacheDB/*
 **/typechain-types/*
 **scripts/contractAddresses.json*
-**/transaction_log/new_contract/synced*
-**/transaction_log/new_contract/unsynced*
-**/transaction_log/old_contract/synced*
-**/transaction_log/old_contract/unsynced*
+**/transaction_log/new_contract/synced/*
+**/transaction_log/new_contract/unsynced/*
+**/transaction_log/old_contract/synced/*
+**/transaction_log/old_contract/unsynced/*
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
