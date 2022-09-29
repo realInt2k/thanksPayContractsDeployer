@@ -23,7 +23,7 @@ Key: private key of your account (in case you are using a public network, you sh
 #### 0. Install Ganache and set up folders: DO THIS ONLY ONCE!
 Ganache is a blockchain simulator. We need it to make the system faster and more responsive. You can install it globally (recommended) by typing:
 ```
-npm install ganache@latest
+npm install -g ganache@latest
 ```
 
 Also, run the following script to create a `transaction_log` folder (it will hold the information about the transactions and associated costs):
@@ -213,4 +213,11 @@ import { OldThanks } from "./types/contractType";
 Just run:
 ```
 npm run test:old2:polygon:testnet
+<<<<<<< HEAD
 ```
+=======
+```
+
+(Note: technically speaking, Klaytn price has dropped by 10 times in the last year, and is currently dramatically fluctuating, so the actual transaction fees on Klaytn might be cheaper...
+However, our contracts are still cheaper & faster, so it is better to compare on th same network (Polygon or Klaytn). Our contracts are guaranteed to be faster due to the use of VM, and they are cheaper because of restructuring of data and so on. Now that all setup with VM and passing transactions work, we may work a bit more to optimize the contracts in terms of price.) 
+>>>>>>> 3c04f520411c13a5550c5cd322730fe994220739

@@ -43,5 +43,5 @@ export const writeReceiptTxLog = async (
     const filepath = path.join(dir, filename);
 
     // write details into filename with fs
-    fs.writeFileSync(filepath, JSON.stringify(receipt));
+    fs.writeFileSync(filepath, JSON.stringify(file));
 }
