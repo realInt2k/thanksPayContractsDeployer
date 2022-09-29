@@ -25,7 +25,7 @@ const web3 = new Web3();
 import { contractNameType } from "./contractNameType";
 import * as fs from "fs";
 import * as path from "path";
-import { writeToTxLog } from '../utils/writeToTransactionLog';
+import { writeToTxLog, writeReceiptTxLog } from '../utils/writeToTransactionLog';
 import { getTxDetails } from "../utils/getTxDetails";
 
 
@@ -213,10 +213,13 @@ export class ThanksPayContracts extends Contract {
       } else {
         // if the network is Ganache, then write into the thing. 
         const txReceipt = await tx.wait();
+        const txDetails = getTxDetails(txReceipt, this.networkName, this.iface);
         if (this.networkName == "ganache" && this.contractName !== "OLD_THANKS_ADDR" ) {
           writeToTxLog(tx.data, (this.contractName as contractNameType), tx.nonce);
         }
-        const txDetails = getTxDetails(txReceipt, this.networkName, this.iface);
+        if (this.contractName == "OLD_THANKS_ADDR") {
+          writeReceiptTxLog(txReceipt, tx.data, this.contractName, this.networkName, tx.nonce);
+        }
         return txDetails;
       }
     } catch (e: any) {

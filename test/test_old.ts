@@ -15,15 +15,9 @@ const {
   import { getMoney } from "./utils/getMoney";
   import { SuccessReturn, ErrorReturn, ViewReturn } from "./types/returnType";
   import {
-    ThanksPayMain,
-    ThanksPayData,
-    ThanksPayRelay,
-    ThanksPayCheck,
-    ThanksPaySecurity,
     OldThanks
   } from "./types/contractType";
-    import { ThanksPaySuperType} from "./generatedTypes/ThanksPaySuperType";
-    import { oldThanksType } from './generatedTypes/oldThanksType';
+  import { oldThanksType } from './generatedTypes/oldThanksType';
   var thanksPay;
   const partnerId = 1;
   

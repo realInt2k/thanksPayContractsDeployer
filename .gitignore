@@ -10,7 +10,6 @@ lerna-debug.log*
 **/ganache/*
 **/ganacheDB/*
 **/typechain-types/*
-**scripts/contractAddresses.json*
 
 
 

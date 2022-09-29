@@ -54,7 +54,7 @@ async function main() {
     console.log("_____new interval___")
     const nextNonce = await provider.getTransactionCount(account, "latest");
     const files = readFilesSync(
-      __dirname + "../../../transaction_log/unsynced/"
+      __dirname + "../../../transaction_log/new_contract/unsynced/"
     );
     for (let i = 0; i < files.length; i++) {
       const thisNonce = nextNonce + i;
@@ -80,19 +80,19 @@ async function main() {
         const moneyDetails = details.values.money;
         
         file["moneyDetails"] = moneyDetails;
+        file["networkName"] = NETWORKNAME;
       } catch (e:any) {
         // ignore
         console.log("NO MONEY ????");
         return;
       }
       // save file 
-      const filePath = __dirname + "../../../transaction_log/synced/" + fileName + ".json";
+      const filePath = __dirname + "../../../transaction_log/new_contract/synced/" + fileName + ".json";
       fs.writeFileSync(filePath, JSON.stringify(file));
 
       // delete the old file
-      const oldFilePath = __dirname + "../../../transaction_log/unsynced/" + fileName + ".json";
+      const oldFilePath = __dirname + "../../../transaction_log/new_contract/unsynced/" + fileName + ".json";
       fs.unlinkSync(oldFilePath);
-
     }
     await delay(2000);
   }
