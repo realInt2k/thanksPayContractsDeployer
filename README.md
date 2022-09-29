@@ -20,6 +20,17 @@ Key: private key of your account (in case you are using a public network, you sh
 
 ## Testing the new system
 
+#### 0. Install Ganache and set up folders: DO THIS ONLY ONCE!
+Ganache is a blockchain simulator. We need it to make the system faster and more responsive. You can install it globally (recommended) by typing:
+```
+npm install ganache@latest
+```
+
+Also, run the following script to create a `transaction_log` folder (it will hold the information about the transactions and associated costs):
+```
+npm run init:transaction_log
+```
+
 #### 1. Start Ganache (VM) and Polygon Polling
 Start Ganache (VM) with the following commands:
 ```
