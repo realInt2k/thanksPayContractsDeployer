@@ -15,15 +15,9 @@ const {
   import { getMoney } from "./utils/getMoney";
   import { SuccessReturn, ErrorReturn, ViewReturn } from "./types/returnType";
   import {
-    ThanksPayMain,
-    ThanksPayData,
-    ThanksPayRelay,
-    ThanksPayCheck,
-    ThanksPaySecurity,
     OldThanks
   } from "./types/contractType";
-    import { ThanksPaySuperType} from "./generatedTypes/ThanksPaySuperType";
-    import { oldThanksType } from './generatedTypes/oldThanksType';
+  import { oldThanksType } from './generatedTypes/oldThanksType';
   var thanksPay;
   const partnerId = 1;
   
@@ -45,7 +39,7 @@ const {
           };
         const result = await oldThanks.methods.newPartner(registerPartnerArgs);
         if (result.type=="success") {
-            console.log("Transaction gas is: ", getMoney(result as SuccessReturn));
+            console.log("Transaction gas is: ", getMoney2(result as SuccessReturn));
         }
       });
     });

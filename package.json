@@ -3,21 +3,29 @@
   "license": "UNLICENSED",
   "scripts": {
 
+    "init:transaction_log": "rm -rf transaction_log && npx mkdirp transaction_log && cd transaction_log && npx mkdirp new_contract && cd new_contract && mkdirp synced && npx mkdirp unsynced && cd .. && npx mkdirp old_contract && cd old_contract && npx mkdirp synced && npx mkdirp unsynced",
+    
     "start:ganache": "npx ganache --wallet.seed='GivingDays' --db './ganacheDB'  --wallet.accountKeysPath  './ganacheAccounts.json' -p 8545 --chain.chainId 1337  -a 120 -e 10000",
     "start:polygonPolling": "npx ts-node ./scripts/utils/polygonScriptUnderground.ts",
     
 
     "deploy:polygon:testnet": "npx ts-node ./scripts/deploy.ts --networkName=polygonTest",
-    "deploy:ganache:testnet": "npx ts-node ./scripts/deploy.ts --networkName=ganache && rm -rf ./transaction_log/unsynced/* && rm -rf ./transaction_log/synced/*",
+    "deploy:ganache:testnet": "npx ts-node ./scripts/deploy.ts --networkName=ganache && rm -r ./transaction_log/unsynced/* && rm -r ./transaction_log/synced/*",
     "deploy:klaytn:testnet": "npx ts-node ./scripts/deploy.ts --networkName=klaytn",
+
+    "deploy:old:ganache:testnet": "npx ts-node ./scripts/deploy_old.ts --networkName=ganache",
 
     "test:new:polygon:testnet": "mocha -r ts-node/register test/test_new.ts --networkName=polygonTest",
     "test:new:ganache:testnet": "mocha -r ts-node/register test/test_new.ts --networkName=ganache",
     "test:new:klaytn:testnet": "mocha -r ts-node/register test/test_new.ts --networkName=klaytn",
-    
+
     "test:new2:polygon:testnet": "mocha -r ts-node/register test/test_new2.ts --networkName=polygonTest",
     "test:new2:ganache:testnet": "mocha -r ts-node/register test/test_new2.ts --networkName=ganache",
     "test:new2:klaytn:testnet": "mocha -r ts-node/register test/test_new2.ts --networkName=klaytn",
+
+    "test:old2:ganache:testnet": "mocha -r ts-node/register test/test_old_2.ts --networkName=ganache",
+    "test:old2:polygon:testnet": "mocha -r ts-node/register test/test_old_2.ts --networkName=polygonTest",
+
     
     "test": "mocha -r ts-node/register test/test.ts",
     "test_rawTx": "mocha -r ts-node/register test/test_rawTx.ts",

@@ -16,9 +16,16 @@ export type ErrorReturn = {
     }
 };
 
+export type CheckReturn = {
+    type: "view",
+    values: {
+        return: boolean
+    }
+};
+
 export type ViewReturn = {
     type: "view",
     values: {
-        ok: boolean
+        return: any;
     }
 };
