@@ -1,3 +1,10 @@
+## RUNNING TEST IN GENERAL:
+
+- If you JUST DEPLOYED the contract, you can run it normally.
+
+- If you want to run it again, without re-deploying contract, go inside the 
+respective test file, and change partnerId (i.e: = old partner id + 1)
+
 ## Add a new blockchain network
 
 To add a new blockchain network (i.e. Polygon or Klaytn), go to `scripts/contractAddresses`, and add a new object with network specifications:
