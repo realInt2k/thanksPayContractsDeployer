@@ -25,7 +25,7 @@ const networkName = getNetworkName(process) as networkNameType;
 console.log(networkName);
 
 var thanksPay;
-const partnerId = 2011; 
+const partnerId = 2022; 
 
 describe("ThanksPay", function () {
   describe("Deployment", function () {
@@ -51,8 +51,9 @@ describe("ThanksPay", function () {
       if (result.type == "success") {
         console.log("registered Partner: ", result as SuccessReturn);
       } else {
-        console.log("failed to register Partner");
+        console.log("failed to register Partner", result);
       }
+
     /**
      * REGISTER A WORKER:
      */

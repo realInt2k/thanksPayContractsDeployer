@@ -16,9 +16,15 @@ export const writeToTxLog = (
 
     // write fs into "../../transaction_log/unsynced/"
     const dir = path.join(__dirname, '../../transaction_log/new_contract/unsynced/');
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+        const dir2 = path.join(__dirname, '../../transaction_log/new_contract/synced/' + contractName);
+        if(!fs.existsSync(dir2)) {
+            fs.mkdirSync(dir2, { recursive: true });
+        }
+    };
     const filename = nonce + '.json';
     const filepath = path.join(dir, filename);
-
     // write details into filename with fs
     fs.writeFileSync(filepath, JSON.stringify(details));
 }
@@ -38,7 +44,15 @@ export const writeReceiptTxLog = async (
         moneyDetails: details.values.money,
         networkName: networkName,
     }
+
     const dir = path.join(__dirname, '../../transaction_log/old_contract/synced/');
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+        const dir2 = path.join(__dirname, '../../transaction_log/old_contract/unsynced/');
+        if(!fs.existsSync(dir2)) {
+            fs.mkdirSync(dir2, { recursive: true });
+        }
+    };
     const filename = nonce + '.json';
     const filepath = path.join(dir, filename);
 

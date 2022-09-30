@@ -200,8 +200,7 @@ export class ThanksPayContracts extends Contract {
         };
       }
 
-      const tx = await this[name](...orderedArgs);
-
+      const tx = await this[name](...orderedArgs);      
 
       if (getFunctionStateMutability(name, this.schema) === "view") {
         return {
@@ -445,6 +444,7 @@ export class ThanksPayData extends ThanksPayContracts {
   public methods = {
     registerPartner: async (args: ThanksPayDataType["registerPartner"]) => {
       const check: boolean = await this.thanksPayCheck.methods.registerPartnerCheck(args);
+      console.log(args, check);
       const checkErrorString = "registerPartnerCheck failed";
       return await this.sendTx("registerPartner", args, check, checkErrorString);
     },
