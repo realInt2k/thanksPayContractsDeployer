@@ -42,8 +42,8 @@ Now, you should understand the *order* of the test to read logs:
 
 - Register 1 partner, 
 - Register 1 worker to that partner, 
-- Said partner deposits some money,
-- Said Worker get some money from salary
+- The partner deposits some money,
+- The Worker gets some money from salary
 
 Logs will be named after "nonce", don't need to understand what's nonce, it's basically
 a number, and you can read say, last 4 largest numbers are the latest test transactions for example.
@@ -86,6 +86,7 @@ Then read latest 4 logs
 - ```npm run test:new2:ganache:testnet```
 
 **Read on the terminal how much time each transaction takes**
+
 -Example:
 
 ![image](https://user-images.githubusercontent.com/49155740/193949494-6a0d038d-f35c-494a-8c3d-dea72f37d6d0.png)
