@@ -11,9 +11,9 @@ type EditPartnerType = {
   partnerState: number,
   partnerHashData: string,
 }
-// type EditWorkerType = {
-//   worker: tuple,
-// }
+type EditWorkerType = {
+  worker: tuple,
+}
 type GetAllPartnerType = {
 }
 type GetAllWorkerType = {
@@ -78,7 +78,7 @@ type WorkersType = {
 export type oldThanksType = {
   cancelPay: CancelPayType,
   editPartner: EditPartnerType,
-  //editWorker: EditWorkerType,
+  editWorker: EditWorkerType,
   getAllPartner: GetAllPartnerType,
   getAllWorker: GetAllWorkerType,
   getPartner: GetPartnerType,

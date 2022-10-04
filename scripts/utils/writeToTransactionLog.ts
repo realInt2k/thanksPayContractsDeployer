@@ -7,26 +7,37 @@ import { getTxDetails } from './getTxDetails';
 export const writeToTxLog = (
     txData: any,
     contractName: contractNameType,
-    nonce: any) => {
+    nonce: any,
+    destinationNetwork: networkNameType,
+    functionName: string) => {
     
     const details = {
         txData: txData,
         contractName: (contractName as contractNameType),
+        functionName: functionName,
     };
 
     // write fs into "../../transaction_log/unsynced/"
-    const dir = path.join(__dirname, '../../transaction_log/new_contract/unsynced/');
+    const dir = path.join(__dirname, '../../transaction_log/new_contract/',destinationNetwork,'/unsynced/');
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+        const dir2 = path.join(__dirname, '../../transaction_log/new_contract/',destinationNetwork,'synced/');
+        if(!fs.existsSync(dir2)) {
+            fs.mkdirSync(dir2, { recursive: true });
+        }
+    };
     const filename = nonce + '.json';
     const filepath = path.join(dir, filename);
-
     // write details into filename with fs
     fs.writeFileSync(filepath, JSON.stringify(details));
 }
 
+// just for OLD contract
 export const writeReceiptTxLog = async (
     receipt: any,
     txData: any,
     contractName: contractNameType,
+    functionName: string,
     networkName: networkNameType,
     nonce: any,
 ) => {
@@ -35,10 +46,15 @@ export const writeReceiptTxLog = async (
     const file = {
         txData: txData,
         contractName: (contractName as contractNameType),
+        functionName: functionName,
         moneyDetails: details.values.money,
         networkName: networkName,
     }
-    const dir = path.join(__dirname, '../../transaction_log/old_contract/synced/');
+
+    const dir = path.join(__dirname, '../../transaction_log/old_contract/',networkName,'/synced/');
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+    };
     const filename = nonce + '.json';
     const filepath = path.join(dir, filename);
 

@@ -1,0 +1,14 @@
+{
+  "name": "240",
+  "txData": "0xd59b9cde00000000000000000000000000000000000000000000000000000000000007ea00000000000000000000000000000000000000000000000000000000631f7cc6",
+  "contractName": "THANKS_PAY_DATA_ADDR",
+  "functionName": "registerPartner",
+  "moneyDetails": {
+    "gasUsed": "6547919",
+    "gasPrice": "1500000025",
+    "transactionFee": "9821878663697975",
+    "transactionFeeEthers": 0.009821878663697974,
+    "USD": 0.007169971424499521
+  },
+  "networkName": "polygonTest"
+}

@@ -4,9 +4,9 @@ import contractAddresses from "../contractAddresses.json";
 import { networkNameType } from "@scripts/types/networkNameType";
 
 export type moneyInfoType = {
-    gasUsed: ethers.BigNumber;
-    gasPrice: ethers.BigNumber;
-    transactionFee: ethers.BigNumber;
+    gasUsed: string;
+    gasPrice: string;
+    transactionFee: string;
     transactionFeeEthers: number;
     USD: number;
 }
@@ -19,13 +19,13 @@ export const getMoney = (result: any, networkName: networkNameType) => {
     const transactionFeeEthers = parseFloat(ethers.utils.formatEther(transactionFee));
 
     return {
-        gasUsed: gas,
-        gasPrice: gasPrice,
-        transactionFee: gas.mul(gasPrice),
+        gasUsed: gas.toBigInt().toString(),
+        gasPrice: gasPrice.toBigInt().toString(),
+        transactionFee: gas.mul(gasPrice).toBigInt().toString(),
         transactionFeeEthers: transactionFeeEthers,
         USD: contractAddresses[networkName]["network"]["USD"]*transactionFeeEthers
     };
-} 
+}
 
 export const getMoney2 = (result: any) => {
     return "success";

@@ -7,7 +7,7 @@ import { networkNameType } from "@scripts/types/networkNameType";
 import { contractNameType } from '../types/contractNameType';
 import { SuccessReturn } from "@scripts/types/returnType";
 
-const NETWORKNAME = "polygonTest";
+const NETWORKNAME:networkNameType = "polygonTest";
 
 /**
  * @description Read files synchronously from a folder, with natural sorting
@@ -33,6 +33,7 @@ function readFilesSync(dir: any) {
         name,
         txData: JSONcontent.txData,
         contractName: JSONcontent.contractName,
+        functionName: JSONcontent.functionName
       });
   });
 
@@ -51,10 +52,10 @@ async function main() {
   const signer = getSigner(NETWORKNAME);
   const account = signer.address;
   while(1) {
-    console.log("_____new interval___")
+    console.log("_____new interval polygon___")
     const nextNonce = await provider.getTransactionCount(account, "latest");
     const files = readFilesSync(
-      __dirname + "../../../transaction_log/new_contract/unsynced/"
+      __dirname + "../../../transaction_log/new_contract/"+NETWORKNAME+"/unsynced/"
     );
     for (let i = 0; i < files.length; i++) {
       const thisNonce = nextNonce + i;
@@ -63,6 +64,7 @@ async function main() {
       var file = (files[i]);
 
       const contractName = file.contractName;
+      const functionName = file.functionName;
       const data = file.txData;
       const targetContract = contractAddresses[NETWORKNAME as networkNameType][contractName as contractNameType];
 
@@ -81,17 +83,20 @@ async function main() {
         
         file["moneyDetails"] = moneyDetails;
         file["networkName"] = NETWORKNAME;
+        file["functionName"] = functionName;
+        
+        
       } catch (e:any) {
         // ignore
         console.log("NO MONEY ????");
         return;
       }
       // save file 
-      const filePath = __dirname + "../../../transaction_log/new_contract/synced/" + fileName + ".json";
+      const filePath = __dirname + "../../../transaction_log/new_contract/"+NETWORKNAME+"/synced/" + fileName + ".json";
       fs.writeFileSync(filePath, JSON.stringify(file));
 
       // delete the old file
-      const oldFilePath = __dirname + "../../../transaction_log/new_contract/unsynced/" + fileName + ".json";
+      const oldFilePath = __dirname + "../../../transaction_log/new_contract/"+NETWORKNAME+"/unsynced/" + fileName + ".json";
       fs.unlinkSync(oldFilePath);
     }
     await delay(2000);

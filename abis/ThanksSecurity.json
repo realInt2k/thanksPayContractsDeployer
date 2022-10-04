@@ -1,12 +1,6 @@
 [
   {
-    "inputs": [
-      {
-        "internalType": "address[]",
-        "name": "_authorized",
-        "type": "address[]"
-      }
-    ],
+    "inputs": [],
     "stateMutability": "nonpayable",
     "type": "constructor"
   },
@@ -129,13 +123,65 @@
     "inputs": [
       {
         "internalType": "address[]",
-        "name": "_authorized",
+        "name": "_newlyAuthorized",
         "type": "address[]"
       }
     ],
-    "name": "authorize",
+    "name": "authorizeContracts",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_newlyAuthorized",
+        "type": "address[]"
+      }
+    ],
+    "name": "authorizePeople",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_notAuthorized",
+        "type": "address[]"
+      }
+    ],
+    "name": "cancelAuthorization",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAuthorizedContracts",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAuthorizedHuman",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -203,16 +249,16 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "account",
+        "name": "addr",
         "type": "address"
       }
     ],
-    "name": "isAuthorized",
+    "name": "isPersonOrContract",
     "outputs": [
       {
-        "internalType": "bool",
+        "internalType": "int256",
         "name": "",
-        "type": "bool"
+        "type": "int256"
       }
     ],
     "stateMutability": "view",

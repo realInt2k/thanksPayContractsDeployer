@@ -2,9 +2,13 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+import "../security/ThanksSecurityWrapper.sol";
 
+contract ThanksPayRelay is ThanksSecurityWrapper {
 
-contract ThanksPayRelay{
+    constructor () ThanksSecurityWrapper(msg.sender){
+
+    }
     
     event dynamicPropertySet(uint256 entityID, uint256 blockchainID, uint256[] propertyID, uint256[] propertyValue);
     event staticPropertySet(uint256 entityID, uint256 blockchainID, uint256[] propertyID, string[] propertyValue);

@@ -9,7 +9,7 @@ import "./security/RevertCheck.sol";
 import "./check/ThanksPayCheck.sol";
 import "./security/ThanksSecurityWrapper.sol";
 
-contract ThanksPayMain is ThanksSecurityWrapper, RevertCheck {
+contract ThanksPayMain is ThanksSecurityWrapper {
     using SafeMath for uint256;
     ThanksData data;
     ThanksPayCheck check;
@@ -34,7 +34,7 @@ contract ThanksPayMain is ThanksSecurityWrapper, RevertCheck {
     }
 
     // TS calls workerGetSalaryEarlyCheck first, so there is no checking, because we assume everything is fine
-    function subtractFromPartner(uint256 pId, uint256 amount) public isAuthorized(msg.sender){
+    function subtractFromPartner(uint256 pId, uint256 amount) private {
         revertCheck(check.subtractFromPartnerCheck(pId, amount), 1);
         
         (uint256 balance, uint256 bonus, ) = data.getPartner(pId);
@@ -75,15 +75,13 @@ contract ThanksPayMain is ThanksSecurityWrapper, RevertCheck {
         string memory bankReceipt,
         uint256 timestamp 
     ) public isAuthorized(msg.sender) {
-        revertCheck(check.workerGetsThanksPayCheck(wId, amount), 3);
+        //revertCheck(check.workerGetsThanksPayCheck(wId, amount), 3);
         uint256 wBalance = data.getWorkerBalance(wId);
         uint256 newWBalance = wBalance.sub(amount);
 
         subtractFromPartner(pId, amount); // subtract from partner
         data.setWorkerBalance(wId, newWBalance); 
         data.setLatestRequest(wId, timestamp);
-
         emit workerGetsThanksPayEvent(wId, pId, amount, bankReceipt, timestamp);
-    }
-    
+    }   
 }

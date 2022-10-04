@@ -1,3 +1,9 @@
+type AuthorizeType = {
+  _authorized: string[],
+}
+type CheckAuthorizedType = {
+  account: string,
+}
 type GetPartnerType = {
   pId: number,
 }
@@ -15,6 +21,9 @@ type GetWorkerBalanceType = {
 }
 type PartnersType = {
 }
+type RecallAuthorizationType = {
+  _notAuthorized: string[],
+}
 type RegisterPartnerType = {
   pId: number,
   latestPay: number,
@@ -23,6 +32,11 @@ type RegisterWorkerType = {
   wId: number,
   pId: number,
   wage: number,
+}
+type RevertCheckType = {
+  condition: boolean,
+  exitCode: number,
+  reason?: string,
 }
 type SetLatestRequestType = {
   wId: number,
@@ -54,14 +68,18 @@ type WorkersType = {
 }
 
 export type ThanksPayDataType = {
+  authorize: AuthorizeType,
+  checkAuthorized: CheckAuthorizedType,
   getPartner: GetPartnerType,
   getPartnerThanksPayableBalance: GetPartnerThanksPayableBalanceType,
   getPartnerWithdrawableBalance: GetPartnerWithdrawableBalanceType,
   getWorker: GetWorkerType,
   getWorkerBalance: GetWorkerBalanceType,
   partners: PartnersType,
+  recallAuthorization: RecallAuthorizationType,
   registerPartner: RegisterPartnerType,
   registerWorker: RegisterWorkerType,
+  revertCheck: RevertCheckType,
   setLatestRequest: SetLatestRequestType,
   setLatestWagePay: SetLatestWagePayType,
   setPartnerBalance: SetPartnerBalanceType,
