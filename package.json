@@ -10,7 +10,7 @@
     
 
     "deploy:polygon:testnet": "npx ts-node ./scripts/deploy.ts --networkName=polygonTest",
-    "deploy:ganache:testnet": "npx ts-node ./scripts/deploy.ts --networkName=ganache && wsl rm -rf ./transaction_log/*",
+    "deploy:ganache:testnet": "npx ts-node ./scripts/deploy.ts --networkName=ganache && wsl rm -rf ./transaction_log/new_contract/*",
     "deploy:klaytn:testnet": "npx ts-node ./scripts/deploy.ts --networkName=klaytn",
 
     "deploy:old:ganache:testnet": "npx ts-node ./scripts/deploy_old.ts --networkName=ganache",
@@ -25,6 +25,7 @@
 
     "test:old2:ganache:testnet": "mocha -r ts-node/register test/test_old_2.ts --networkName=ganache",
     "test:old2:polygon:testnet": "mocha -r ts-node/register test/test_old_2.ts --networkName=polygonTest",
+    "test:old2:klaytn:testnet": "mocha -r ts-node/register test/test_old_2.ts --networkName=klaytn",
 
     
     "test": "mocha -r ts-node/register test/test.ts",

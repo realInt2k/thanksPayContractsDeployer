@@ -33,6 +33,7 @@ function readFilesSync(dir: any) {
         name,
         txData: JSONcontent.txData,
         contractName: JSONcontent.contractName,
+        functionName: JSONcontent.functionName
       });
   });
 

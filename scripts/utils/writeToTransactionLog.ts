@@ -51,7 +51,7 @@ export const writeReceiptTxLog = async (
         networkName: networkName,
     }
 
-    const dir = path.join(__dirname, '../../transaction_log/old_contract/synced/');
+    const dir = path.join(__dirname, '../../transaction_log/old_contract/',networkName,'/synced/');
     if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
     };
