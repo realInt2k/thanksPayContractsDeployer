@@ -132,3 +132,5 @@ You read them to collect costs.
 ![image](https://user-images.githubusercontent.com/49155740/193948734-5e5a185b-4ff3-4074-9434-d93cb9b0c4e2.png)
 
 ---
+
+for devs (more info behind the scene): https://github.com/realInt2k/thanksPayContractsDeployer/blob/olzhas/devREADME.md
