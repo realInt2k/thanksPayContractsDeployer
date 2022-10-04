@@ -1,0 +1,14 @@
+{
+  "name": "288",
+  "txData": "0xd59b9cde000000000000000000000000000000000000000000000000000000000000083f00000000000000000000000000000000000000000000000000000000631f7cc6",
+  "contractName": "THANKS_PAY_DATA_ADDR",
+  "functionName": "registerPartner",
+  "moneyDetails": {
+    "gasUsed": "111759",
+    "gasPrice": "25000000000",
+    "transactionFee": "2793975000000000",
+    "transactionFeeEthers": 0.002793975,
+    "USD": 0.0005643829500000001
+  },
+  "networkName": "klaytn"
+}
