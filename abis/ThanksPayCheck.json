@@ -16,6 +16,65 @@
     "type": "constructor"
   },
   {
+    "inputs": [],
+    "name": "revertEmpty",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint16",
+        "name": "exitCode",
+        "type": "uint16"
+      }
+    ],
+    "name": "revertExitCode",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "reason",
+        "type": "string"
+      }
+    ],
+    "name": "revertReason",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_authorized",
+        "type": "address[]"
+      }
+    ],
+    "name": "authorize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "checkAuthorized",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -100,6 +159,19 @@
   {
     "inputs": [
       {
+        "internalType": "address[]",
+        "name": "_notAuthorized",
+        "type": "address[]"
+      }
+    ],
+    "name": "recallAuthorization",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "pId",
         "type": "uint256"
@@ -148,6 +220,55 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "condition",
+        "type": "bool"
+      }
+    ],
+    "name": "revertCheck",
+    "outputs": [],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "condition",
+        "type": "bool"
+      },
+      {
+        "internalType": "string",
+        "name": "reason",
+        "type": "string"
+      }
+    ],
+    "name": "revertCheck",
+    "outputs": [],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "condition",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint16",
+        "name": "exitCode",
+        "type": "uint16"
+      }
+    ],
+    "name": "revertCheck",
+    "outputs": [],
+    "stateMutability": "pure",
     "type": "function"
   },
   {

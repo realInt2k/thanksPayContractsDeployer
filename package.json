@@ -1,4 +1,4 @@
-{
+ {
   "name": "lm-graphql",
   "license": "UNLICENSED",
   "scripts": {
@@ -10,7 +10,7 @@
     
 
     "deploy:polygon:testnet": "npx ts-node ./scripts/deploy.ts --networkName=polygonTest",
-    "deploy:ganache:testnet": "npx ts-node ./scripts/deploy.ts --networkName=ganache && rm -r ./transaction_log/unsynced/* && rm -r ./transaction_log/synced/*",
+    "deploy:ganache:testnet": "npx ts-node ./scripts/deploy.ts --networkName=ganache && wsl rm -rf ./transaction_log/*",
     "deploy:klaytn:testnet": "npx ts-node ./scripts/deploy.ts --networkName=klaytn",
 
     "deploy:old:ganache:testnet": "npx ts-node ./scripts/deploy_old.ts --networkName=ganache",

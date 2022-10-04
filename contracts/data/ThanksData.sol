@@ -15,8 +15,8 @@ contract ThanksData is ThanksDataStatic, ThanksSecurityWrapper {
     event workerRegistered(uint256 wId, uint256 pId, uint256 wage);
     event workerBalanceChanged(uint256 wId, uint256 newBalance);
 
-    constructor(address securityAddr) ThanksSecurityWrapper(securityAddr) {
-        
+    constructor(address securityAddr) ThanksSecurityWrapper(msg.sender) {
+
     }
 
     function registerPartner(uint256 pId, uint256 latestPay) public isAuthorized(msg.sender){

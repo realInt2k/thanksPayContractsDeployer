@@ -10,7 +10,7 @@ contract RevertCheck {
             revert revertExitCode(exitCode);
     }
 
-    function revertCheck(bool condition, string calldata reason) public pure {
+    function revertCheck(bool condition, string memory reason) public pure {
         if(!condition) 
             revert revertReason(reason);
     }

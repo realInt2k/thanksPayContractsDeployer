@@ -21,11 +21,12 @@ import { getNetworkName } from "../scripts/utils/getNetworkName";
 // import { networkNameType } from "./deploy";
 import { networkNameType } from "./types/networkNameType";
 
+
 const networkName = getNetworkName(process) as networkNameType;
 console.log(networkName);
 
 var thanksPay;
-const partnerId = 2022; 
+const partnerId = 2026; 
 
 describe("ThanksPay", function () {
   describe("Deployment", function () {
@@ -123,7 +124,7 @@ describe("ThanksPay", function () {
           "worker gets ThanksPay: ",
           (result4 as SuccessReturn, networkName)
         );
-        console.log("worker balance is: ", workerBalance.values.return);
+        console.log("worker balance is: ", workerBalance.values.return.toBigInt());
       } else {
         console.log("worker gets ThanksPay failed", result4);
       }

@@ -3,23 +3,23 @@ pragma solidity >=0.7.0 <0.9.0;
 
 import "hardhat/console.sol";
 import "./../security/ThanksSecurity.sol";
+import "./../security/ThanksSecurityWrapper.sol";
 import "./../data/ThanksData.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
-contract ThanksPayCheck {
+contract ThanksPayCheck is ThanksSecurityWrapper{
     using SafeMath for uint256;
-    ThanksSecurity private security;
     ThanksData private data;
 
-    constructor(address dataAddr, address securityAddr) {
-        security = ThanksSecurity(securityAddr);
+    constructor(address dataAddr, address securityAddr) ThanksSecurityWrapper(msg.sender) {
         data = ThanksData(dataAddr);
     }
 
-    modifier isAuthorized() {
-        security.revertCheck(security.isAuthorized(msg.sender));
-        _;
-    }
+    // modifier isAuthorized() {
+    //     //security.revertCheck(security.isAuthorized(msg.sender));
+    //     revertCheck(isAuthorized(msg.sender));
+    //     _;
+    // }
 
     function subtractFromPartnerCheck(uint256 pId, uint256 amount) public view returns(bool) {
         (uint256 balance, uint256 bonus, ) = data.getPartner(pId);

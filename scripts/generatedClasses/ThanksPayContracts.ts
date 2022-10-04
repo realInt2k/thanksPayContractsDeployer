@@ -157,6 +157,16 @@ export class ThanksPayMain extends ThanksPayContracts {
   }
   public method = {
 
+    authorize: async (args: ThanksPaySuperType["thanksPayMain"]["authorize"]):Promise<any> => {
+      const receipt = await this.sendTx("authorize", args);
+      return receipt;
+    },
+
+    checkAuthorized: async (args: ThanksPaySuperType["thanksPayMain"]["checkAuthorized"]):Promise<any> => {
+      const receipt = await this.sendTx("checkAuthorized", args);
+      return receipt;
+    },
+
     partnerAddBalance: async (args: ThanksPaySuperType["thanksPayMain"]["partnerAddBalance"]):Promise<any> => {
       const receipt = await this.sendTx("partnerAddBalance", args);
       return receipt;
@@ -172,6 +182,11 @@ export class ThanksPayMain extends ThanksPayContracts {
       return receipt;
     },
 
+    recallAuthorization: async (args: ThanksPaySuperType["thanksPayMain"]["recallAuthorization"]):Promise<any> => {
+      const receipt = await this.sendTx("recallAuthorization", args);
+      return receipt;
+    },
+
     revertCheck: async (args: ThanksPaySuperType["thanksPayMain"]["revertCheck"]):Promise<any> => {
       const receipt = await this.sendTx("revertCheck", args);
       return receipt;
@@ -179,11 +194,6 @@ export class ThanksPayMain extends ThanksPayContracts {
 
     setLatestWagePay: async (args: ThanksPaySuperType["thanksPayMain"]["setLatestWagePay"]):Promise<any> => {
       const receipt = await this.sendTx("setLatestWagePay", args);
-      return receipt;
-    },
-
-    subtractFromPartner: async (args: ThanksPaySuperType["thanksPayMain"]["subtractFromPartner"]):Promise<any> => {
-      const receipt = await this.sendTx("subtractFromPartner", args);
       return receipt;
     },
 
@@ -200,6 +210,16 @@ export class ThanksPayData extends ThanksPayContracts {
     super(signerOrProvider, THANKS_PAY_DATA_ADDR, thanksPayDataABI);
   }
   public method = {
+
+    authorize: async (args: ThanksPaySuperType["thanksPayData"]["authorize"]):Promise<any> => {
+      const receipt = await this.sendTx("authorize", args);
+      return receipt;
+    },
+
+    checkAuthorized: async (args: ThanksPaySuperType["thanksPayData"]["checkAuthorized"]):Promise<any> => {
+      const receipt = await this.sendTx("checkAuthorized", args);
+      return receipt;
+    },
 
     getPartner: async (args: ThanksPaySuperType["thanksPayData"]["getPartner"]):Promise<any> => {
       const receipt = await this.sendTx("getPartner", args);
@@ -231,6 +251,11 @@ export class ThanksPayData extends ThanksPayContracts {
       return receipt;
     },
 
+    recallAuthorization: async (args: ThanksPaySuperType["thanksPayData"]["recallAuthorization"]):Promise<any> => {
+      const receipt = await this.sendTx("recallAuthorization", args);
+      return receipt;
+    },
+
     registerPartner: async (args: ThanksPaySuperType["thanksPayData"]["registerPartner"]):Promise<any> => {
       const receipt = await this.sendTx("registerPartner", args);
       return receipt;
@@ -238,6 +263,11 @@ export class ThanksPayData extends ThanksPayContracts {
 
     registerWorker: async (args: ThanksPaySuperType["thanksPayData"]["registerWorker"]):Promise<any> => {
       const receipt = await this.sendTx("registerWorker", args);
+      return receipt;
+    },
+
+    revertCheck: async (args: ThanksPaySuperType["thanksPayData"]["revertCheck"]):Promise<any> => {
+      const receipt = await this.sendTx("revertCheck", args);
       return receipt;
     },
 
@@ -290,28 +320,18 @@ export class ThanksPaySecurity extends ThanksPayContracts {
   }
   public method = {
 
-    AUTHORIZED: async (args: ThanksPaySuperType["thanksPaySecurity"]["AUTHORIZED"]):Promise<any> => {
-      const receipt = await this.sendTx("AUTHORIZED", args);
-      return receipt;
-    },
-
     DEFAULT_ADMIN_ROLE: async (args: ThanksPaySuperType["thanksPaySecurity"]["DEFAULT_ADMIN_ROLE"]):Promise<any> => {
       const receipt = await this.sendTx("DEFAULT_ADMIN_ROLE", args);
       return receipt;
     },
 
-    authorize: async (args: ThanksPaySuperType["thanksPaySecurity"]["authorize"]):Promise<any> => {
-      const receipt = await this.sendTx("authorize", args);
+    getAuthorizedAddresses: async (args: ThanksPaySuperType["thanksPaySecurity"]["getAuthorizedAddresses"]):Promise<any> => {
+      const receipt = await this.sendTx("getAuthorizedAddresses", args);
       return receipt;
     },
 
     getRoleAdmin: async (args: ThanksPaySuperType["thanksPaySecurity"]["getRoleAdmin"]):Promise<any> => {
       const receipt = await this.sendTx("getRoleAdmin", args);
-      return receipt;
-    },
-
-    getShit: async (args: ThanksPaySuperType["thanksPaySecurity"]["getShit"]):Promise<any> => {
-      const receipt = await this.sendTx("getShit", args);
       return receipt;
     },
 
@@ -322,11 +342,6 @@ export class ThanksPaySecurity extends ThanksPayContracts {
 
     hasRole: async (args: ThanksPaySuperType["thanksPaySecurity"]["hasRole"]):Promise<any> => {
       const receipt = await this.sendTx("hasRole", args);
-      return receipt;
-    },
-
-    isAuthorized: async (args: ThanksPaySuperType["thanksPaySecurity"]["isAuthorized"]):Promise<any> => {
-      const receipt = await this.sendTx("isAuthorized", args);
       return receipt;
     },
 
@@ -345,13 +360,13 @@ export class ThanksPaySecurity extends ThanksPayContracts {
       return receipt;
     },
 
-    shit: async (args: ThanksPaySuperType["thanksPaySecurity"]["shit"]):Promise<any> => {
-      const receipt = await this.sendTx("shit", args);
+    supportsInterface: async (args: ThanksPaySuperType["thanksPaySecurity"]["supportsInterface"]):Promise<any> => {
+      const receipt = await this.sendTx("supportsInterface", args);
       return receipt;
     },
 
-    supportsInterface: async (args: ThanksPaySuperType["thanksPaySecurity"]["supportsInterface"]):Promise<any> => {
-      const receipt = await this.sendTx("supportsInterface", args);
+    transferMastership: async (args: ThanksPaySuperType["thanksPaySecurity"]["transferMastership"]):Promise<any> => {
+      const receipt = await this.sendTx("transferMastership", args);
       return receipt;
     },
 
@@ -428,6 +443,16 @@ export class ThanksPayCheck extends ThanksPayContracts {
   }
   public method = {
 
+    authorize: async (args: ThanksPaySuperType["thanksPayCheck"]["authorize"]):Promise<any> => {
+      const receipt = await this.sendTx("authorize", args);
+      return receipt;
+    },
+
+    checkAuthorized: async (args: ThanksPaySuperType["thanksPayCheck"]["checkAuthorized"]):Promise<any> => {
+      const receipt = await this.sendTx("checkAuthorized", args);
+      return receipt;
+    },
+
     partnerAddBalanceCheck: async (args: ThanksPaySuperType["thanksPayCheck"]["partnerAddBalanceCheck"]):Promise<any> => {
       const receipt = await this.sendTx("partnerAddBalanceCheck", args);
       return receipt;
@@ -443,6 +468,11 @@ export class ThanksPayCheck extends ThanksPayContracts {
       return receipt;
     },
 
+    recallAuthorization: async (args: ThanksPaySuperType["thanksPayCheck"]["recallAuthorization"]):Promise<any> => {
+      const receipt = await this.sendTx("recallAuthorization", args);
+      return receipt;
+    },
+
     registerPartnerCheck: async (args: ThanksPaySuperType["thanksPayCheck"]["registerPartnerCheck"]):Promise<any> => {
       const receipt = await this.sendTx("registerPartnerCheck", args);
       return receipt;
@@ -450,6 +480,11 @@ export class ThanksPayCheck extends ThanksPayContracts {
 
     registerWorkerCheck: async (args: ThanksPaySuperType["thanksPayCheck"]["registerWorkerCheck"]):Promise<any> => {
       const receipt = await this.sendTx("registerWorkerCheck", args);
+      return receipt;
+    },
+
+    revertCheck: async (args: ThanksPaySuperType["thanksPayCheck"]["revertCheck"]):Promise<any> => {
+      const receipt = await this.sendTx("revertCheck", args);
       return receipt;
     },
 

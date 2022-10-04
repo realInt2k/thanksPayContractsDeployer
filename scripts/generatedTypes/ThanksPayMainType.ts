@@ -1,3 +1,9 @@
+type AuthorizeType = {
+  _authorized: string[],
+}
+type CheckAuthorizedType = {
+  account: string,
+}
 type PartnerAddBalanceType = {
   pId: number,
   amount: number,
@@ -13,6 +19,9 @@ type PartnerWithdrawType = {
   amount: number,
   timestamp: number,
 }
+type RecallAuthorizationType = {
+  _notAuthorized: string[],
+}
 type RevertCheckType = {
   condition: boolean,
   exitCode: number,
@@ -21,10 +30,6 @@ type RevertCheckType = {
 type SetLatestWagePayType = {
   pId: number,
   timestamp: number,
-}
-type SubtractFromPartnerType = {
-  pId: number,
-  amount: number,
 }
 type WorkerGetsThanksPayType = {
   wId: number,
@@ -35,11 +40,13 @@ type WorkerGetsThanksPayType = {
 }
 
 export type ThanksPayMainType = {
+  authorize: AuthorizeType,
+  checkAuthorized: CheckAuthorizedType,
   partnerAddBalance: PartnerAddBalanceType,
   partnerAddBonus: PartnerAddBonusType,
   partnerWithdraw: PartnerWithdrawType,
+  recallAuthorization: RecallAuthorizationType,
   revertCheck: RevertCheckType,
   setLatestWagePay: SetLatestWagePayType,
-  subtractFromPartner: SubtractFromPartnerType,
   workerGetsThanksPay: WorkerGetsThanksPayType,
 }

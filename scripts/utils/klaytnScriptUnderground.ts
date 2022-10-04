@@ -7,7 +7,7 @@ import { networkNameType } from "@scripts/types/networkNameType";
 import { contractNameType } from '../types/contractNameType';
 import { SuccessReturn } from "@scripts/types/returnType";
 
-const NETWORKNAME:networkNameType = "polygonTest";
+const NETWORKNAME:networkNameType = "klaytn";
 
 /**
  * @description Read files synchronously from a folder, with natural sorting
@@ -33,7 +33,6 @@ function readFilesSync(dir: any) {
         name,
         txData: JSONcontent.txData,
         contractName: JSONcontent.contractName,
-        functionName: JSONcontent.functionName
       });
   });
 
@@ -52,7 +51,7 @@ async function main() {
   const signer = getSigner(NETWORKNAME);
   const account = signer.address;
   while(1) {
-    console.log("_____new interval polygon___")
+    console.log("_____new interval klaytn___")
     const nextNonce = await provider.getTransactionCount(account, "latest");
     const files = readFilesSync(
       __dirname + "../../../transaction_log/new_contract/"+NETWORKNAME+"/unsynced/"
@@ -84,8 +83,6 @@ async function main() {
         file["moneyDetails"] = moneyDetails;
         file["networkName"] = NETWORKNAME;
         file["functionName"] = functionName;
-        
-        
       } catch (e:any) {
         // ignore
         console.log("NO MONEY ????");
