@@ -50,7 +50,7 @@ Now, you should understand the *order* of the test to read logs:
 - The Worker gets some money from salary
 
 Logs will be named after "nonce", don't need to understand what's nonce, it's basically
-a number, and you can read say, last 4 largest numbers are the latest test transactions for example.
+a number, and you can read the latest 4 largest numbers.
 
 ## Get results for old contracts:
 
