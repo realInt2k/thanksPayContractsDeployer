@@ -64,7 +64,7 @@ a number, and you can read say, last 4 largest numbers are the latest test trans
 ![image](https://user-images.githubusercontent.com/49155740/193948999-df57620b-7cd7-4a88-94c9-20e7362b3c87.png)
 ![image](https://user-images.githubusercontent.com/49155740/193949019-c1f0da81-c82f-4bf8-a9b9-6aa3ade82935.png)
 
-^ The red time (i.e: 13018ms) means 13,018 seconds.
+^ The red time (i.e: 13018ms) means 13.018 seconds or 13018 milliseconds.
 
 Then navigate to $rootRepo/transaction_log/old_contract/polygontest/synced/
 
