@@ -10,6 +10,10 @@ then from $rootRepo:
 - MAC/Linux: ```rm -rf transaction_log/*```
 - Windows: ```rm -r -Force transaction_log/*```
 
+## Compile contract:
+
+```npx hardhat compile```
+
 ## Start ganache:
 
 ```npm run start:ganache```
