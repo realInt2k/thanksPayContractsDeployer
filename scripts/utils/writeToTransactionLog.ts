@@ -28,6 +28,7 @@ export const writeToTxLog = (
     };
     const filename = nonce + '.json';
     const filepath = path.join(dir, filename);
+    console.log("file path is: ", filepath);
     // write details into filename with fs
     fs.writeFileSync(filepath, JSON.stringify(details));
 }

@@ -17,7 +17,7 @@ const NETWORKNAME:networkNameType = "klaytn";
  */
 function readFilesSync(dir: any) {
   const files: any[] = [];
-
+  console.log(dir);
   fs.readdirSync(dir).forEach((filename) => {
     const name = path.parse(filename).name;
     const ext = path.parse(filename).ext;
@@ -55,7 +55,7 @@ async function main() {
     console.log("_____new interval klaytn___")
     const nextNonce = await provider.getTransactionCount(account, "latest");
     const files = readFilesSync(
-      __dirname + "../../../transaction_log/new_contract/"+NETWORKNAME+"/unsynced/"
+      path.join(__dirname, "../../transaction_log/new_contract/"+NETWORKNAME+"/unsynced/")
     );
     for (let i = 0; i < files.length; i++) {
       const thisNonce = nextNonce + i;
@@ -90,11 +90,11 @@ async function main() {
         return;
       }
       // save file 
-      const filePath = __dirname + "../../../transaction_log/new_contract/"+NETWORKNAME+"/synced/" + fileName + ".json";
+      const filePath = path.join(__dirname, "../../transaction_log/new_contract/"+NETWORKNAME+"/synced/" + fileName + ".json");
       fs.writeFileSync(filePath, JSON.stringify(file));
 
       // delete the old file
-      const oldFilePath = __dirname + "../../../transaction_log/new_contract/"+NETWORKNAME+"/unsynced/" + fileName + ".json";
+      const oldFilePath = path.join(__dirname, "../../transaction_log/new_contract/"+NETWORKNAME+"/unsynced/" + fileName + ".json");
       fs.unlinkSync(oldFilePath);
     }
     await delay(2000);
