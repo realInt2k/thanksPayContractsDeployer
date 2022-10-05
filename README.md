@@ -90,6 +90,7 @@ Then read latest 4 logs
 - ```npm run test:new2:ganache:testnet```
 
 **Read on the terminal how much time each transaction takes**
+
 -Example:
 
 ![image](https://user-images.githubusercontent.com/49155740/193949494-6a0d038d-f35c-494a-8c3d-dea72f37d6d0.png)
