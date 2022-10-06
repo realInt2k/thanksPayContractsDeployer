@@ -1,6 +1,6 @@
 import { SuccessReturn, ErrorReturn, ViewReturn } from "../types/returnType";
 import { networkNameType } from "../types/networkNameType";
-import { writeToTxLog } from "@scripts/utils/writeToTransactionLog";
+import { writeToTxLog } from "@scripts/utils/writeToTransactionLogUtil";
 import { contractNameType } from "../types/contractNameType";
 import { ethers } from "ethers";
 import { getMoney } from "./getMoneyUtil";

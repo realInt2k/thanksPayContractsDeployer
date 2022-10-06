@@ -31,7 +31,7 @@ export const sendRawTxData = async (
         // gasPrice: ethers.utils.hexlify(parseInt(ethers.utils.await provider.getGasPrice())),
     };
 
-    signer.sendTransaction(tx).then((transaction) => {
+    signer.sendTransaction(tx).then((transaction:any) => {
         console.dir(transaction);
         alert("Send finished!");
     });

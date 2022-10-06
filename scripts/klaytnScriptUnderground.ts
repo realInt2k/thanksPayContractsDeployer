@@ -1,10 +1,10 @@
-import { getTxDetails } from "./getTxDetailsUtil";
+import { getTxDetails } from "./utils/getTxDetailsUtil";
 import * as fs from "fs";
 const path = require("path");
-import { getSigner, getProvider } from "./getSignerUtil";
-import contractAddresses from '../contractAddresses.json';
+import { getSigner, getProvider } from "./utils/getSignerUtil";
+import contractAddresses from './contractAddresses.json';
 import { networkNameType } from "@scripts/types/networkNameType";
-import { contractNameType } from '../types/contractNameType';
+import { contractNameType } from './types/contractNameType';
 import { SuccessReturn } from "@scripts/types/returnType";
 
 const NETWORKNAME:networkNameType = "klaytn";

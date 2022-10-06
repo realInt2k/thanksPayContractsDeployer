@@ -13,7 +13,7 @@
       "@abis/*": ["abis/*"],
       "@contracts/*": ["./contracts/*"],
       "@scripts/*": ["scripts/*"],
-      "@test/*": ["./test/*"]
+      "@test/*": ["./test/*"],
     }
   },
   "include": ["./scripts", "./test", "./typechain", "scripts/utils", "scripts/deployScripts"],

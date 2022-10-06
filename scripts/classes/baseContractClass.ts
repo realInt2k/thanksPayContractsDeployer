@@ -31,9 +31,9 @@ import {
 import {
   writeToTxLog,
   writeReceiptTxLog,
-} from "@scripts/utils/writeToTransactionLog";
-import { getTxDetails } from "@scripts/utils/getTxDetailsUtil";
-import { getContractAddress } from "@scripts/utils/getContractAddressUtil";
+  getTxDetails,
+  getContractAddress
+} from "@scripts/utils";
 
 const getSchema = (abi: ContractABIType) => {
   const functions = abi.filter((row: any) => row["type"] === "function");
