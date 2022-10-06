@@ -27,7 +27,7 @@ export class ThanksPayData extends ThanksPayContracts {
       );
     },
 
-    registerWorker: async (args: ThanksPayDataType["registerWorker"]) => {
+    registerWorker: async (args: ThanksPayDataType["registerWorker"]): Promise<any> => {
       const check: boolean = await this.thanksPayCheck.methods.registerWorkerCheck(
         args
       );
