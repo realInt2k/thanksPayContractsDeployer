@@ -2,7 +2,7 @@ import contractAddresses from '../contractAddresses.json';
 import { ethers } from 'ethers';
 import {contractNameType} from '../types/contractNameType';
 import { networkNameType } from '../types/networkNameType';
-import { getSigner, getProvider } from './getSigner';
+import { getSigner, getProvider } from './getSignerUtil';
 
 
 // Creating a transaction param
@@ -31,7 +31,7 @@ export const sendRawTxData = async (
         // gasPrice: ethers.utils.hexlify(parseInt(ethers.utils.await provider.getGasPrice())),
     };
 
-    signer.sendTransaction(tx).then((transaction) => {
+    signer.sendTransaction(tx).then((transaction:any) => {
         console.dir(transaction);
         alert("Send finished!");
     });

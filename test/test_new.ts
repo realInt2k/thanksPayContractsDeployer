@@ -16,8 +16,8 @@ import {
   ThanksPaySecurity,
 } from "../scripts/types/contractType";
 import { ThanksPaySuperType } from "./generatedTypes/ThanksPaySuperType";
-import { getMoney } from "../scripts/utils/getMoney";
-import { getNetworkName } from "../scripts/utils/getNetworkName";
+import { getMoney } from "./utils/getMoneyUtil";
+import { getNetworkName } from "./utils/getNetworkNameUtil";
 // import { networkNameType } from "./deploy";
 import { networkNameType } from "./types/networkNameType";
 

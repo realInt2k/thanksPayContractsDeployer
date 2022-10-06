@@ -15,11 +15,11 @@ import {
   ThanksPayCheck,
   ThanksPaySecurity,
   OldThanks,
-} from "../scripts/types/contractType";
+} from "@scripts/classes";
 
 import { ThanksPaySuperType } from "./generatedTypes/ThanksPaySuperType";
-import { getMoney2 } from "../scripts/utils/getMoney";
-import { getNetworkName } from "../scripts/utils/getNetworkName";
+import { getMoney2 } from "./utils/getMoneyUtil";
+import { getNetworkName } from "./utils/getNetworkNameUtil";
 import { networkNameType } from "./types/networkNameType";
 
 const networkName = getNetworkName(process) as networkNameType;

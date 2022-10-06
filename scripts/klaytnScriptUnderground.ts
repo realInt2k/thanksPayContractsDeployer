@@ -1,10 +1,10 @@
-import { getTxDetails } from "./getTxDetails";
+import { getTxDetails } from "./utils/getTxDetailsUtil";
 import * as fs from "fs";
 const path = require("path");
-import { getSigner, getProvider } from "./getSigner";
-import contractAddresses from '../contractAddresses.json';
+import { getSigner, getProvider } from "./utils/getSignerUtil";
+import contractAddresses from './contractAddresses.json';
 import { networkNameType } from "@scripts/types/networkNameType";
-import { contractNameType } from '../types/contractNameType';
+import { contractNameType } from './types/contractNameType';
 import { SuccessReturn } from "@scripts/types/returnType";
 
 const NETWORKNAME:networkNameType = "klaytn";
@@ -52,10 +52,14 @@ async function main() {
   const signer = getSigner(NETWORKNAME);
   const account = signer.address;
   while(1) {
-    console.log("_____new interval klaytn___")
+    console.log("_____new interval polygon___")
     const nextNonce = await provider.getTransactionCount(account, "latest");
+    const fileDir = path.join(__dirname, "../transaction_log/new_contract/"+NETWORKNAME+"/unsynced/");
+    if(!fs.existsSync(fileDir)) {
+      continue;
+    }
     const files = readFilesSync(
-      __dirname + "../../../transaction_log/new_contract/"+NETWORKNAME+"/unsynced/"
+      path.join(fileDir)
     );
     for (let i = 0; i < files.length; i++) {
       const thisNonce = nextNonce + i;
@@ -84,17 +88,23 @@ async function main() {
         file["moneyDetails"] = moneyDetails;
         file["networkName"] = NETWORKNAME;
         file["functionName"] = functionName;
+        
+        
       } catch (e:any) {
         // ignore
         console.log("NO MONEY ????");
         return;
       }
       // save file 
-      const filePath = __dirname + "../../../transaction_log/new_contract/"+NETWORKNAME+"/synced/" + fileName + ".json";
+      const filePath = path.join(__dirname, "../transaction_log/new_contract/"+NETWORKNAME+"/synced/" + fileName + ".json");
+      if (!fs.existsSync(filePath)) 
+        continue;
       fs.writeFileSync(filePath, JSON.stringify(file));
 
       // delete the old file
-      const oldFilePath = __dirname + "../../../transaction_log/new_contract/"+NETWORKNAME+"/unsynced/" + fileName + ".json";
+      const oldFilePath = path.join(__dirname, "../transaction_log/new_contract/"+NETWORKNAME+"/unsynced/" + fileName + ".json");
+      if (!fs.existsSync(oldFilePath)) 
+        continue;
       fs.unlinkSync(oldFilePath);
     }
     await delay(2000);

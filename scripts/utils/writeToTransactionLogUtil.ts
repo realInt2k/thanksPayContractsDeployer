@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { contractNameType } from '../types/contractNameType';
 import { networkNameType } from '@scripts/types/networkNameType';
-import { getTxDetails } from './getTxDetails';
+import { getTxDetails } from './getTxDetailsUtil';
 
 export const writeToTxLog = (
     txData: any,
@@ -28,6 +28,7 @@ export const writeToTxLog = (
     };
     const filename = nonce + '.json';
     const filepath = path.join(dir, filename);
+    console.log("file path is: ", filepath);
     // write details into filename with fs
     fs.writeFileSync(filepath, JSON.stringify(details));
 }

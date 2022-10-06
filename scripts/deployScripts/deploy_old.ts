@@ -13,15 +13,12 @@ import * as dotenv from "dotenv";
 
 //const filepath = "./logs";
 dotenv.config();
-console.log(__dirname + './contractAddresses.json');
-import contractAddresses from './contractAddresses.json';
+import contractAddresses from './../contractAddresses.json';
 import * as fs from 'fs';
+import path from "path";
 import { Signer } from "@ethersproject/abstract-signer";
-dotenv.config();
-console.log(__dirname + './contractAddresses.json');
-
-import { getNetworkName } from "./utils/getNetworkName";
-import { networkNameType } from "./types/networkNameType";
+import { getNetworkName } from "../utils/getNetworkNameUtil";
+import { networkNameType } from "./../types/networkNameType";
 
 const networkName = getNetworkName(process);
 
@@ -55,7 +52,7 @@ async function main(networkName: networkNameType) {
   console.log("OldThanks deployed to:", soldier.address);
 
   console.log("\nNearbyBlock is ", nearByBlock);
-  fs.writeFileSync(__dirname + '/contractAddresses.json', JSON.stringify(contractAddresses, null, 2));
+  fs.writeFileSync(path.join(__dirname, '../contractAddresses.json'), JSON.stringify(contractAddresses, null, 2));
 
 }
 
