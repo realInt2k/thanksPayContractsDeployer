@@ -7,7 +7,7 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 var CryptoJS = require("crypto-js");
 
-import { SuccessReturn, ErrorReturn, ViewReturn } from "./types/returnType";
+import { SuccessReturn, ErrorReturn, ViewReturn } from "@scripts/types/returnType";
 import {
   ThanksPayMain,
   ThanksPayData,
@@ -17,10 +17,10 @@ import {
   OldThanks,
 } from "@scripts/classes";
 
-import { ThanksPaySuperType } from "./generatedTypes/ThanksPaySuperType";
-import { getMoney2 } from "./utils/getMoneyUtil";
-import { getNetworkName } from "./utils/getNetworkNameUtil";
-import { networkNameType } from "./types/networkNameType";
+import { ThanksPaySuperType } from "@scripts/generatedTypes/ThanksPaySuperType";
+import { getMoney2 } from "@scripts/utils/getMoneyUtil";
+import { getNetworkName } from "@scripts/utils/getNetworkNameUtil";
+import { networkNameType } from "@scripts/types/networkNameType";
 
 const networkName = getNetworkName(process) as networkNameType;
 const oldContract = new OldThanks(networkName);
