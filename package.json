@@ -7,7 +7,8 @@
     
     "start:ganache": "npx ganache --wallet.seed='GivingDays' --db './ganacheDB'  --wallet.accountKeysPath  './ganacheAccounts.json' -p 8545 --chain.chainId 1337  -a 120 -e 10000",
     "start:polygonPolling": "npx ts-node ./scripts/utils/polygonScriptUnderground.ts",
-    
+    "start:klaytnPolling": "npx ts-node ./scripts/utils/polygonScriptUnderground.ts",
+    "start:server": "{npm run start:ganache &; echo 'ganache exited' } & {npm run start:klaytnPolling &; echo 'klaytnPolling exited' }",
 
     "deploy:polygon:testnet": "npx ts-node ./scripts/deployScripts/deploy.ts --networkName=polygonTest",
     "deploy:ganache:testnet": "npx ts-node ./scripts/deployScripts/deploy.ts --networkName=ganache && wsl rm -rf ./transaction_log/new_contract/*",
