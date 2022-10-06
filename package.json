@@ -1,54 +1,33 @@
- {
+{
   "name": "lm-graphql",
   "license": "UNLICENSED",
   "scripts": {
-
+    "build": "echo OKOKOKOKOK",
     "init:transaction_log": "rm -rf transaction_log && npx mkdirp transaction_log && cd transaction_log && npx mkdirp new_contract && cd new_contract && mkdirp synced && npx mkdirp unsynced && cd .. && npx mkdirp old_contract && cd old_contract && npx mkdirp synced && npx mkdirp unsynced",
-    
     "start:ganache": "npx ganache --wallet.seed='GivingDays' --db './ganacheDB'  --wallet.accountKeysPath  './ganacheAccounts.json' -p 8545 --chain.chainId 1337  -a 120 -e 10000",
     "start:polygonPolling": "npx ts-node ./scripts/utils/polygonScriptUnderground.ts",
     "start:klaytnPolling": "npx ts-node ./scripts/utils/polygonScriptUnderground.ts",
-    "start:server": "{npm run start:ganache &; echo 'ganache exited' } & {npm run start:klaytnPolling &; echo 'klaytnPolling exited' }",
-
+    "start:server": "npm run start:ganache & npm run start:klaytnPolling &",
     "deploy:polygon:testnet": "npx ts-node ./scripts/deployScripts/deploy.ts --networkName=polygonTest",
     "deploy:ganache:testnet": "npx ts-node ./scripts/deployScripts/deploy.ts --networkName=ganache && wsl rm -rf ./transaction_log/new_contract/*",
     "deploy:klaytn:testnet": "npx ts-node ./scripts/deployScripts/deploy.ts --networkName=klaytn",
-
     "deploy:old:ganache:testnet": "npx ts-node ./scripts/deployScripts/deploy_old.ts --networkName=ganache",
-
     "test:new:polygon:testnet": "mocha -r ts-node/register test/test_new.ts --networkName=polygonTest",
     "test:new:ganache:testnet": "mocha -r ts-node/register test/test_new.ts --networkName=ganache",
     "test:new:klaytn:testnet": "mocha -r ts-node/register test/test_new.ts --networkName=klaytn",
-
     "test:new2:polygon:testnet": "mocha -r ts-node/register test/test_new2.ts --networkName=polygonTest",
     "test:new2:ganache:testnet": "mocha -r ts-node/register test/test_new2.ts --networkName=ganache",
     "test:new2:klaytn:testnet": "mocha -r ts-node/register test/test_new2.ts --networkName=klaytn",
-
     "test:old2:ganache:testnet": "mocha -r ts-node/register test/test_old_2.ts --networkName=ganache",
     "test:old2:polygon:testnet": "mocha -r ts-node/register test/test_old_2.ts --networkName=polygonTest",
     "test:old2:klaytn:testnet": "mocha -r ts-node/register test/test_old_2.ts --networkName=klaytn",
-
-    
     "test": "mocha -r ts-node/register test/test.ts",
     "test_rawTx": "mocha -r ts-node/register test/test_rawTx.ts",
     "testDung": "mocha -r ts-node/register test/test_dungn.ts",
     "testPolygonNEW": "mocha -r ts-node/register test/test_new.ts --networkName=polygonTest",
     "testKlaytnNEW": "mocha -r ts-node/register test/test_new.ts --networkName=klaytn",
     "testGanacheNEW": "mocha -r ts-node/register test/test_new.ts --networkName=ganache",
-    "testOldContractKlaytn" : "mocha -r ts-node/register test/test_old_contract.ts --networkName=klaytn",
-    "ganacheSh": "./start-ganache.sh",
-    "ganachePs1": "@powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./start-ganache.ps1",
-    "codegen": "graph codegen",
-    "build": "graph build",
-    "deploy": "graph deploy --product hosted-service realint2k/Lm1",
-    "create-local": "graph create --node http://localhost:8020/ realint2k/int2kLM",
-    "remove-local": "graph remove --node http://localhost:8020/ realint2k/int2kLM",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 realint2k/int2kLM",
-    "redeploy-local": "npm run remove-local && npm run create-local && echo 'v0.0.1' | npm run deploy-local",
-    "dev": "sh ./start-ganache.sh",
-    "devWin": "./start-ganache.ps1",
-    "dev2": "cd ./dockerThings && rm -rf data && docker-compose up",
-    "dev3": "graph build && graph create --node http://localhost:8020/ realint2k/int2kLM && graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 realint2k/int2kLM && npx hardhat run ./scripts/deploy.ts && mocha -r ts-node/register test/*"
+    "testOldContractKlaytn": "mocha -r ts-node/register test/test_old_contract.ts --networkName=klaytn"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.22.2",
@@ -85,6 +64,7 @@
     "ethers": "^5.6.9",
     "hardhat": "^2.9.7",
     "ts-node": "^10.8.1",
+    "tsconfig-paths": "^4.1.0",
     "typescript": "^4.7.3"
   }
 }

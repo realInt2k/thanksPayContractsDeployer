@@ -17,7 +17,7 @@ import contractAddresses from "./../contractAddresses.json";
 import * as fs from "fs";
 import path from "path";
 import { Signer } from "@ethersproject/abstract-signer";
-import { ThanksPaySecurity } from "./../types/contractType";
+import { ThanksPaySecurity } from "@scripts/classes";
 import { getNetworkName } from "../utils/getNetworkNameUtil";
 import { networkNameType } from "./../types/networkNameType";
 

@@ -1,19 +1,24 @@
 {
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  },
   "compilerOptions": {
-    "target": "es2018",
+    "target": "es2020",
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
     "outDir": "dist",
     "declaration": true,
     "resolveJsonModule": true,
-    "baseUrl" : ".",
-    "rootDirs": ["./src", "./scripts", "./test"],
+    "baseUrl" : "./",
+    "rootDirs": ["./"],
     "paths": {
       "@abis/*": ["abis/*"],
-      "@contracts/*": ["./contracts/*"],
+      "@contracts/*": ["contracts/*"],
       "@scripts/*": ["scripts/*"],
-      "@test/*": ["./test/*"],
+      "@test/*": ["test/*"],
     }
   },
   "include": ["./scripts", "./test", "./typechain", "scripts/utils", "scripts/deployScripts"],
