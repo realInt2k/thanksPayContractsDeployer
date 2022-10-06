@@ -19,7 +19,7 @@ import path from "path";
 import { Signer } from "@ethersproject/abstract-signer";
 import { ThanksPaySecurity } from "@scripts/classes";
 import { getNetworkName } from "../utils/getNetworkNameUtil";
-import { networkNameType } from "./../types/networkNameType";
+import { networkNameType } from "@scripts/types/networkNameType";
 
 const networkName = getNetworkName(process);
 

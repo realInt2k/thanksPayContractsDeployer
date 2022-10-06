@@ -1,7 +1,7 @@
 import { networkNameType } from "@scripts/types/networkNameType";
 import { getContractAddress } from "@scripts/utils/getContractAddressUtil";
 import { ThanksPayContracts } from "./baseContractClass";
-import thanksPayCheckABI from "../../abis/ThanksPayCheck.json";
+import thanksPayCheckABI from "@abis/ThanksPayCheck.json";
 import { CheckReturn } from "@scripts/types/returnType";
 import { ThanksPayCheckType } from "@scripts/generatedTypes/ThanksPayCheckType";
 import { ThanksPaySuperType } from "@scripts/generatedTypes/ThanksPaySuperType";

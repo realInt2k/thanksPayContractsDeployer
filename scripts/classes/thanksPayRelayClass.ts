@@ -1,6 +1,6 @@
 import { networkNameType } from "@scripts/types/networkNameType";
 import { ThanksPayContracts } from "./baseContractClass";
-import thanksPayRelayABI from "../../abis/ThanksPayRelay.json";
+import thanksPayRelayABI from "@abis/ThanksPayRelay.json";
 import { ThanksPayRelayType } from "@scripts/generatedTypes/ThanksPayRelayType";
 
 // up-to-date as of 2021-09-12

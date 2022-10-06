@@ -2,7 +2,7 @@ import { ThanksPayMainType } from "@scripts/generatedTypes/ThanksPayMainType";
 import { networkNameType } from "@scripts/types/networkNameType";
 import { ThanksPayContracts } from "./baseContractClass";
 
-import thanksPayMainABI from "../../abis/ThanksPayMain.json";
+import thanksPayMainABI from "@abis/ThanksPayMain.json";
 import {ThanksPayCheck} from "./thanksPayCheckClass";
 
 

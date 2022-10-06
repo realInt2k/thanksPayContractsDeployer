@@ -6,8 +6,10 @@ import contractAddresses from './contractAddresses.json';
 import { networkNameType } from "@scripts/types/networkNameType";
 import { contractNameType } from './types/contractNameType';
 import { SuccessReturn } from "@scripts/types/returnType";
+import { getNetworkName } from "./utils";
 
-const NETWORKNAME:networkNameType = "polygonTest";
+
+const NETWORKNAME:networkNameType = getNetworkName(process);
 
 /**
  * @description Read files synchronously from a folder, with natural sorting
@@ -47,15 +49,19 @@ function readFilesSync(dir: any) {
   return files;
 }
 
-async function main() {
+async function main(NETWORKNAME: networkNameType) {
   const provider = getProvider(NETWORKNAME);
   const signer = getSigner(NETWORKNAME);
   const account = signer.address;
   while(1) {
     console.log("_____new interval polygon___")
     const nextNonce = await provider.getTransactionCount(account, "latest");
+    const fileDir = path.join(__dirname, "../transaction_log/new_contract/"+NETWORKNAME+"/unsynced/");
+    if(!fs.existsSync(fileDir)) {
+      continue;
+    }
     const files = readFilesSync(
-      path.join(__dirname, "../../transaction_log/new_contract/"+NETWORKNAME+"/unsynced/")
+      path.join(fileDir)
     );
     for (let i = 0; i < files.length; i++) {
       const thisNonce = nextNonce + i;
@@ -92,11 +98,15 @@ async function main() {
         return;
       }
       // save file 
-      const filePath = path.join(__dirname, "../../transaction_log/new_contract/"+NETWORKNAME+"/synced/" + fileName + ".json");
+      const filePath = path.join(__dirname, "../transaction_log/new_contract/"+NETWORKNAME+"/synced/" + fileName + ".json");
+      if (!fs.existsSync(filePath)) 
+        continue;
       fs.writeFileSync(filePath, JSON.stringify(file));
 
       // delete the old file
-      const oldFilePath = path.join(__dirname, "../../transaction_log/new_contract/"+NETWORKNAME+"/unsynced/" + fileName + ".json");
+      const oldFilePath = path.join(__dirname, "../transaction_log/new_contract/"+NETWORKNAME+"/unsynced/" + fileName + ".json");
+      if (!fs.existsSync(oldFilePath)) 
+        continue;
       fs.unlinkSync(oldFilePath);
     }
     await delay(2000);
@@ -107,4 +117,4 @@ function delay(time:number) {
   return new Promise(resolve => setTimeout(resolve, time));
 }
 
-main().then(() => console.log(""));
+main(NETWORKNAME).then(() => console.log(""));
