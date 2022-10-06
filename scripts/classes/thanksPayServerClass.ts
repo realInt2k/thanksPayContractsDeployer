@@ -26,6 +26,12 @@ export class ThanksPayServer {
     this.thanksPaySecurity = new ThanksPaySecurity(NETWORK);
   }
 
+  public getArguments(functionName: string): any {
+    if(functionName === "registerWorker") {
+      return this.thanksPayData.getRequiredOrder(functionName);
+    }
+  }
+
   public methods = {
     registerWorker: async (
       args: ThanksPaySuperType["thanksPayData"]["registerWorker"]

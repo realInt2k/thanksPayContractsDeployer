@@ -12,7 +12,7 @@ type EditPartnerType = {
   partnerHashData: string,
 }
 type EditWorkerType = {
-  worker: tuple,
+  worker: NewWorkerType,
 }
 type GetAllPartnerType = {
 }
