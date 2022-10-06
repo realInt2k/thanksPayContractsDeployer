@@ -1,7 +1,7 @@
-import { getTxDetails } from "./getTxDetails";
+import { getTxDetails } from "./getTxDetailsUtil";
 import * as fs from "fs";
 const path = require("path");
-import { getSigner, getProvider } from "./getSigner";
+import { getSigner, getProvider } from "./getSignerUtil";
 import contractAddresses from '../contractAddresses.json';
 import { networkNameType } from "@scripts/types/networkNameType";
 import { contractNameType } from '../types/contractNameType';

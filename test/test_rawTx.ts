@@ -1,4 +1,4 @@
-import { sendRawTxData } from './utils/sendRawTxData';
+import { sendRawTxData } from './utils/sendRawTxDataUtil';
 
 import * as fs from 'fs';
 import * as path from "path";

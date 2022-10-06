@@ -12,7 +12,7 @@ const {
   import thanksPayABI from "../abis/ThanksPayMain.json";
   import thanksRelayABI from "../abis/ThanksPayRelay.json";
   import contractAddresses from "./contractAddresses.json";
-  import { getMoney } from "./utils/getMoney";
+  import { getMoney } from "./utils/getMoneyUtil";
   import { SuccessReturn, ErrorReturn, ViewReturn } from "./types/returnType";
   import {
     OldThanks

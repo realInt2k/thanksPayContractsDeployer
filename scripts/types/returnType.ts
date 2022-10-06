@@ -1,5 +1,5 @@
 import { LogDescription } from "ethers/lib/utils";
-import {moneyInfoType} from "../utils/getMoney";
+import {moneyInfoType} from "../utils/getMoneyUtil";
 export type SuccessReturn = {
     type: "success",
     values: {

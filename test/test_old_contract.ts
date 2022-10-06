@@ -17,8 +17,8 @@ import {
   OldThanks,
 } from "../scripts/types/contractType";
 import { ThanksPaySuperType } from "./generatedTypes/ThanksPaySuperType";
-import { getMoney2 } from "../scripts/utils/getMoney";
-import { getNetworkName } from "../scripts/utils/getNetworkName";
+import { getMoney2 } from "./utils/getMoneyUtil";
+import { getNetworkName } from "./utils/getNetworkNameUtil";
 // import { networkNameType } from "./deploy";
 import { networkNameType } from "./types/networkNameType";
 import { type } from '../typechain-types/contracts/check/index';

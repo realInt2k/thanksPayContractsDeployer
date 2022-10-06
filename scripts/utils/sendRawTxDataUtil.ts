@@ -2,7 +2,7 @@ import contractAddresses from '../contractAddresses.json';
 import { ethers } from 'ethers';
 import {contractNameType} from '../types/contractNameType';
 import { networkNameType } from '../types/networkNameType';
-import { getSigner, getProvider } from './getSigner';
+import { getSigner, getProvider } from './getSignerUtil';
 
 
 // Creating a transaction param

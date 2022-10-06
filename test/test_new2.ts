@@ -13,16 +13,12 @@ import {
   ViewReturn,
   CheckReturn,
 } from "./types/returnType";
-import {
-  ThanksPayMain,
-  ThanksPayData,
-  ThanksPayRelay,
-  ThanksPayCheck,
-  ThanksPaySecurity,
-} from "../scripts/types/contractType";
+
+import {ThanksPayCheck, ThanksPayData, ThanksPayMain, ThanksPayRelay, ThanksPaySecurity} from "@scripts/classes"
+
 import { ThanksPaySuperType } from "./generatedTypes/ThanksPaySuperType";
-import { getMoney2, getMoney } from "../scripts/utils/getMoney";
-import { getNetworkName } from "../scripts/utils/getNetworkName";
+import { getMoney2, getMoney } from "./utils/getMoneyUtil";
+import { getNetworkName } from "./utils/getNetworkNameUtil";
 // import { networkNameType } from "./deploy";
 import { networkNameType } from "./types/networkNameType";
 

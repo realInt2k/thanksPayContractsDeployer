@@ -3,7 +3,7 @@ import { networkNameType } from "../types/networkNameType";
 import { writeToTxLog } from "@scripts/utils/writeToTransactionLog";
 import { contractNameType } from "../types/contractNameType";
 import { ethers } from "ethers";
-import { getMoney } from "./getMoney";
+import { getMoney } from "./getMoneyUtil";
 
 
 export const getTxDetails = async (
