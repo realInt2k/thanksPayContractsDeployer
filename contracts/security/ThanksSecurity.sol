@@ -73,7 +73,6 @@ contract ThanksSecurity is AccessControl, RevertCheck {
         // 1 is contract 2 is human
     }
 
-
     constructor() {
         authorized[msg.sender] = 2;
         registeredAddress.push(msg.sender);

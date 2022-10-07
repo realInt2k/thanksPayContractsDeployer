@@ -1,14 +1,14 @@
 type AllpropertyIDsType = {
 }
 type AlterEntityNamesType = {
-  _entityIDs: number[],
+  _entityIDs: bigint[],
   _entityNames: string[],
 }
 type AlterPropertyNamesType = {
-  entityID: number,
-  _propertyIDs: number[],
+  entityID: bigint,
+  _propertyIDs: bigint[],
   _propertyNames: string[],
-  propertyTypes: number[],
+  propertyTypes: bigint[],
 }
 type AuthorizeType = {
   _authorized: string[],
@@ -25,7 +25,7 @@ type EntityNamesMapType = {
 type GetAllEntitiesType = {
 }
 type GetAllPropertiesType = {
-  entityID: number,
+  entityID: bigint,
 }
 type PropertyNamesMapType = {
 }
@@ -34,19 +34,19 @@ type RecallAuthorizationType = {
 }
 type RevertCheckType = {
   condition: boolean,
-  exitCode: number,
+  exitCode: bigint,
   reason?: string,
 }
 type SetDynamicPropertiesType = {
-  entityID: number,
-  blockchainID: number,
-  propertyIDs: number[],
-  propertyValues: number[],
+  entityID: bigint,
+  blockchainID: bigint,
+  propertyIDs: bigint[],
+  propertyValues: bigint[],
 }
 type SetStaticPropertiesType = {
-  entityID: number,
-  blockchainID: number,
-  propertyIDs: number[],
+  entityID: bigint,
+  blockchainID: bigint,
+  propertyIDs: bigint[],
   propertyValues: string[],
 }
 

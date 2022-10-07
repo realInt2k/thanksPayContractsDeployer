@@ -7,15 +7,16 @@ import thanksPayCheckABI from "../abis/ThanksPayCheck.json";
 import oldThanksABI from "../abis/oldThanks.json";
 
 import * as fs from "fs";
+import path from 'path';
 
 const typeTranslate = (type: string) => {
   //check if type has prefix "uint":
   if (type.startsWith("uint")) {
     //check if it ends with []
     if (type.endsWith("[]")) {
-      return "number[]";
+      return "bigint[]";
     } else {
-      return "number";
+      return "bigint";
     }
   }
   if (type.startsWith("bool")) {
@@ -33,6 +34,14 @@ const typeTranslate = (type: string) => {
     }
   }
   if (type.startsWith("bytes")) {
+    if (type.endsWith("[]")) {
+      return "string[]";
+    } else {
+      return "string";
+    }
+  }
+
+  if (type.startsWith("tuple")) {
     if (type.endsWith("[]")) {
       return "string[]";
     } else {
@@ -104,25 +113,25 @@ const getSchema = (abi: any) => {
 };
 
 async function createFileIfNotThere1(fileName: string) {
-  fs.promises.readdir(__dirname + "/generatedTypes").catch(() => {
-    fs.mkdirSync(__dirname + "/generatedTypes");
+  fs.promises.readdir(path.join(__dirname, "/generatedTypes")).catch(() => {
+    fs.mkdirSync(path.join(__dirname, "/generatedTypes"));
   });
   fs.promises
-    .readFile(__dirname + "/generatedTypes/" + fileName + ".ts")
+    .readFile(path.join(__dirname, "/generatedTypes/", fileName + ".ts"))
     .catch(() => {
-      fs.writeFileSync(__dirname + "/generatedTypes/" + fileName + ".ts", "");
+      fs.writeFileSync(path.join(__dirname, "/generatedTypes/", fileName + ".ts"), "");
       console.log(`just made ${fileName}.ts`);
     });
 }
 
 async function createFileIfNotThere2(dir: string, fileName: string) {
-  fs.promises.readdir(__dirname + dir).catch(() => {
-    fs.mkdirSync(__dirname + dir);
+  fs.promises.readdir(path.join(__dirname, dir)).catch(() => {
+    fs.mkdirSync(path.join(__dirname, dir));
   });
   fs.promises
-    .readFile(__dirname + dir + fileName + ".ts")
+    .readFile(path.join(__dirname, dir, fileName + ".ts"))
     .catch(() => {
-      fs.writeFileSync(__dirname + dir + fileName + ".ts", "");
+      fs.writeFileSync(path.join(__dirname, dir, fileName + ".ts"), "");
       console.log(`just made ${fileName}.ts`);
     });
 }
@@ -156,7 +165,7 @@ export type ${fileName} = {`
   }
   typing += `
 }`
-  fs.writeFileSync(__dirname + "/generatedTypes/" + fileName + ".ts", typing);
+  fs.writeFileSync(path.join(__dirname, "/generatedTypes/", fileName + ".ts"), typing);
 }
 
 async function generateSuperClass() {
@@ -468,7 +477,7 @@ export class OldThanks extends ThanksPayContracts {
 }
 `;
 
-  fs.writeFileSync(__dirname + "/generatedClasses/ThanksPayContracts.ts", classStr);
+  fs.writeFileSync(path.join(__dirname, "/generatedClasses/ThanksPayContracts.ts"), classStr);
 }
 
 async function generateChildClass(fileName: string, schema: any) {
@@ -533,7 +542,7 @@ export type ThanksPaySuperType = {
   thanksPayCheck: ThanksPayCheckType,
   oldThanks: oldThanksType,
 };`;
-  fs.writeFileSync(__dirname + "/generatedTypes/ThanksPaySuperType.ts", superType);
+  fs.writeFileSync(path.join(__dirname, "/generatedTypes/ThanksPaySuperType.ts"), superType);
 
 }
 

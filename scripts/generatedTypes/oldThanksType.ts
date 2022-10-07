@@ -1,18 +1,18 @@
 type CancelPayType = {
   workerEmail: string,
-  payReqDate: number,
+  payReqDate: bigint,
 }
 type EditPartnerType = {
   partnerLicenseId: string,
   klaytnAcc: string,
-  initialDeposit: number,
-  depositType: number,
-  salaryDay: number,
-  partnerState: number,
+  initialDeposit: bigint,
+  depositType: bigint,
+  salaryDay: bigint,
+  partnerState: bigint,
   partnerHashData: string,
 }
 type EditWorkerType = {
-  worker: NewWorkerType,
+  worker: string,
 }
 type GetAllPartnerType = {
 }
@@ -23,23 +23,23 @@ type GetPartnerType = {
 }
 type GetPayByPartnerAndDateType = {
   partnerLicenseId: string,
-  fromDate: number,
-  toDate: number,
+  fromDate: bigint,
+  toDate: bigint,
 }
 type GetPayByWorkerType = {
   workerEmail: string,
 }
 type GetPayByWorkerAndDateType = {
   workerEmail: string,
-  fromDate: number,
-  toDate: number,
+  fromDate: bigint,
+  toDate: bigint,
 }
 type NewPartnerType = {
   partnerLicenseId: string,
   klaytnAcc: string,
-  initialDeposit: number,
-  depositType: number,
-  salaryDay: number,
+  initialDeposit: bigint,
+  depositType: bigint,
+  salaryDay: bigint,
   partnerHashData: string,
 }
 type NewWorkerType = {
@@ -50,8 +50,8 @@ type NewWorkerType = {
 }
 type PartnerAddDepositType = {
   partnerLicenseId: string,
-  addDeposit: number,
-  addDepositDate: number,
+  addDeposit: bigint,
+  addDepositDate: bigint,
 }
 type PartnerMapType = {
 }
@@ -59,14 +59,14 @@ type PartnersType = {
 }
 type PayType = {
   workerEmail: string,
-  payReqDate: number,
-  payAmount: number,
-  payDate: number,
+  payReqDate: bigint,
+  payAmount: bigint,
+  payDate: bigint,
 }
 type PayRequestType = {
   workerEmail: string,
-  payReqAmount: number,
-  payReqDate: number,
+  payReqAmount: bigint,
+  payReqDate: bigint,
 }
 type ThanksAdminType = {
 }

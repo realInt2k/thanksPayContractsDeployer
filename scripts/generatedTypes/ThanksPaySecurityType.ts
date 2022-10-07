@@ -33,7 +33,7 @@ type RenounceRoleType = {
 }
 type RevertCheckType = {
   condition: boolean,
-  exitCode: number,
+  exitCode: bigint,
   reason?: string,
 }
 type RevokeRoleType = {

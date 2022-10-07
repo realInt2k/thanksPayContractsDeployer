@@ -50,7 +50,8 @@ contract ThanksPayCheck is ThanksSecurityWrapper{
 
     function registerWorkerCheck(uint256 wId, uint256 pId, uint256 wage) public view returns(bool) {
         (,,,,bool exist) = data.workers(wId);
-        if (exist) {
+        (,,,bool pExist) = data.partners(pId);
+        if (exist || !pExist) {
             return false;
         } else {
             return true;

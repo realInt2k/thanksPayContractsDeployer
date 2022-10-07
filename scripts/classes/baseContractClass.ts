@@ -1,51 +1,52 @@
-import { Contract } from "@ethersproject/contracts";
-import { contractNameType } from "@scripts/types/contractNameType";
-import { ContractABIType } from "@scripts/types/contractType";
-import { networkNameType } from "@scripts/types/networkNameType";
+import { Contract } from '@ethersproject/contracts';
+import { contractNameType } from '@scripts/types/contractNameType';
+import { ContractABIType } from '@scripts/types/contractType';
+import { networkNameType } from '@scripts/types/networkNameType';
 
-import { Provider } from "@ethersproject/providers";
-import { Signer } from "@ethersproject/abstract-signer";
+import { Provider } from '@ethersproject/providers';
+import { Signer } from '@ethersproject/abstract-signer';
 export type SignerOrProvider = Provider | Signer | undefined;
 
-import thanksSecurityABI from "../../abis/ThanksSecurity.json";
-import thanksPayDataABI from "../../abis/ThanksData.json";
-import thanksPayMainABI from "../../abis/ThanksPayMain.json";
-import thanksPayRelayABI from "../../abis/ThanksPayRelay.json";
-import thanksPayCheckABI from "../../abis/ThanksPayCheck.json";
-import thanksPaySecurityWrapperABI from "../../abis/ThanksSecurityWrapper.json";
-import contractAddresses from "../contractAddresses.json";
+import thanksSecurityABI from '../../abis/ThanksSecurity.json';
+import thanksPayDataABI from '../../abis/ThanksData.json';
+import thanksPayMainABI from '../../abis/ThanksPayMain.json';
+import thanksPayRelayABI from '../../abis/ThanksPayRelay.json';
+import thanksPayCheckABI from '../../abis/ThanksPayCheck.json';
+import thanksPaySecurityWrapperABI from '../../abis/ThanksSecurityWrapper.json';
+import contractAddresses from '../contractAddresses.json';
 
-const Web3 = require("web3");
+const Web3 = require('web3');
 const web3 = new Web3();
-import { ethers } from "ethers";
+import { ethers } from 'ethers';
 
-import { getSigner } from "@scripts/utils/getSignerUtil";
+import { getSigner } from '@scripts/utils/getSignerUtil';
 
 import {
   SuccessReturn,
   ErrorReturn,
   ViewReturn,
   CheckReturn,
-} from "@scripts/types/returnType";
+} from '@scripts/types/returnType';
 
 import {
   writeToTxLog,
   writeReceiptTxLog,
   getTxDetails,
-  getContractAddress
-} from "@scripts/utils";
+  getContractAddress,
+} from '@scripts/utils';
+import { assert } from 'console';
 
 const getSchema = (abi: ContractABIType) => {
-  const functions = abi.filter((row: any) => row["type"] === "function");
+  const functions = abi.filter((row: any) => row['type'] === 'function');
 
   // make an array where key is functions['name']
   const arrayOfFunctions = functions.map((func: any) => {
-    const funcName = func["name"];
+    const funcName = func['name'];
     return {
-      name: func["name"],
-      inputTypes: func["inputs"].map((input: any) => input["type"]),
-      inputNames: func["inputs"].map((input: any) => input["name"]),
-      stateMutability: func["stateMutability"],
+      name: func['name'],
+      inputTypes: func['inputs'].map((input: any) => input['type']),
+      inputNames: func['inputs'].map((input: any) => input['name']),
+      stateMutability: func['stateMutability'],
     };
   });
 
@@ -54,19 +55,19 @@ const getSchema = (abi: ContractABIType) => {
 
 const getEvents = (abi: ContractABIType) => {
   // filter abi where "type" is "type"
-  const events = abi.filter((row: any) => row["type"] === "event");
+  const events = abi.filter((row: any) => row['type'] === 'event');
 
   const arrayOfEvents = events.map((event: any) => {
     return {
-      name: event["name"],
-      typesArray: event["inputs"].map((input: any) => {
+      name: event['name'],
+      typesArray: event['inputs'].map((input: any) => {
         return {
-          type: input["type"],
-          name: input["name"],
+          type: input['type'],
+          name: input['name'],
         };
       }),
-      inputTypes: event["inputs"].map((input: any) => input["type"]),
-      inputNames: event["inputs"].map((input: any) => input["name"]),
+      inputTypes: event['inputs'].map((input: any) => input['type']),
+      inputNames: event['inputs'].map((input: any) => input['name']),
     };
   });
 
@@ -110,6 +111,17 @@ export class ThanksPayContracts extends Contract {
     return [];
   };
 
+  public getRequiredOrderArgAndType = (functionName: string) => {
+    const func = this.schema.find((row: any) => row.name === functionName);
+    if (func) {
+      return {
+        argName: func.inputNames,
+        argType: func.inputTypes,
+      }
+    }
+    return [];
+  };
+
   public getEventObj = (receipt: any) => {
     if (!receipt.events[0].event) {
       return {};
@@ -117,7 +129,7 @@ export class ThanksPayContracts extends Contract {
     const typesArray = this.getEventTypesArray(receipt.events[0].event);
     const decodedParameters = web3.eth.abi.decodeParameters(
       typesArray,
-      receipt.events[0].data
+      receipt.events[0].data,
     );
     let obj: any = {};
     for (let i = 0; i < typesArray.length; i++) {
@@ -132,7 +144,7 @@ export class ThanksPayContracts extends Contract {
   constructor(
     contractName: contractNameType,
     networkName: networkNameType,
-    abi: ContractABIType
+    abi: ContractABIType,
   ) {
     const thisABI = abi;
     const ABIs = [
@@ -144,11 +156,11 @@ export class ThanksPayContracts extends Contract {
     ];
 
     ABIs.map((abi: any) => {
-      const events = abi.filter((row: any) => row["type"] === "event");
+      const events = abi.filter((row: any) => row['type'] === 'event');
       events.map((event: any) => {
         // if thisABI has the same event, do not add it
         const hasEvent = thisABI.find(
-          (row: any) => row["name"] === event["name"]
+          (row: any) => row['name'] === event['name'],
         );
         if (!hasEvent) {
           thisABI.push(event);
@@ -171,28 +183,43 @@ export class ThanksPayContracts extends Contract {
     name: string,
     args: any,
     check?: boolean | null,
-    checkErrorString?: string
+    checkErrorString?: string,
   ): Promise<SuccessReturn | ErrorReturn | ViewReturn | CheckReturn> => {
     try {
       const order = this.getRequiredOrder(name);
+      const argNameAndType:any = this.getRequiredOrderArgAndType(name);
+      if (order.length !== Object.keys(args).length) {
+        throw {
+          reason: `Incorrect Arguments. Expected args [${argNameAndType["argName"]}] of types [${argNameAndType["argType"]}] but provided [${Object.keys(args)}] with values [${Object.values(args)}]`,
+        };
+      }
       const orderedArgs = order.map((item: string) => {
+        if((args as any)[item] === undefined) {
+          throw {
+            reason: `Incorrect Arguments. Expected args [${argNameAndType["argName"]}] of types [${argNameAndType["argType"]}] but provided [${Object.keys(args)}] with values [${Object.values(args)}]`,
+          };
+        }
         return (args as any)[item];
+      });
+      console.log({
+        orderedArgs,
+        args,
       });
 
       if (check === false) {
         return {
-          type: "error",
+          type: 'error',
           values: {
-            reason: checkErrorString ? checkErrorString : "Undefined error",
+            reason: checkErrorString ? checkErrorString : 'Undefined error',
           },
         };
       }
 
       const tx = await this[name](...orderedArgs);
 
-      if (getFunctionStateMutability(name, this.schema) === "view") {
+      if (getFunctionStateMutability(name, this.schema) === 'view') {
         return {
-          type: "view",
+          type: 'view',
           values: {
             return: tx,
           },
@@ -202,41 +229,41 @@ export class ThanksPayContracts extends Contract {
         const txReceipt = await tx.wait();
         const txDetails = getTxDetails(txReceipt, this.networkName, this.iface);
         if (
-          this.networkName == "ganache" &&
-          this.contractName !== "OLD_THANKS_ADDR"
+          this.networkName == 'ganache' &&
+          this.contractName !== 'OLD_THANKS_ADDR'
         ) {
           await writeToTxLog(
             tx.data,
             this.contractName as contractNameType,
             tx.nonce,
-            "polygonTest" as networkNameType,
-            name
+            'polygonTest' as networkNameType,
+            name,
           );
           await writeToTxLog(
             tx.data,
             this.contractName as contractNameType,
             tx.nonce,
-            "klaytn" as networkNameType,
-            name
+            'klaytn' as networkNameType,
+            name,
           );
         }
 
-        if (this.contractName == "OLD_THANKS_ADDR") {
+        if (this.contractName == 'OLD_THANKS_ADDR') {
           writeReceiptTxLog(
             txReceipt,
             tx.data,
             this.contractName,
             name,
             this.networkName,
-            tx.nonce
+            tx.nonce,
           );
         }
         return txDetails;
       }
-    } catch (e:any) {
+    } catch (e: any) {
       // console.log(e);
       return {
-        type: "error",
+        type: 'error',
         values: {
           reason: e.reason ? e.reason : e.code,
         },

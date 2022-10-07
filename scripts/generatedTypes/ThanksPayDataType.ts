@@ -5,19 +5,19 @@ type CheckAuthorizedType = {
   account: string,
 }
 type GetPartnerType = {
-  pId: number,
+  pId: bigint,
 }
 type GetPartnerThanksPayableBalanceType = {
-  partner: number,
+  partner: bigint,
 }
 type GetPartnerWithdrawableBalanceType = {
-  partner: number,
+  partner: bigint,
 }
 type GetWorkerType = {
-  wId: number,
+  wId: bigint,
 }
 type GetWorkerBalanceType = {
-  wId: number,
+  wId: bigint,
 }
 type PartnersType = {
 }
@@ -25,42 +25,42 @@ type RecallAuthorizationType = {
   _notAuthorized: string[],
 }
 type RegisterPartnerType = {
-  pId: number,
-  latestPay: number,
+  pId: bigint,
+  latestPay: bigint,
 }
 type RegisterWorkerType = {
-  wId: number,
-  pId: number,
-  wage: number,
+  wId: bigint,
+  pId: bigint,
+  wage: bigint,
 }
 type RevertCheckType = {
   condition: boolean,
-  exitCode: number,
+  exitCode: bigint,
   reason?: string,
 }
 type SetLatestRequestType = {
-  wId: number,
-  latestRequest: number,
+  wId: bigint,
+  latestRequest: bigint,
 }
 type SetLatestWagePayType = {
-  pId: number,
-  timestamp: number,
+  pId: bigint,
+  timestamp: bigint,
 }
 type SetPartnerBalanceType = {
-  pId: number,
-  newBalance: number,
+  pId: bigint,
+  newBalance: bigint,
 }
 type SetPartnerBonusType = {
-  pId: number,
-  bonus: number,
+  pId: bigint,
+  bonus: bigint,
 }
 type SetWorkerBalanceType = {
-  wId: number,
-  newBalance: number,
+  wId: bigint,
+  newBalance: bigint,
 }
 type SetWorkerPartnerType = {
-  wId: number,
-  pId: number,
+  wId: bigint,
+  pId: bigint,
 }
 type TypesType = {
 }

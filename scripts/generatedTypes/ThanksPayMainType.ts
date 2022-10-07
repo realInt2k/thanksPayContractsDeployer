@@ -5,38 +5,38 @@ type CheckAuthorizedType = {
   account: string,
 }
 type PartnerAddBalanceType = {
-  pId: number,
-  amount: number,
-  timestamp: number,
+  pId: bigint,
+  amount: bigint,
+  timestamp: bigint,
 }
 type PartnerAddBonusType = {
-  pId: number,
-  amount: number,
-  timestamp: number,
+  pId: bigint,
+  amount: bigint,
+  timestamp: bigint,
 }
 type PartnerWithdrawType = {
-  pId: number,
-  amount: number,
-  timestamp: number,
+  pId: bigint,
+  amount: bigint,
+  timestamp: bigint,
 }
 type RecallAuthorizationType = {
   _notAuthorized: string[],
 }
 type RevertCheckType = {
   condition: boolean,
-  exitCode: number,
+  exitCode: bigint,
   reason?: string,
 }
 type SetLatestWagePayType = {
-  pId: number,
-  timestamp: number,
+  pId: bigint,
+  timestamp: bigint,
 }
 type WorkerGetsThanksPayType = {
-  wId: number,
-  pId: number,
-  amount: number,
+  wId: bigint,
+  pId: bigint,
+  amount: bigint,
   bankReceipt: string,
-  timestamp: number,
+  timestamp: bigint,
 }
 
 export type ThanksPayMainType = {
