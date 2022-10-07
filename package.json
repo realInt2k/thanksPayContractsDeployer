@@ -3,6 +3,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "echo OKOKOKOKOK",
+    "start:all" : "npx ganache --wallet.seed='GivingDays' --db './ganacheDB'  --wallet.accountKeysPath  './ganacheAccounts.json' -p 8545 --chain.chainId 1337  -a 120 -e 10000 & ts-node ./scripts/scriptUnderground.ts --networkName=polygonTest & ts-node ./scripts/scriptUnderground.ts --networkName=klaytn &",
     "init:transaction_log": "rm -rf transaction_log && npx mkdirp transaction_log && cd transaction_log && npx mkdirp new_contract && cd new_contract && mkdirp synced && npx mkdirp unsynced && cd .. && npx mkdirp old_contract && cd old_contract && npx mkdirp synced && npx mkdirp unsynced",
     "start:ganache": "npx ganache --wallet.seed='GivingDays' --db './ganacheDB'  --wallet.accountKeysPath  './ganacheAccounts.json' -p 8545 --chain.chainId 1337  -a 120 -e 10000",
     "start:polygonPolling": "npx ts-node ./scripts/scriptUnderground.ts --networkName=polygonTest",

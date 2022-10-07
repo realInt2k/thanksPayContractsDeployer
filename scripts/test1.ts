@@ -19,7 +19,7 @@ const logger = (data: any) => {
   fs.appendFileSync(dir, data);
 };
 
-const NETWORKNAME: networkNameType = getNetworkName(process);
+const NETWORKNAME: networkNameType = "klaytn";
 
 /**
  * @description Read files synchronously from a folder, with natural sorting

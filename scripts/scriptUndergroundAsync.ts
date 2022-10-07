@@ -12,21 +12,16 @@ import { contractNameType } from '@scripts/types/contractNameType';
 import { SuccessReturn } from '@scripts/types/returnType';
 
 const logger = (data: any) => {
-  const dir = path.join(__dirname, '../transaction_log/backGroundScriptLog.txt');
+  const dir = path.join(
+    __dirname,
+    '../transaction_log/backGroundScriptLog.txt',
+  );
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
   fs.appendFileSync(dir, data);
 };
 
-const NETWORKNAME: networkNameType = getNetworkName(process);
-
-/**
- * @description Read files synchronously from a folder, with natural sorting
- * @param {String} dir Absolute path to directory
- * @returns {Object[]} List of object, each object represent a file
- * structured like so: `{ filepath, name, ext, stat }`
- */
 function readFilesSync(dir: any) {
   const files: any[] = [];
 
@@ -59,13 +54,15 @@ function readFilesSync(dir: any) {
   return files;
 }
 
-async function main(NETWORKNAME: networkNameType) {
+export const runTransactionBackGround = async (
+  NETWORKNAME: networkNameType,
+) => {
   const provider = getProvider(NETWORKNAME);
   const signer = getSigner(NETWORKNAME);
   const account = signer.address;
   while (1) {
     await delay(5000);
-    //console.log(`_____new interval ${NETWORKNAME}___`)
+    //console.log(`_____new interval ${NETWORKNAME}___`);
     const nextNonce = await provider.getTransactionCount(account, 'latest');
     const fileDir = path.join(
       __dirname,
@@ -74,10 +71,28 @@ async function main(NETWORKNAME: networkNameType) {
     if (!fs.existsSync(fileDir)) {
       continue;
     }
+
+    // avoid sending transaction.
+    const toBeSyncedFilePath = path.join(
+      __dirname,
+      '../transaction_log/new_contract/' + NETWORKNAME + '/synced/',
+    );
+    if (!fs.existsSync(toBeSyncedFilePath)) {
+      continue;
+    }
+
+    const unSyncFilePath = path.join(
+      __dirname,
+      '../transaction_log/new_contract/' + NETWORKNAME + '/unsynced/',
+    );
+    if (!fs.existsSync(unSyncFilePath)) {
+      continue;
+    }
+
     const files = readFilesSync(path.join(fileDir));
     for (let i = 0; i < files.length; i++) {
       const thisNonce = nextNonce + i;
-      //console.log(thisNonce);
+      console.log(`${NETWORKNAME} nonce: ${thisNonce}`);
       const fileName = files[i].name;
       var file = files[i];
 
@@ -113,20 +128,15 @@ async function main(NETWORKNAME: networkNameType) {
         console.log('NO MONEY ????');
         return;
       }
+
       // save file
-      const filePath = path.join(
-        __dirname,
-        '../transaction_log/new_contract/' +
-          NETWORKNAME +
-          '/synced/' +
-          fileName +
-          '.json',
+      fs.writeFileSync(
+        path.join(toBeSyncedFilePath, fileName + '.json'),
+        JSON.stringify(file),
       );
-      if (!fs.existsSync(filePath)) continue;
-      fs.writeFileSync(filePath, JSON.stringify(file));
 
       // delete the old file
-      const oldFilePath = path.join(
+      const unSyncFilePathWithFileName = path.join(
         __dirname,
         '../transaction_log/new_contract/' +
           NETWORKNAME +
@@ -134,18 +144,19 @@ async function main(NETWORKNAME: networkNameType) {
           fileName +
           '.json',
       );
-      if (!fs.existsSync(oldFilePath)) continue;
-      fs.unlinkSync(oldFilePath);
+      if (!fs.existsSync(unSyncFilePathWithFileName)) {
+        logger(
+          'unSyncFilePathWithFileName should be synced but somehow not found in directory to be deleted',
+        );
+        continue;
+      } // expected impossible
+      fs.unlinkSync(unSyncFilePathWithFileName);
 
-      logger(`${NETWORKNAME} synced ${thisNonce}`);
+      //logger(`${NETWORKNAME} synced ${thisNonce}`);
     }
   }
-}
+};
 
 function delay(time: number) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
-
-main(NETWORKNAME).then(() => {
-  logger(`${NETWORKNAME} terminated`);
-});

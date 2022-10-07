@@ -30,20 +30,31 @@ export class ThanksPayServer {
     )
   }
 
+  public getSupportedFunctionNames(): string[] {
+    return [
+      'registerWorker',
+      'registerPartner',
+      'partnerAddBonus',
+      'partnerAddBalance',
+      'partnerWithdraw',
+      'workerGetsThanksPay',
+    ];
+  }
+
   public getArguments(functionName: string): any {
     if (
       functionName === 'registerWorker' ||
       functionName === 'registerPartner' 
     ) {
-      return this.thanksPayData.getRequiredOrder(functionName);
+      return this.thanksPayData.getRequiredOrderArgAndType(functionName);
     }
     if( 
       functionName === 'partnerAddBonus' || 
       functionName === 'partnerAddBalance' ||
       functionName === 'partnerWithdraw' ||
-      functionName == 'workerGetsThanksPay'
+      functionName === 'workerGetsThanksPay'
     ) {
-      return this.thanksPayMain.getRequiredOrder(functionName);
+      return this.thanksPayMain.getRequiredOrderArgAndType(functionName);
     }
   }
 
