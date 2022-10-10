@@ -21,15 +21,15 @@ import { ThanksPaySecurity } from "@scripts/classes";
 import { getNetworkName } from "../utils/getNetworkNameUtil";
 import { networkNameType } from "@scripts/types/networkNameType";
 
-const networkName = getNetworkName(process);
+const networkName:networkNameType = getNetworkName(process);
 
 async function main(networkName: networkNameType) {
   // We get the contract to deploy
   console.log("DEPLOYING TO " + networkName);
 
   const uri = contractAddresses[networkName]["network"]["provider"];
-  const web3 = new Web3(uri);
-  const nearByBlock = await web3.eth.getBlockNumber();
+  const web3 = new Web3(new Web3.providers.HttpProvider(uri));
+  const account = contractAddresses[networkName]["network"]["account"];
 
   let Platoon: any;
   let soldier: any;
@@ -89,12 +89,6 @@ async function main(networkName: networkNameType) {
 
   console.log("OldThanks deployed to:", soldier.address);
 
-  console.log("\nNearbyBlock is ", nearByBlock);
-  fs.writeFileSync(
-    path.join(__dirname, '../contractAddresses.json'),
-    JSON.stringify(contractAddresses, null, 2)
-  );
-
   // authorize all the smart contracts
   const thanksSecurity = new ThanksPaySecurity(networkName);
   await thanksSecurity.methods.authorize({
@@ -108,6 +102,14 @@ async function main(networkName: networkNameType) {
       wallet.address
     ]
   });
+
+  const nearByBlock:number = await web3.eth.getTransactionCount(account, "latest");
+  (contractAddresses[networkName]["network"] as any)["startBlock"] = nearByBlock;
+  console.log("\nNearbyBlock is ", nearByBlock, " If this is ganache, everything syncing must be continuous");
+  fs.writeFileSync(
+    path.join(__dirname, '../contractAddresses.json'),
+    JSON.stringify(contractAddresses, null, 2)
+  );
 }
 
 // We recommend this pattern to be able to use async/await everywhere

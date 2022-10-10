@@ -12,15 +12,16 @@ import {
   ErrorReturn,
   ViewReturn,
   CheckReturn,
-} from "./types/returnType";
+} from "@scripts/types/returnType";
 
 import {ThanksPayCheck, ThanksPayData, ThanksPayMain, ThanksPayRelay, ThanksPaySecurity} from "@scripts/classes"
 
-import { ThanksPaySuperType } from "./generatedTypes/ThanksPaySuperType";
-import { getMoney2, getMoney } from "./utils/getMoneyUtil";
-import { getNetworkName } from "./utils/getNetworkNameUtil";
+import { ThanksPaySuperType } from "@scripts/generatedTypes/ThanksPaySuperType";
+import { getMoney2, getMoney } from "@scripts/utils/getMoneyUtil";
+import { getNetworkName } from "@scripts/utils/getNetworkNameUtil";
 // import { networkNameType } from "./deploy";
-import { networkNameType } from "./types/networkNameType";
+import { networkNameType } from "@scripts/types/networkNameType";
+import path from 'path';
 
 const networkName = getNetworkName(process) as networkNameType;
 console.log(networkName);
@@ -28,16 +29,16 @@ console.log(networkName);
 import * as fs from "fs";
 
 const getPartnerId = () => {
-  const read = fs.readFileSync(__dirname + "/testVariable.json", "utf8");
+  const read = fs.readFileSync(path.join(__dirname, "/testVariable.json"), "utf8");
   const jsonContent = JSON.parse(read);
   return jsonContent.partnerId;
 }
 
 const updatePartnerId = () => {
-  const read = fs.readFileSync(__dirname + "/testVariable.json", "utf8");
+  const read = fs.readFileSync(path.join(__dirname, "/testVariable.json"), "utf8");
   const jsonContent = JSON.parse(read);
   jsonContent.partnerId = jsonContent.partnerId + 1;
-  fs.writeFileSync(__dirname + "/testVariable.json", JSON.stringify(jsonContent));
+  fs.writeFileSync(path.join(__dirname, "/testVariable.json"), JSON.stringify(jsonContent));
 }
 
 var thanksPay;
@@ -59,7 +60,7 @@ describe("test 1", function () {
     let registerPartnerArgs: ThanksPaySuperType["thanksPayData"]["registerPartner"] =
       {
         pId: partnerId,
-        latestPay: 1663007942,
+        latestPay: BigInt(1663007942),
       };
 
     const result = await thanksPayData.methods.registerPartner(
@@ -86,7 +87,7 @@ describe("test 2", function () {
       {
         wId: partnerId + 1,
         pId: partnerId,
-        wage: 100,
+        wage: BigInt(100),
         // date Tue Sep 13 2022 03:39:02 GMT+0900 (Korean Standard Time)
       };
     const result2 = await thanksPayData.methods.registerWorker(
@@ -113,8 +114,8 @@ describe("test 3", function () {
     const partnerAddBalanceArgs: ThanksPaySuperType["thanksPayMain"]["partnerAddBalance"] =
       {
         pId: partnerId,
-        amount: 100 * 5,
-        timestamp: 1663007999, // date Tue Sep 13 2022 03:39:02 GMT+0900 (Korean Standard Time)
+        amount: BigInt(100 * 5),
+        timestamp: BigInt(1663007999), // date Tue Sep 13 2022 03:39:02 GMT+0900 (Korean Standard Time)
       };
 
     const result3 = (await thanksPayMain.methods.partnerAddBalance(
@@ -140,9 +141,9 @@ describe("test 4", function () {
       {
         wId: partnerId + 1,
         pId: partnerId,
-        amount: 30,
+        amount: BigInt(30),
         bankReceipt: "goodjob, here's salary",
-        timestamp: 1663007999 + partnerId + 1,
+        timestamp: BigInt(1663007999 + partnerId + 1),
       };
     const result4 = await thanksPayMain.methods.workerGetsThanksPay(
       workerGetsThanksPayArgs

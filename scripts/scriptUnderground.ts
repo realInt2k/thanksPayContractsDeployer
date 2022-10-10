@@ -10,9 +10,16 @@ import contractAddresses from './contractAddresses.json';
 import { networkNameType } from '@scripts/types/networkNameType';
 import { contractNameType } from '@scripts/types/contractNameType';
 import { SuccessReturn } from '@scripts/types/returnType';
+import Web3 from 'web3';
+import { writeToTxLog } from './utils/writeToTransactionLogUtil';
+import e from 'express';
+import ganacheAccount from '@scripts/contractAddresses.json';
 
 const logger = (data: any) => {
-  const dir = path.join(__dirname, '../transaction_log/backGroundScriptLog.txt');
+  const dir = path.join(
+    __dirname,
+    '../transaction_log/backGroundScriptLog.txt',
+  );
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir, { recursive: true });
   }
@@ -58,6 +65,149 @@ function readFilesSync(dir: any) {
 
   return files;
 }
+
+const getNetworkNameFromAddr = (addr: string): contractNameType => {
+  const ganacheContractAddr = contractAddresses['ganache'];
+  if (
+    addr.toLowerCase() ===
+    ganacheContractAddr['THANKS_PAY_MAIN_ADDR'].toLowerCase()
+  ) {
+    return 'THANKS_PAY_MAIN_ADDR';
+  } else if (
+    addr.toLowerCase() ===
+    ganacheContractAddr['THANKS_PAY_MAIN_ADDR'].toLowerCase()
+  ) {
+    return 'THANKS_PAY_MAIN_ADDR';
+  } else if (
+    addr.toLowerCase() ===
+    ganacheContractAddr['THANKS_PAY_SECURITY_ADDR'].toLowerCase()
+  ) {
+    return 'THANKS_PAY_SECURITY_ADDR';
+  } else if (
+    addr.toLowerCase() ===
+    ganacheContractAddr['THANKS_PAY_RELAY_ADDR'].toLowerCase()
+  ) {
+    return 'THANKS_PAY_RELAY_ADDR';
+  } else if (
+    addr.toLowerCase() ===
+    ganacheContractAddr['THANKS_PAY_CHECK_ADDR'].toLowerCase()
+  ) {
+    return 'THANKS_PAY_CHECK_ADDR';
+  } else if (
+    addr.toLowerCase() === ganacheContractAddr['OLD_THANKS_ADDR'].toLowerCase()
+  ) {
+    return 'OLD_THANKS_ADDR';
+  }
+  // unreachable!!!!
+  return 'OLD_THANKS_ADDR';
+};
+
+
+/** TIS FUNCTION WILL ONLY BE CALLED ONCE
+ *  EVERYTIME THE SERVER IS UP
+ * 
+ * x1 = get startBlock from ganache
+ * y1 = get startBlock from klaytn
+ * 
+ * x2 = get endBlock from ganache
+ * y2 = get endBlock from klaytn
+ * 
+ * if(x2 - x1 > y2 - y1) 
+ *  it means that klaytn is slower by diff = (x2 - x1) - (y2 - y1) blocks
+ *  So, we go from nonce x2 - 1 ->  x2 - diff of ganache,
+ *    and write it to unsynced folder (it it is not there in the first place)
+ * 
+ */
+
+// INCASE ganache writting to unsynced get cut off
+export const syncMissingTransactionIfAny = async () => {
+  const unsyncedDirKlaytn = path.join(
+    __dirname,
+    '../transaction_log/new_contract/klaytn/unsynced/',
+  );
+  const syncedDirKlaytn = path.join(
+    __dirname,
+    '../transaction_log/new_contract/klaytn/synced/',
+  );
+  const unsyncedDirPolygon = path.join(
+    __dirname,
+    '../transaction_log/new_contract/polygon/unsynced/',
+  );
+  const syncedDirPolygon = path.join(
+    __dirname,
+    '../transaction_log/new_contract/polygon/synced/',
+  );
+  if (
+    !fs.existsSync(unsyncedDirKlaytn) ||
+    !fs.existsSync(syncedDirKlaytn) ||
+    !fs.existsSync(unsyncedDirPolygon) ||
+    !fs.existsSync(syncedDirPolygon)
+  ) {
+    console.log(
+      'syncMissingTransactionIfAny: transaction_log folder for real network not found',
+    );
+    return -1;
+  }
+
+  const unsyncedFilesKlaytn = readFilesSync(unsyncedDirKlaytn);
+  const unsyncedFilesPolygon = readFilesSync(unsyncedDirPolygon);
+  const syncedFilesKlaytn = readFilesSync(syncedDirKlaytn);
+  const syncedFilesPolygon = readFilesSync(syncedDirPolygon);
+  const klaytnFiles = syncedFilesKlaytn.concat(unsyncedFilesKlaytn);
+  const polygonFiles = syncedFilesPolygon.concat(unsyncedFilesPolygon);
+
+  const provider = getProvider('ganache');
+  const signer = getSigner('ganache');
+  const account = signer.address;
+  const web3 = new Web3(
+    new Web3.providers.HttpProvider(
+      contractAddresses['ganache']['network']['provider'],
+    ),
+  );
+  const ganacheEndNonce =
+    (await provider.getTransactionCount(account, 'latest')) - 1; // n.o transactions - 1
+  const ganacheStartNonce =
+    contractAddresses['ganache']['network']['startBlock']; // first transaction after deployment
+  for (let nonce = ganacheStartNonce; nonce <= ganacheEndNonce; nonce++) {
+    // ignore deployment in future deployment
+    const transaction = await web3.eth.getTransactionFromBlock(nonce, 0);
+    if (transaction.to === null) {
+      continue;
+    }
+    if (
+      klaytnFiles.find((file) => file.name === nonce.toString()) === undefined
+    ) {
+      // const transaction = await web3.eth.getTransactionFromBlock(nonce, 0);
+      // const hash = transaction.hash;
+      // const receipt = await web3.eth.getTransactionReceipt(hash);
+      // write to unsynced folder
+      writeToTxLog(
+        transaction.input,
+        getNetworkNameFromAddr(transaction.to as string),
+        nonce,
+        'klaytn',
+        'unknown',
+      );
+    }
+    if (
+      polygonFiles.find((file) => file.name === nonce.toString()) === undefined
+    ) {
+      // const transaction = await web3.eth.getTransactionFromBlock(nonce, 0);
+      // const hash = transaction.hash;
+      // const receipt = await web3.eth.getTransactionReceipt(hash);
+      // write to unsynced folder
+      writeToTxLog(
+        transaction.input,
+        getNetworkNameFromAddr(transaction.to as string),
+        nonce,
+        'polygonTest',
+        'unknown',
+      );
+      // send to polygon
+    }
+  }
+  return 1;
+};
 
 async function main(NETWORKNAME: networkNameType) {
   const provider = getProvider(NETWORKNAME);
