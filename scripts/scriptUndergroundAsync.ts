@@ -335,7 +335,7 @@ export const runTransactionBackGround = async (
         continue;
       } // expected impossible
       fs.unlinkSync(unSyncFilePathWithFileName);
-
+      console.log("SENT!!");
       //logger(`${NETWORKNAME} synced ${thisNonce}`);
     }
   }
