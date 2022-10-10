@@ -31,8 +31,6 @@
     "testOldContractKlaytn": "mocha -r ts-node/register test/test_old_contract.ts --networkName=klaytn"
   },
   "dependencies": {
-    "@graphprotocol/graph-cli": "0.22.2",
-    "@graphprotocol/graph-ts": "^0.25.0",
     "@nomicfoundation/hardhat-network-helpers": "^1.0.3",
     "@nomicfoundation/hardhat-toolbox": "^1.0.2",
     "@nomiclabs/hardhat-etherscan": "^3.0.4",
