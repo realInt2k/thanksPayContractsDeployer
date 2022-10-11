@@ -10,7 +10,7 @@
     "start:klaytnPolling": "npx ts-node ./scripts/scriptUnderground.ts --networkName=klaytn",
     "start:server": "npm run start:ganache & npm run start:klaytnPolling &",
     "deploy:polygon:testnet": "npx ts-node ./scripts/deployScripts/deploy.ts --networkName=polygonTest",
-    "deploy:ganache:testnet": "npx ts-node ./scripts/deployScripts/deploy.ts --networkName=ganache && wsl rm -rf ./transaction_log/new_contract/*",
+    "deploy:ganache:testnet": "npx ts-node ./scripts/deployScripts/deploy.ts --networkName=ganache && bash rm -rf ./transaction_log/new_contract/*",
     "deploy:klaytn:testnet": "npx ts-node ./scripts/deployScripts/deploy.ts --networkName=klaytn",
     "deploy:old:ganache:testnet": "npx ts-node ./scripts/deployScripts/deploy_old.ts --networkName=ganache",
     "test:new:polygon:testnet": "mocha -r ts-node/register test/test_new.ts --networkName=polygonTest",
