@@ -5,10 +5,12 @@
 
 First, clone the repo
 
-then from $rootRepo:
+then do this regulary if things go wrong $rootRepo:
 
 - MAC/Linux: ```rm -rf transaction_log/*```
 - Windows: ```rm -r -Force transaction_log/*```
+
+If you want to keep logs, move them to different directories.
 
 ## Compile contract:
 
