@@ -100,13 +100,15 @@ async function main(networkName: networkNameType) {
   const thanksPayRelayAddr = soldier.address;
   contractAddresses[networkName]["THANKS_PAY_RELAY_ADDR"] = soldier.address;
 
-  Platoon = await getContractFactory("oldThanks");
-  soldier = await Platoon.deploy();
-  //  const thanksPayRelayAddr = soldier.address;
-  contractAddresses[networkName]["OLD_THANKS_ADDR"] = soldier.address;
+  if(process.env.ENVIRONMENT == "development") {
+    Platoon = await getContractFactory("oldThanks");
+    soldier = await Platoon.deploy();
+    //  const thanksPayRelayAddr = soldier.address;
+    contractAddresses[networkName]["OLD_THANKS_ADDR"] = soldier.address;
 
-  console.log("OldThanks deployed to:", soldier.address);
-
+    console.log("OldThanks deployed to:", soldier.address);
+  }
+  
   await sleep(SLEEPMS);
 
   console.log("\nNearbyBlock is ", nearByBlock);
